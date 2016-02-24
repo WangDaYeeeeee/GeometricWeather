@@ -9,6 +9,7 @@ import android.app.ActivityManager;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -136,6 +137,8 @@ public class WeatherFragment extends Fragment
     // handler
     private SafeHandler<WeatherFragment> safeHandler;
 
+    private final static int LOCATION_PERMISSIONS_REQUEST_CODE = 1;
+
     // TAG
 //    private final String TAG = "WeatherFragment";
 
@@ -156,7 +159,13 @@ public class WeatherFragment extends Fragment
         this.setWindowTopColor();
         this.initInformationContainer(mainView);
 
-        if (location.juheResult == null || ! location.juheResult.error_code.equals("0")) {
+        if (checkPermission()) initData();
+
+        return mainView;
+    }
+
+    private void initData() {
+        if (location.juheResult == null || !location.juheResult.error_code.equals("0")) {
             this.swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -165,11 +174,33 @@ public class WeatherFragment extends Fragment
             });
             this.refreshData();
         }
-
-        return mainView;
     }
 
-// initialize widget
+    private boolean checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.INSTALL_LOCATION_PROVIDER)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        LOCATION_PERMISSIONS_REQUEST_CODE);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initData();
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.request_competence_failed), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // initialize widget
 
     @SuppressLint("SetTextI18n")
     private void initWeatherView(View view) {

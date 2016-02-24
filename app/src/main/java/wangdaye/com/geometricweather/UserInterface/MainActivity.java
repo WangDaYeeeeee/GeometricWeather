@@ -13,7 +13,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -23,11 +22,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.AlarmClock;
-import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,6 +32,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -81,8 +79,8 @@ public class MainActivity extends AppCompatActivity
     public static Location lastLocation;
     private boolean started;
 
-    private final static int LOCATION_PERMISSIONS_REQUEST_CODE = 1;
     private final static int SETTINGS_ACTIVITY = 1;
+    private final static int INTRODUCE_ACTIVITY = 2;
     public static final int NOTIFICATION_ID = 7;
 
     // TAG
@@ -99,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         this.initDatabaseHelper();
         this.initData();
         MainActivity.initNavigationBar(this, getWindow());
-        this.requestPermission();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean watchedIntroduce = sharedPreferences.getBoolean(getString(R.string.key_watched_introduce), false);
@@ -108,7 +105,9 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean(getString(R.string.key_watched_introduce), true);
             editor.apply();
             Intent intent = new Intent(this, IntroduceActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, INTRODUCE_ACTIVITY);
+        } else {
+            this.createApp();
         }
     }
 
@@ -134,6 +133,9 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     sendNotification(liteWeatherFragment.location, this);
                 } break;
+            case INTRODUCE_ACTIVITY:
+                this.createApp();
+                break;
         }
     }
 
@@ -245,33 +247,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-// request permission
-
-    private void requestPermission() {
-        // request competence
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.INSTALL_LOCATION_PROVIDER)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(
-                        new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        LOCATION_PERMISSIONS_REQUEST_CODE);
-            }
-        } else {
-            this.createApp();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permission, @NonNull int[] grantResult) {
-        switch (requestCode) {
-            case LOCATION_PERMISSIONS_REQUEST_CODE:
-                this.createApp();
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permission, grantResult);
-                break;
-        }
-    }
 
 // fragment
 
@@ -377,11 +352,7 @@ public class MainActivity extends AppCompatActivity
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (5 < hour && hour < 19 && ! MainActivity.isDay) {
             return true;
-        } else if ((hour < 6 || hour > 18) && MainActivity.isDay) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return (hour < 6 || hour > 18) && MainActivity.isDay;
     }
 
     @Override
