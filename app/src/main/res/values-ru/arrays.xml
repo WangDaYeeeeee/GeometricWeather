@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
     <!-- language. -->
     <string-array name="languages">
@@ -11,12 +12,48 @@
         <item>Français</item>
         <item>Pусский</item>
     </string-array>
+    <string-array name="language_values">
+        <item>follow_system</item>
+        <item>chinese</item>
+        <item>unsimplified_chinese</item>
+        <item>english</item>
+        <item>turkish</item>
+        <item>french</item>
+        <item>russian</item>
+    </string-array>
+
+    <!-- automatic refresh rate. -->
+    <string-array name="automatic_refresh_rates">
+        <item>0:30</item>
+        <item>1:00</item>
+        <item>1:30</item>
+        <item>2:00</item>
+        <item>2:30</item>
+        <item>3:00</item>
+        <item>3:30</item>
+        <item>4:00</item>
+    </string-array>
+    <string-array name="automatic_refresh_rate_values">
+        <item>0:30</item>
+        <item>1:00</item>
+        <item>1:30</item>
+        <item>2:00</item>
+        <item>2:30</item>
+        <item>3:00</item>
+        <item>3:30</item>
+        <item>4:00</item>
+    </string-array>
 
     <!-- notification text color. -->
     <string-array name="notification_text_colors">
         <item>Dark</item>
         <item>Grey</item>
         <item>Light</item>
+    </string-array>
+    <string-array name="notification_text_color_values">
+        <item>dark</item>
+        <item>grey</item>
+        <item>light</item>
     </string-array>
 
     <!-- widget style. -->
@@ -27,6 +64,14 @@
         <item>Mini</item>
         <item>Nano</item>
         <item>Pixel</item>
+    </string-array>
+    <string-array name="widget_style_values">
+        <item>rectangle</item>
+        <item>symmetry</item>
+        <item>tile</item>
+        <item>mini</item>
+        <item>nano</item>
+        <item>pixel</item>
     </string-array>
 
 </resources>

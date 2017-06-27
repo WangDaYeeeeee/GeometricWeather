@@ -1,7 +1,10 @@
-﻿<resources xmlns:tools="http://schemas.android.com/tools">
-
+﻿<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <!-- app. -->
     <string name="app_name">Weather</string>
+    <string name="geometric_weather">Geometric Weather</string>
+    <string name="package_name">wangdaye.com.geometricweather</string>
+    <string name="version_code">v5.3.3</string>
 
     <!-- keyword. -->
     <string name="local">Местоположение</string>
@@ -45,7 +48,7 @@
     <string name="wind_5">Свежий ветер</string>
     <string name="wind_6">Сильный ветер</string>
     <string name="wind_7">Крепкий ветер</string>
-    <string name="wind_8">Очень крепкий ветер</string>
+    <string name="wind_8">Очень сильный ветер</string>
     <string name="wind_9">Шторм</string>
     <string name="wind_10">Сильный шторм</string>
     <string name="wind_11">Жестокий шторм</string>
@@ -97,8 +100,9 @@
 
     <string name="feedback_view_style">Стиль внешнего вида</string>
     <string name="feedback_show_widget_card">Фон</string>
+    <string name="feedback_hide_refresh_time">Hide refresh time.</string>
+    <string name="feedback_show_aqi_or_wind">Replace time with AQI or wind.</string>
     <string name="feedback_black_text">Темный цвет текста</string>
-    <string name="feedback_hide_refresh_time">Скрывать время получения данных</string>
 
     <string name="feedback_click_toggle">Нажмите на диаграмму для смены типа данных</string>
     <string name="feedback_no_data">НЕТ ДАННЫХ</string>
@@ -137,10 +141,11 @@
 
     <!-- settings -->
     <string name="settings_category_basic">Основные</string>
+    <string name="settings_title_background_free">Background free</string>
     <string name="settings_title_navigationBar_color">Цвет панели навигации</string>
     <string name="settings_navigationBar_color_on">Цвет темы</string>
     <string name="settings_navigationBar_color_off">Темный</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_language">Язык</string>
     <string name="settings_title_fahrenheit">Градусы по Фаренгейту</string>
     <string name="settings_title_refresh_rate">Частота обновления</string>
     <string name="settings_title_permanent_service">Фоновый режим</string>
@@ -152,6 +157,7 @@
     <string name="settings_category_widget">Виджет</string>
     <string name="settings_category_notification">Уведомление</string>
     <string name="settings_title_notification">Уведомление в строке состояния</string>
+    <string name="key_notification_temp_icon">notification_temp_icon_switch</string>
     <string name="settings_title_notification_text_color">Цвет текста</string>
     <string name="settings_title_notification_background">Цвет фона</string>
     <string name="settings_notification_background_on">Согласно настроек Android</string>
@@ -168,5 +174,40 @@
     <string name="settings_title_notification_hide_big_view">Расширенное уведомление</string>
     <string name="settings_notification_hide_big_view_on">Скрывать</string>
     <string name="settings_notification_hide_big_view_off">Показывать</string>
+
+    <!--share preference-->
+    <string name="sp_widget_day_setting">widget_day_setting</string>
+    <string name="sp_widget_week_setting">widget_week_setting</string>
+    <string name="sp_widget_day_week_setting">widget_day_week_setting</string>
+    <string name="sp_widget_clock_day_horizontal_setting">widget_clock_day_horizontal_setting</string>
+    <string name="sp_widget_clock_day_vertical_setting">widget_clock_day_vertical_setting</string>
+    <string name="sp_widget_clock_day_week_setting">widget_clock_day_week_setting</string>
+    <string name="key_view_type">view_type</string>
+    <string name="key_show_card">showCard</string>
+    <string name="key_hide_refresh_time">hide_refresh_time</string>
+    <string name="key_show_aqi_or_wind">show_aqi_or_wind</string>
+    <string name="key_black_text">black_text</string>
+
+    <string name="key_background_free">background_free</string>
+    <string name="key_navigationBar_color">navigation_bar_color_switch</string>
+    <string name="key_language">language</string>
+    <string name="key_fahrenheit">fahrenheit</string>
+    <string name="key_refresh_rate">refresh_rate</string>
+    <string name="key_forecast_today">timing_forecast_switch_today</string>
+    <string name="key_forecast_today_time">forecast_time_today</string>
+    <string name="key_forecast_tomorrow">timing_forecast_switch_tomorrow</string>
+    <string name="key_forecast_tomorrow_time">forecast_time_tomorrow</string>
+    <string name="key_notification">notification_switch</string>
+    <string name="key_notification_temp_icon">notification_temp_icon_switch</string>
+    <string name="key_notification_text_color">notification_text_color</string>
+    <string name="key_notification_background">notification_background_color_switch</string>
+    <string name="key_notification_can_be_cleared">notification_can_clear_switch</string>
+    <string name="key_notification_hide_icon">hide_notification_icon</string>
+    <string name="key_notification_hide_in_lockScreen">hide_notification_in_lockScreen</string>
+    <string name="key_notification_hide_big_view">hide_notification_big_view</string>
+
+    <!-- transition. -->
+    <string name="transition_activity_search_bar">activity_search_bar</string>
+    <string name="transition_activity_search_txt">activity_search_txt</string>
 
 </resources>
