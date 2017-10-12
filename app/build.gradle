@@ -44,6 +44,15 @@ android {
     }
     compileOptions {
     }
+    flavorDimensions "store"
+    productFlavors {
+        play {
+            dimension "store"
+            }
+        fdroid {
+            dimension "store"
+            }
+    }
 }
 
 allprojects {
@@ -65,8 +74,8 @@ dependencies {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/BaiduLBS_Android.jar')
+    playCompile fileTree(include: ['*.jar'], dir: 'libs')
+    playCompile files('libs/BaiduLBS_Android.jar')
 
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'

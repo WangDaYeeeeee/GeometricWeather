@@ -13,14 +13,6 @@
         android:theme="@style/GeometricWeatherTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,ManifestResource">
 
-        <!-- baidu location -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="8Ag8g9warGQeUVFbqx4LRrXU" />
-        <service android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
-
         <!-- context -->
         <activity
             android:name=".ui.activity.MainActivity"
@@ -235,9 +227,6 @@
 
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-        tools:ignore="ManifestOrder" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
