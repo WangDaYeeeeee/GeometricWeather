@@ -30,6 +30,7 @@ public class AboutAppTranslator {
         list.add(new AboutAppTranslator("Roman Adadurov", "orelars53@gmail.com", R.drawable.flag_ru));
         list.add(new AboutAppTranslator("Ken Berns", "ken.berns@yahoo.de", R.drawable.flag_de));
         list.add(new AboutAppTranslator("Milan Andrejić", "amikia@hotmail.com", R.drawable.flag_sr));
+        list.add(new AboutAppTranslator("Julio Martínez Ródenas", "juliomartinezrodenas@gmail.com", R.drawable.flag_es));
 
         return list;
     }

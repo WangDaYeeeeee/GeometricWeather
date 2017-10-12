@@ -1,0 +1,173 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <!-- app. -->
+    <string name="app_name">Tiempo</string>
+    <string name="geometric_weather">Geometric Weather</string>
+    <string name="package_name">wangdaye.com.geometricweather</string>
+    <string name="version_code">v2.005</string>
+
+    <!-- keyword. -->
+    <string name="local">Local</string>
+    <string name="default_location">Ubicación por defecto</string>
+    <string name="live">Actual</string>
+    <string name="today">Hoy</string>
+    <string name="refresh_at">Actualizado a las</string>
+    <string name="precipitation">Precipitaciones</string>
+    <string name="maxi_temp">Día</string>
+    <string name="mini_temp">Noche</string>
+    <string name="time">Hora</string>
+    <string name="day">Día</string>
+    <string name="night">Noche</string>
+    <string name="wind">Viento</string>
+    <string name="sensible_temp">Sensación térmica</string>
+    <string name="humidity">Humedad</string>
+    <string name="uv_index">Índice UV</string>
+    <string name="forecast">Previsión</string>
+    <string name="briefings">Resumen</string>
+    <string name="daytime">Día</string>
+    <string name="nighttime">Moche</string>
+    <string name="publish_at">Publicar en</string>
+    <string name="feels_like">Sensación de</string>
+
+    <string name="of_clock">:00</string>
+    <string name="yesterday">Ayer</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="week">Previsión semanal</string>
+    <string name="week_1">LUN</string>
+    <string name="week_2">MAR</string>
+    <string name="week_3">MIE</string>
+    <string name="week_4">JUE</string>
+    <string name="week_5">VIE</string>
+    <string name="week_6">SAB</string>
+    <string name="week_7">DOM</string>
+
+    <string name="wind_0">Calma</string>
+    <string name="wind_1">Ventolina</string>
+    <string name="wind_2">Brisa muy débil</string>
+    <string name="wind_3">Brisa ligera</string>
+    <string name="wind_4">Brisa moderada</string>
+    <string name="wind_5">Brisa fresca</string>
+    <string name="wind_6">Brisa fuerte</string>
+    <string name="wind_7">Viento fuerte</string>
+    <string name="wind_8">Viento duro</string>
+    <string name="wind_9">Viento muy duro</string>
+    <string name="wind_10">Temporal</string>
+    <string name="wind_11">Borrasca</string>
+    <string name="wind_12">Huracán/Tifón</string>
+
+    <string name="aqi_1">Aire fresco</string>
+    <string name="aqi_2">Aire limpio</string>
+    <string name="aqi_3">Contaminación ligera</string>
+    <string name="aqi_4">Contaminación media</string>
+    <string name="aqi_5">Contaminación alta</string>
+    <string name="aqi_6">Niveles peligrosos</string>
+
+    <string name="daily_overview">Próximos días</string>
+    <string name="hourly_overview">Próximas horas</string>
+    <string name="life_details">Detalles</string>
+
+    <string name="next">SIGUIENTE</string>
+    <string name="done">HECHO</string>
+    <string name="cancel" tools:ignore="ButtonCase">CANCELAR</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+
+    <string name="about_app">ACERCA DE</string>
+    <string name="introduce">Introduce</string>
+    <string name="email">E-mail</string>
+    <string name="donate">Donar (Alipay)</string>
+    <string name="gitHub">GitHub</string>
+    <string name="translator">Traductores</string>
+    <string name="thanks">GRACIAS</string>
+
+    <!-- feedback. -->
+    <string name="feedback_request_permission">Permisos</string>
+    <string name="feedback_request_location_permission_success">Petición de permiso de localización exitosa</string>
+    <string name="feedback_request_location_permission_failed">Petición de permiso de localización fallida</string>
+
+    <string name="feedback_location_failed">Localización fallida</string>
+    <string name="feedback_get_weather_failed">Petición de datos meteorológicos fallida</string>
+
+    <string name="feedback_view_style">Style of view</string>
+    <string name="feedback_show_widget_card">Fondo de la tarjeta</string>
+    <string name="feedback_hide_subtitle">Esconder subtítulo</string>
+    <string name="feedback_subtitle_data">Datos del subtítulo</string>
+    <string name="feedback_black_text">Texto oscuro</string>
+
+    <string name="feedback_click_toggle">Pulsar gráfico para alternar datos</string>
+    <string name="feedback_no_data">SIN DATOS</string>
+
+    <string name="feedback_collect_failed">Esta ubicación ya existe</string>
+    <string name="feedback_collect_succeed">Ubicación añadida</string>
+    <string name="feedback_delete_succeed">Ubicación eliminada</string>
+    <string name="feedback_location_list_cannot_be_null">La lista de ubicaciones no puede estar vacía</string>
+
+    <string name="feedback_search_location">Busca una ubicación o \"local\"…</string>
+    <string name="feedback_not_yet_location">Aún sin ubicación…</string>
+    <string name="feedback_search_nothing">Ningún resultado…</string>
+    <string name="feedback_initializing">Inicializando…</string>
+
+    <string name="feedback_refresh_notification_after_back">Los cambios se efectuarán al volver al inicio</string>
+    <string name="feedback_refresh_notification_now">Refresca ahora</string>
+    <string name="feedback_refresh_ui_after_refresh">Los cambios se efectuarán al actualizar los datos</string>
+    <string name="feedback_restart">Los cambios se efectuarán al reiniciar</string>
+
+    <!-- action -->
+    <string name="action_alert">Alera</string>
+    <string name="action_manage">Gestionar</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_settings">Opciones</string>
+    <string name="action_about">Acerca de</string>
+
+    <!-- widget -->
+    <string name="widget_day">Diario</string>
+    <string name="widget_week">Semanal</string>
+    <string name="widget_day_week">Diario + Semanal</string>
+    <string name="widget_clock_day_horizontal">Reloj + Diario (Estilo horizontal)</string>
+    <string name="widget_clock_day_vertical">Reloj + Diario (Estilo vertical)</string>
+    <string name="widget_clock_day_week">Reloj + Diario + Semanal</string>
+    <string name="wait_refresh">Esperando</string>
+    <string name="ellipsis">…</string>
+
+    <!-- settings -->
+    <string name="settings_category_basic">Básico</string>
+    <string name="settings_title_background_free">Background free</string>
+    <string name="settings_title_ui_style">Estilo de interfaz</string>
+    <string name="settings_title_gravity_sensor_switch">Usar sensor de gravedad</string>
+    <string name="settings_title_navigationBar_color">Color de barra de navegación</string>
+    <string name="settings_navigationBar_color_on">Colorear según tema</string>
+    <string name="settings_navigationBar_color_off">Oscuro</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_title_fahrenheit">Fahrenheit</string>
+    <string name="settings_title_refresh_rate">Frecuencia de refresco</string>
+    <string name="settings_title_alert_notification_switch">Enviar notificación de alerta</string>
+    <string name="settings_title_permanent_service">Servicio permanente</string>
+    <string name="settings_category_forecast">Previsión</string>
+    <string name="settings_title_forecast_today">Previsión de hoy</string>
+    <string name="settings_title_forecast_today_time">Hora de la previsión de hoy</string>
+    <string name="settings_title_forecast_tomorrow">Previsión de mañana</string>
+    <string name="settings_title_forecast_tomorrow_time">Hora de la previsión de mañana</string>
+    <string name="settings_category_widget">Widget</string>
+    <string name="settings_title_icon_style">Estilo de iconos</string>
+    <string name="settings_title_click_widget_to_refresh">Refrescar widget al pulsarlo</string>
+    <string name="settings_category_notification">Notificación</string>
+    <string name="settings_title_notification">Enviar notificación</string>
+    <string name="settings_title_notification_temp_icon">Mostrar icono de temperatura</string>
+    <string name="settings_title_notification_text_color">Color de texto</string>
+    <string name="settings_title_notification_background">Color de fondo</string>
+    <string name="settings_notification_background_on">Color de centro de control de AOSP</string>
+    <string name="settings_notification_background_off">Utilizar el del sistema</string>
+    <string name="settings_title_notification_can_be_cleared">Puede descartarse</string>
+    <string name="settings_notification_can_be_cleared_on">Si</string>
+    <string name="settings_notification_can_be_cleared_off">No</string>
+    <string name="settings_title_notification_hide_icon">Ocultar icono de notificación</string>
+    <string name="settings_notification_hide_icon_on">Ocultar</string>
+    <string name="settings_notification_hide_icon_off">Mostrar</string>
+    <string name="settings_title_notification_hide_in_lockScreen">Ocultar en pantalla de bloqueo</string>
+    <string name="settings_notification_hide_in_lockScreen_on">Ocultar (necesita abrirlo en las opciones del sistema)</string>
+    <string name="settings_notification_hide_in_lockScreen_off">Mostrar</string>
+    <string name="settings_title_notification_hide_big_view">Ocultar vista expandida</string>
+    <string name="settings_notification_hide_big_view_on">Ocultar</string>
+    <string name="settings_notification_hide_big_view_off">Mostrar</string>
+
+</resources>

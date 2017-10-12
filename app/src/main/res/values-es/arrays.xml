@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <!-- UI style. -->
+    <string-array name="ui_styles">
+        <item>Cielo circular</item>
+        <item>Animaciones Material</item>
+    </string-array>
+
+    <!-- language. -->
+    <string-array name="languages">
+        <item>Por defecto</item>
+        <item>中文</item>
+        <item>繁體中文</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Français</item>
+        <item>Pусский</item>
+        <item>Deutsch</item>
+        <item>Српски</item>
+    </string-array>
+
+    <!-- automatic refresh rate. -->
+    <string-array name="automatic_refresh_rates">
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>1.5 horas</item>
+        <item>2 horas</item>
+        <item>2.5 horas</item>
+        <item>3 horas</item>
+        <item>3.5 horas</item>
+        <item>4 horas</item>
+    </string-array>
+
+    <!-- notification text color. -->
+    <string-array name="notification_text_colors">
+        <item>Oscuro</item>
+        <item>Gris</item>
+        <item>Claro</item>
+    </string-array>
+
+    <!-- widget style. -->
+    <string-array name="widget_styles">
+        <item>Rectangular</item>
+        <item>Simétrico</item>
+        <item>Loseta</item>
+        <item>Mini</item>
+        <item>Nano</item>
+        <item>Pixel</item>
+        <item>Vertical</item>
+    </string-array>
+
+    <!-- icon style. -->
+    <string-array name="icon_styles">
+        <item>Material</item>
+        <item>Minimal</item>
+    </string-array>
+
+    <!-- Widget subtitle data. -->
+    <string-array name="subtitle_data">
+        <item>Refresh time</item>
+        <item>AQI (Inválido en algunas áreas.)</item>
+        <item>Viento</item>
+        <item>Sensación térmica</item>
+        <item>Calendario lunar</item>
+    </string-array>
+
+</resources>
