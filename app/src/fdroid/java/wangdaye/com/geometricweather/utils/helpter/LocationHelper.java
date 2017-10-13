@@ -20,9 +20,7 @@ public class LocationHelper {
 
     private static final String PREFERENCE_LOCAL = "LOCAL_PREFERENCE";
     private static final String KEY_LAST_RESULT = "LAST_RESULT";
-
-
-
+    
     private class SimpleWeatherLocationListener implements OnRequestWeatherLocationListener {
         // data
         private Location location;
@@ -56,7 +54,6 @@ public class LocationHelper {
         NetworkInfo info = ((ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE))
                 .getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
-        } else {
             l.requestLocationFailed(location);
         }
     }
