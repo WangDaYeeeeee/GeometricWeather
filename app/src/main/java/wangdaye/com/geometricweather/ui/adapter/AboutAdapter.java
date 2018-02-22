@@ -21,6 +21,7 @@ import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.data.entity.model.about.AboutAppLibrary;
 import wangdaye.com.geometricweather.data.entity.model.about.AboutAppLink;
 import wangdaye.com.geometricweather.data.entity.model.about.AboutAppTranslator;
+import wangdaye.com.geometricweather.utils.SnackbarUtils;
 import wangdaye.com.geometricweather.utils.helpter.DonateHelper;
 
 /**
@@ -212,10 +213,14 @@ class TranslatorHolder extends AboutAdapter.ViewHolder implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        c.startActivity(
-                new Intent(
-                        Intent.ACTION_SENDTO,
-                        Uri.parse("mailto:" + content.getText().toString())));
+        Intent intent = new Intent(
+                Intent.ACTION_SENDTO,
+                Uri.parse("mailto:" + content.getText().toString()));
+        if (intent.resolveActivity(c.getPackageManager())!=null) {
+            c.startActivity(intent);
+        } else {
+            SnackbarUtils.showSnackbar(c.getString(R.string.feedback_no_email_app));
+        }
     }
 }
 
