@@ -139,6 +139,8 @@
     <string name="feedback_readd_location">Please re-add locations.</string>
     <string name="feedback_readd_location_after_changing_source">Please re-add locations after changing data source.</string>
 
+    <string name="feedback_no_email_app">No email app installed.</string>
+
     <!-- action -->
     <string name="action_alert">Alert</string>
     <string name="action_manage">Manage</string>

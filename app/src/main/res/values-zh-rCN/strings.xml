@@ -125,6 +125,8 @@
     <string name="feedback_readd_location">请重新添加地址</string>
     <string name="feedback_readd_location_after_changing_source">更换数据源后需重新添加地址</string>
 
+    <string name="feedback_no_email_app">未安装邮件应用</string>
+
     <!-- action -->
     <string name="action_alert">预警</string>
     <string name="action_manage">地址管理</string>
