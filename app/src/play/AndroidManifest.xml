@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="wangdaye.com.geometricweather" >
+
+    <application>
+        <!-- baidu location -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="8Ag8g9warGQeUVFbqx4LRrXU" />
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+    </application>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:ignore="ManifestOrder" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+</manifest>
