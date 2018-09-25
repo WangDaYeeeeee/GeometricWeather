@@ -99,6 +99,7 @@
     <string name="feedback_request_permission">Permissions</string>
     <string name="feedback_request_location_permission_success">Request location permission success.</string>
     <string name="feedback_request_location_permission_failed">Request location permission failed.</string>
+    <string name="feedback_request_location_permission_fdroid">Location detection is not available in F-Droid version.</string>
 
     <string name="feedback_location_failed">Location failed.</string>
     <string name="feedback_get_weather_failed">Request weather data failed.</string>
