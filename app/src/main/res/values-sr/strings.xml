@@ -25,6 +25,7 @@
     <string name="nighttime">Ноћу</string>
     <string name="publish_at">Објави у</string>
     <string name="feels_like">Као</string>
+    <string name="follow_system">Подразумевани</string>
 
     <string name="of_clock">:00</string>
     <string name="yesterday">јуче</string>
@@ -89,6 +90,7 @@
 
     <!-- feedback. -->
     <string name="feedback_request_permission">Дозволе</string>
+    <string name="feedback_request_location">локацију</string>
     <string name="feedback_request_location_permission_success">Захтевај дозволу за локацију.</string>
     <string name="feedback_request_location_permission_failed">Захтев за одобрење локације није успео.</string>
 

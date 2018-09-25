@@ -1,5 +1,6 @@
 package wangdaye.com.geometricweather.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -39,13 +40,14 @@ public class SettingsActivity extends GeoActivity
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // do nothing.
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_settings_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_settings_toolbar);
         toolbar.setTitle(getString(R.string.action_settings));
         toolbar.setNavigationIcon(R.drawable.ic_toolbar_back);
         toolbar.setNavigationOnClickListener(this);

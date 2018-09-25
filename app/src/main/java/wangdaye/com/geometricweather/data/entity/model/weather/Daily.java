@@ -1,8 +1,13 @@
 package wangdaye.com.geometricweather.data.entity.model.weather;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
-import wangdaye.com.geometricweather.data.entity.result.NewDailyResult;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import wangdaye.com.geometricweather.data.entity.result.accu.AccuDailyResult;
+import wangdaye.com.geometricweather.data.entity.result.cn.CNWeatherResult;
 import wangdaye.com.geometricweather.data.entity.table.weather.DailyEntity;
 import wangdaye.com.geometricweather.utils.helpter.WeatherHelper;
 
@@ -71,7 +76,7 @@ public class Daily {
     }
 */
 
-    public Daily buildDaily(Context c, NewDailyResult.DailyForecasts forecast) {
+    public Daily buildDaily(Context c, AccuDailyResult.DailyForecasts forecast) {
         date = forecast.Date.split("T")[0];
         week = WeatherHelper.getWeek(c, date);
         weathers = new String[] {
@@ -86,7 +91,9 @@ public class Daily {
         windDirs = new String[] {
                 forecast.Day.Wind.Direction.Localized,
                 forecast.Night.Wind.Direction.Localized};
-        windSpeeds = new String[] {forecast.Day.Wind.Speed.Value + "km/h", forecast.Night.Wind.Speed.Value + "km/h"};
+        windSpeeds = new String[] {
+                WeatherHelper.getWindSpeed(forecast.Day.Wind.Speed.Value),
+                WeatherHelper.getWindSpeed(forecast.Night.Wind.Speed.Value)};
         windLevels = new String[] {
                 WeatherHelper.getWindLevel(c, forecast.Day.Wind.Speed.Value),
                 WeatherHelper.getWindLevel(c, forecast.Night.Wind.Speed.Value)};
@@ -99,6 +106,33 @@ public class Daily {
                 forecast.Sun.Set.split("T")[1].split(":")[0]
                         + ":" + forecast.Sun.Set.split("T")[1].split(":")[1]};
         precipitations = new int[] {forecast.Day.PrecipitationProbability, forecast.Night.PrecipitationProbability};
+        return this;
+    }
+
+    public Daily buildDaily(Context c, CNWeatherResult.WeatherX daily) {
+        date = daily.date;
+        week = WeatherHelper.getWeek(c, date);
+        weathers = new String[] {
+                daily.info.day.get(1),
+                daily.info.night.get(1)};
+        weatherKinds = new String[] {
+                WeatherHelper.getNewWeatherKind(daily.info.day.get(0)),
+                WeatherHelper.getNewWeatherKind(daily.info.night.get(0))};
+        temps = new int[] {
+                Integer.parseInt(daily.info.day.get(2)),
+                Integer.parseInt(daily.info.night.get(2))};
+        windDirs = new String[] {
+                daily.info.day.get(3),
+                daily.info.night.get(3)};
+        windSpeeds = new String[] {null, null};
+        windLevels = new String[] {
+                daily.info.day.get(4),
+                daily.info.night.get(4)};
+        windDegrees = new int[] {-1, -1};
+        astros = new String[] {
+                daily.info.day.get(5),
+                daily.info.night.get(5)};
+        precipitations = new int[] {-1, -1};
         return this;
     }
 
@@ -115,7 +149,13 @@ public class Daily {
                 entity.maxiTemp,
                 entity.miniTemp};
         windDirs = new String[] {entity.daytimeWindDir, entity.nighttimeWindDir};
-        windSpeeds = new String[] {entity.daytimeWindSpeed, entity.nighttimeWindSpeed};
+        try {
+            windSpeeds = new String[] {
+                    WeatherHelper.getWindSpeed(entity.daytimeWindSpeed),
+                    WeatherHelper.getWindSpeed(entity.nighttimeWindSpeed)};
+        } catch (Exception e) {
+            windSpeeds = new String[] {entity.daytimeWindSpeed, entity.nighttimeWindSpeed};
+        }
         windLevels = new String[] {entity.daytimeWindLevel, entity.nighttimeWindLevel};
         windDegrees = new int[] {entity.daytimeWindDegree, entity.nighttimeWindDegree};
         astros = new String[] {
@@ -123,5 +163,14 @@ public class Daily {
                 entity.sunset};
         precipitations = new int[] {entity.daytimePrecipitations, entity.nighttimePrecipitations};
         return this;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getDateInFormat(String format) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Integer.parseInt(date.split("-")[0]));
+        calendar.set(Calendar.MONTH, Integer.parseInt(date.split("-")[1]) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.split("-")[2]));
+        return new SimpleDateFormat(format).format(calendar.getTime());
     }
 }

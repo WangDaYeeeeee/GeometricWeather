@@ -16,10 +16,10 @@ import java.util.Calendar;
 import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.data.entity.model.Location;
-import wangdaye.com.geometricweather.data.entity.model.Lunar;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
 import wangdaye.com.geometricweather.receiver.widget.WidgetDayProvider;
 import wangdaye.com.geometricweather.service.NormalUpdateService;
+import wangdaye.com.geometricweather.utils.helpter.LunarHelper;
 import wangdaye.com.geometricweather.utils.manager.TimeManager;
 import wangdaye.com.geometricweather.utils.ValueUtils;
 import wangdaye.com.geometricweather.utils.WidgetUtils;
@@ -135,14 +135,21 @@ public class WidgetDayUtils {
 
             case "vertical":
                 views = new RemoteViews(context.getPackageName(), R.layout.widget_day_vertical);
+                break;
+
+            case "oreo":
+                views = new RemoteViews(context.getPackageName(), R.layout.widget_day_oreo);
+                break;
         }
 
         views.setImageViewResource(
                 R.id.widget_day_icon,
                 getWeatherIconId(weather, dayTime, iconStyle, blackText));
-        views.setTextViewText(
-                R.id.widget_day_title,
-                getTitleText(weather, viewStyle, fahrenheit));
+        if (!viewStyle.equals("oreo")) {
+            views.setTextViewText(
+                    R.id.widget_day_title,
+                    getTitleText(weather, viewStyle, fahrenheit));
+        }
         views.setTextViewText(
                 R.id.widget_day_subtitle,
                 getSubtitleText(weather, viewStyle, fahrenheit));
@@ -189,7 +196,8 @@ public class WidgetDayUtils {
                 return ValueUtils.buildCurrentTemp(weather.realTime.temp, false, fahrenheit);
 
             case "vertical":
-                return " " + ValueUtils.buildAbbreviatedCurrentTemp(weather.realTime.temp, fahrenheit);
+                return (weather.realTime.temp < 0 ? "" : " ")
+                        + ValueUtils.buildAbbreviatedCurrentTemp(weather.realTime.temp, fahrenheit);
         }
         return "";
     }
@@ -207,6 +215,9 @@ public class WidgetDayUtils {
 
             case "vertical":
                 return weather.realTime.weather + " " + ValueUtils.buildDailyTemp(weather.dailyList.get(0).temps, false, fahrenheit);
+
+            case "oreo":
+                return ValueUtils.buildCurrentTemp(weather.realTime.temp, true, fahrenheit);
         }
         return "";
     }
@@ -240,15 +251,15 @@ public class WidgetDayUtils {
             case "lunar":
                 switch (viewStyle) {
                     case "rectangle":
-                        return weather.base.city + " " + new Lunar(Calendar.getInstance()).toString();
+                        return weather.base.city + " " + LunarHelper.getLunarDate(Calendar.getInstance());
 
                     case "symmetry":
-                        return WidgetUtils.getWeek(context) + " " + new Lunar(Calendar.getInstance()).toString();
+                        return WidgetUtils.getWeek(context) + " " + LunarHelper.getLunarDate(Calendar.getInstance());
 
                     case "tile":
                     case "mini":
                     case "vertical":
-                        return weather.base.city + " " + WidgetUtils.getWeek(context) + " " + new Lunar(Calendar.getInstance()).toString();
+                        return weather.base.city + " " + WidgetUtils.getWeek(context) + " " + LunarHelper.getLunarDate(Calendar.getInstance());
                 }
                 break;
 

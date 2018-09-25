@@ -1,5 +1,6 @@
 package wangdaye.com.geometricweather.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.R;
@@ -40,6 +44,8 @@ public class DailyTrendAdapter extends RecyclerView.Adapter<DailyTrendAdapter.Vi
 
     private int[] themeColors;
 
+    private SimpleDateFormat format;
+
     class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
@@ -52,20 +58,25 @@ public class DailyTrendAdapter extends RecyclerView.Adapter<DailyTrendAdapter.Vi
         ViewHolder(View itemView) {
             super(itemView);
 
-            this.weekText = (TextView) itemView.findViewById(R.id.item_trend_daily_weekTxt);
-            this.dateText = (TextView) itemView.findViewById(R.id.item_trend_daily_dateTxt);
-            this.dayIcon = (ImageView) itemView.findViewById(R.id.item_trend_daily_icon_day);
-            this.nightIcon = (ImageView) itemView.findViewById(R.id.item_trend_daily_icon_night);
-            this.trendItemView = (TrendItemView) itemView.findViewById(R.id.item_trend_daily_trendItem);
+            this.weekText = itemView.findViewById(R.id.item_trend_daily_weekTxt);
+            this.dateText = itemView.findViewById(R.id.item_trend_daily_dateTxt);
+            this.dayIcon = itemView.findViewById(R.id.item_trend_daily_icon_day);
+            this.nightIcon = itemView.findViewById(R.id.item_trend_daily_icon_night);
+            this.trendItemView = itemView.findViewById(R.id.item_trend_daily_trendItem);
 
             itemView.findViewById(R.id.item_trend_daily).setOnClickListener(this);
         }
 
-        void onBindView(int position) {
+        @SuppressLint("SetTextI18n")
+        void onBindView(Context context, int position) {
             Daily daily = weather.dailyList.get(position);
 
-            weekText.setText(daily.week);
-            dateText.setText(daily.date.split("-")[1] + "-" + daily.date.split("-")[2]);
+            if (daily.date.equals(format.format(new Date()))) {
+                weekText.setText(context.getString(R.string.today));
+            } else {
+                weekText.setText(daily.week);
+            }
+            dateText.setText(daily.getDateInFormat(context.getString(R.string.date_format_short)));
             Glide.with(context)
                     .load(WeatherHelper.getWeatherIcon(daily.weatherKinds[0], true)[3])
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -114,6 +125,7 @@ public class DailyTrendAdapter extends RecyclerView.Adapter<DailyTrendAdapter.Vi
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     public DailyTrendAdapter(Context context, @NonNull Weather weather, @Nullable History history,
                              int[] themeColors) {
         this.context = context;
@@ -147,6 +159,8 @@ public class DailyTrendAdapter extends RecyclerView.Adapter<DailyTrendAdapter.Vi
         }
 
         this.themeColors = themeColors;
+
+        this.format = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
@@ -158,7 +172,7 @@ public class DailyTrendAdapter extends RecyclerView.Adapter<DailyTrendAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.onBindView(position);
+        holder.onBindView(context, position);
     }
 
     @Override

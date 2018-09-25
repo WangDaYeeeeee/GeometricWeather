@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import wangdaye.com.geometricweather.data.entity.model.weather.Alert;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
 import wangdaye.com.geometricweather.utils.helpter.IntentHelper;
 import wangdaye.com.geometricweather.utils.manager.ThreadManager;
+import wangdaye.com.geometricweather.utils.manager.TimeManager;
 import wangdaye.com.geometricweather.utils.remoteView.NormalNotificationUtils;
 
 /**
@@ -66,14 +68,18 @@ public class NotificationUtils {
                     alertList.add(weather.alertList.get(i));
                 }
             }
+        } else {
+            alertList.addAll(weather.alertList);
         }
 
         for (int i = 0; i < alertList.size(); i ++) {
-            sendAlertNotification(c, weather.base.city, alertList.get(i));
+            sendAlertNotification(
+                    c, weather.base.city, alertList.get(i), alertList.size() > 1);
         }
     }
 
-    private static void sendAlertNotification(Context c, String cityName, Alert alert) {
+    private static void sendAlertNotification(Context c,
+                                              String cityName, Alert alert, boolean inGroup) {
         NotificationManager manager = ((NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE));
         if (manager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -82,30 +88,38 @@ public class NotificationUtils {
                         c.getString(R.string.app_name) + " " + c.getString(R.string.action_alert),
                         NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(true);
+                channel.setLightColor(ContextCompat.getColor(
+                        c,
+                        TimeManager.getInstance(c).isDayTime() ? R.color.lightPrimary_5 : R.color.darkPrimary_5));
                 manager.createNotificationChannel(channel);
             }
             manager.notify(
                     getNotificationId(c),
-                    buildSingleNotification(c, cityName, alert));
+                    buildSingleNotification(c, cityName, alert, inGroup));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && inGroup) {
                 manager.notify(NOTIFICATION_GROUP_SUMMARY_ID, buildGroupSummaryNotification(c, cityName, alert));
             }
         }
     }
 
-    private static Notification buildSingleNotification(Context c, String cityName, Alert alert) {
+    private static Notification buildSingleNotification(Context c,
+                                                        String cityName, Alert alert, boolean inGroup) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c, CHANNEL_ID_ALERT)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setLargeIcon(BitmapFactory.decodeResource(c.getResources(), R.drawable.ic_launcher))
                 .setContentTitle(c.getString(R.string.action_alert))
                 .setSubText(alert.publishTime)
                 .setContentText(alert.description)
+                .setColor(ContextCompat.getColor(
+                        c,
+                        TimeManager.getInstance(c).isDayTime() ? R.color.lightPrimary_5 : R.color.darkPrimary_5))
                 .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                 .setContentIntent(buildIntent(c, cityName));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && inGroup) {
             builder.setGroup(NOTIFICATION_GROUP_KEY);
         }
         return builder.build();
@@ -116,7 +130,11 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_alert)
                 .setContentTitle(alert.description)
                 .setGroup(NOTIFICATION_GROUP_KEY)
+                .setColor(ContextCompat.getColor(
+                        c,
+                        TimeManager.getInstance(c).isDayTime() ? R.color.lightPrimary_5 : R.color.darkPrimary_5))
                 .setGroupSummary(true)
+                .setOnlyAlertOnce(true)
                 .setContentIntent(buildIntent(c, cityName))
                 .build();
     }

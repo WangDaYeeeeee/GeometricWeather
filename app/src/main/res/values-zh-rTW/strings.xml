@@ -22,6 +22,8 @@
     <string name="nighttime">夜間</string>
     <string name="publish_at">發布於</string>
     <string name="feels_like">體感</string>
+    <string name="exercise">運動指數</string>
+    <string name="follow_system">跟隨系統</string>
 
     <string name="of_clock">時</string>
     <string name="yesterday">昨日</string>
@@ -74,6 +76,12 @@
     <string name="translator">譯者</string>
     <string name="thanks">鳴謝</string>
 
+    <string name="date_format_short">M-d</string>
+    <string name="date_format_long">M月d日</string>
+    <string name="date_format_widget_short">MM-dd EEE</string>
+    <string name="date_format_widget_long">M月d日 EEEE</string>
+    <string name="date_format_widget_oreo_style">M月d日EEEE │ </string>
+
     <!-- about. -->
     <string name="baidu_location">Baidu Location</string>
     <string name="retrofit">Retrofit 2.0</string>
@@ -83,10 +91,12 @@
 
     <!-- feedback. -->
     <string name="feedback_request_permission">授權</string>
+    <string name="feedback_request_location">位置信息</string>
+    <string name="feedback_request_location_in_background">正在後臺進行定位</string>
     <string name="feedback_request_location_permission_success">獲取位置權限成功</string>
     <string name="feedback_request_location_permission_failed">獲取位置權限失敗</string>
 
-    <string name="feedback_location_failed">定位失敗，請檢查權限和網絡情況</string>
+    <string name="feedback_location_failed">定位失敗</string>
     <string name="feedback_get_weather_failed">獲取天氣數據失敗</string>
 
     <string name="feedback_view_style">界面風格</string>
@@ -112,6 +122,8 @@
     <string name="feedback_refresh_notification_now">立即刷新通知</string>
     <string name="feedback_refresh_ui_after_refresh">下次刷新后生效</string>
     <string name="feedback_restart">重啓后生效</string>
+    <string name="feedback_readd_location">請重新添加地址</string>
+    <string name="feedback_readd_location_after_changing_source">更換數據源后需重新添加地址</string>
 
     <!-- action -->
     <string name="action_alert">預警</string>
@@ -125,15 +137,19 @@
     <string name="widget_week">一周</string>
     <string name="widget_day_week">今日 + 一周</string>
     <string name="widget_clock_day_horizontal">時鐘 + 今日 (水平排列)</string>
+    <string name="widget_clock_day_details">時鐘 + 今日 (詳情)</string>
     <string name="widget_clock_day_vertical">時鐘 + 今日 (垂直排列)</string>
     <string name="widget_clock_day_week">時鐘 + 今日 + 一周</string>
+    <string name="widget_text">純文字</string>
     <string name="wait_refresh">等待更新</string>
     <string name="ellipsis">…</string>
 
     <!-- settings -->
     <string name="settings_category_basic">基礎</string>
     <string name="settings_title_background_free">後臺純净</string>
+    <string name="settings_title_chinese_source">中國天氣源</string>
     <string name="settings_title_ui_style">界面風格</string>
+    <string name="settings_title_card_order">卡片順序</string>
     <string name="settings_title_gravity_sensor_switch">開啓重力感應</string>
     <string name="settings_title_navigationBar_color">導航欄著色</string>
     <string name="settings_navigationBar_color_on">導航欄顯示主題色</string>
@@ -141,6 +157,7 @@
     <string name="settings_title_alert_notification_switch">推送預警通知</string>
     <string name="settings_language">語言</string>
     <string name="settings_title_fahrenheit">華氏度</string>
+    <string name="settings_title_imperial">英制單位</string>
     <string name="settings_title_refresh_rate">自動刷新頻率</string>
     <string name="settings_title_permanent_service">後臺服務常駐</string>
     <string name="settings_category_forecast">預報</string>

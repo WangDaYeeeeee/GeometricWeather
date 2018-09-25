@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -37,6 +38,7 @@ import wangdaye.com.geometricweather.data.entity.model.Location;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
 import wangdaye.com.geometricweather.ui.adapter.DetailsAdapter;
+import wangdaye.com.geometricweather.ui.widget.AlertDisplayView;
 import wangdaye.com.geometricweather.ui.widget.NoneSlipRecyclerView;
 import wangdaye.com.geometricweather.ui.widget.StatusBarView;
 import wangdaye.com.geometricweather.ui.widget.trendView.TrendRecyclerView;
@@ -97,12 +99,14 @@ public class MainActivity extends GeoActivity
 
     private ImageView timeIcon;
     private TextView refreshTime;
+    
+    private AlertDisplayView alertView;
 
-    private TextView dailyTitle;
-    private TrendRecyclerView dailyTrendRecyclerView;
+    private TextView firstTitle;
+    private TrendRecyclerView firstTrendRecyclerView;
 
-    private TextView hourlyTitle;
-    private TrendRecyclerView hourlyTrendRecyclerView;
+    private TextView secondTitle;
+    private TrendRecyclerView secondTrendRecyclerView;
 
     private TextView detailsTitle;
     private NoneSlipRecyclerView detailRecyclerView;
@@ -128,7 +132,8 @@ public class MainActivity extends GeoActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.key_ui_style), "material").equals("material")) {
+                .getString(getString(R.string.key_ui_style), "material")
+                .equals("material")) {
             setContentView(R.layout.activity_main_material);
         } else {
             setContentView(R.layout.activity_main_circular);
@@ -140,7 +145,7 @@ public class MainActivity extends GeoActivity
         super.onNewIntent(intent);
         Location old = locationNow;
         readLocationList();
-        readIntentData(intent);
+        readLocationNow(intent);
         if (!old.equals(locationNow)) {
             reset();
         }
@@ -156,6 +161,7 @@ public class MainActivity extends GeoActivity
             initWidget();
             reset();
         } else {
+            // reread cache and check if there are new data available through background service.
             Weather old = locationNow.weather;
             readLocationList();
             for (int i = 0; i < locationList.size(); i ++) {
@@ -164,10 +170,13 @@ public class MainActivity extends GeoActivity
                     break;
                 }
             }
+
             if (!refreshLayout.isRefreshing()
                     && locationNow.weather != null && old != null
                     && locationNow.weather.base.timeStamp > old.base.timeStamp) {
                 reset();
+            } else if (locationNow.weather != null) {
+                alertView.display(locationNow.weather.alertList);
             }
         }
     }
@@ -178,12 +187,17 @@ public class MainActivity extends GeoActivity
             case SETTINGS_ACTIVITY:
                 DisplayUtils.setNavigationBarColor(this, weatherView.getThemeColors()[0]);
                 NotificationUtils.refreshNotificationInNewThread(this, locationList.get(0));
+
+                readLocationList();
+                readLocationNow(data);
+                switchLayout.setData(locationList, locationNow);
+                reset();
                 break;
 
             case MANAGE_ACTIVITY:
                 if (resultCode == RESULT_OK) {
                     readLocationList();
-                    readIntentData(data);
+                    readLocationNow(data);
                     switchLayout.setData(locationList, locationNow);
                     reset();
                 } else {
@@ -214,6 +228,12 @@ public class MainActivity extends GeoActivity
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        alertView.stop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         locationHelper.cancel();
@@ -236,7 +256,7 @@ public class MainActivity extends GeoActivity
 
     private void initData() {
         readLocationList();
-        readIntentData(getIntent());
+        readLocationNow(getIntent());
 
         this.weatherHelper = new WeatherHelper();
         this.locationHelper = new LocationHelper(this);
@@ -254,22 +274,37 @@ public class MainActivity extends GeoActivity
         }
     }
 
-    private void readIntentData(Intent intent) {
-        String locationName = intent.getStringExtra(KEY_MAIN_ACTIVITY_LOCATION);
-        if (TextUtils.isEmpty(locationName) && locationNow == null) {
-            locationNow = locationList.get(0);
-            return;
-        } else if (!TextUtils.isEmpty(locationName)) {
+    private void readLocationNow(@Nullable Intent intent) {
+        if (locationNow != null) {
+            boolean exist = false;
             for (int i = 0; i < locationList.size(); i ++) {
-                if (locationList.get(i).isLocal() && locationName.equals(getString(R.string.local))) {
-                    if (locationNow == null || !locationNow.equals(locationList.get(i))) {
-                        locationNow = locationList.get(i);
-                        return;
-                    }
-                } else if (locationList.get(i).city.equals(locationName)) {
-                    if (locationNow == null || !locationNow.city.equals(locationName)) {
-                        locationNow = locationList.get(i);
-                        return;
+                if (locationList.get(i).equals(locationNow)) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist) {
+                locationNow = null;
+            }
+        }
+
+        if (intent != null) {
+            String locationName = intent.getStringExtra(KEY_MAIN_ACTIVITY_LOCATION);
+            if (TextUtils.isEmpty(locationName) && locationNow == null) {
+                locationNow = locationList.get(0);
+                return;
+            } else if (!TextUtils.isEmpty(locationName)) {
+                for (int i = 0; i < locationList.size(); i ++) {
+                    if (locationList.get(i).isLocal() && locationName.equals(getString(R.string.local))) {
+                        if (locationNow == null || !locationNow.equals(locationList.get(i))) {
+                            locationNow = locationList.get(i);
+                            return;
+                        }
+                    } else if (locationList.get(i).city.equals(locationName)) {
+                        if (locationNow == null || !locationNow.city.equals(locationName)) {
+                            locationNow = locationList.get(i);
+                            return;
+                        }
                     }
                 }
             }
@@ -279,7 +314,6 @@ public class MainActivity extends GeoActivity
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void initWidget() {
         this.handler = new SafeHandler<>(this);
 
@@ -341,18 +375,21 @@ public class MainActivity extends GeoActivity
         this.realtimeSendibleTemp = findViewById(R.id.container_main_base_view_sendibleTempTxt);
         this.aqiOrWind = findViewById(R.id.container_main_base_view_aqiOrWindTxt);
 
-        findViewById(R.id.container_main_trend_daily_card_timeContainer).setOnClickListener(this);
+        findViewById(R.id.container_main_trend_first_card_timeContainer).setOnClickListener(this);
 
-        this.timeIcon = findViewById(R.id.container_main_trend_daily_card_timeIcon);
+        this.timeIcon = findViewById(R.id.container_main_trend_first_card_timeIcon);
         timeIcon.setOnClickListener(this);
 
-        this.refreshTime = findViewById(R.id.container_main_trend_daily_card_timeText);
+        this.refreshTime = findViewById(R.id.container_main_trend_first_card_timeText);
+        
+        this.alertView = findViewById(R.id.container_main_trend_first_card_alert);
+        alertView.setOnClickListener(this);
 
-        this.dailyTitle = findViewById(R.id.container_main_trend_daily_card_title);
-        this.dailyTrendRecyclerView = findViewById(R.id.container_main_trend_daily_card_trendRecyclerView);
+        this.firstTitle = findViewById(R.id.container_main_trend_first_card_title);
+        this.firstTrendRecyclerView = findViewById(R.id.container_main_trend_first_card_trendRecyclerView);
 
-        this.hourlyTitle = findViewById(R.id.container_main_trend_hourly_card_title);
-        this.hourlyTrendRecyclerView = findViewById(R.id.container_main_trend_hourly_card_trendRecyclerView);
+        this.secondTitle = findViewById(R.id.container_main_trend_second_card_title);
+        this.secondTrendRecyclerView = findViewById(R.id.container_main_trend_second_card_trendRecyclerView);
 
         this.detailsTitle = findViewById(R.id.container_main_details_card_title);
         this.detailRecyclerView = findViewById(R.id.container_main_details_card_recyclerView);
@@ -381,6 +418,8 @@ public class MainActivity extends GeoActivity
 
         switchLayout.reset();
         switchLayout.setEnabled(true);
+
+        alertView.stop();
 
         if (locationNow.weather == null) {
             setRefreshing(true);
@@ -448,15 +487,34 @@ public class MainActivity extends GeoActivity
             timeIcon.setImageResource(R.drawable.ic_alert);
         }
         refreshTime.setText(weather.base.time);
+        
+        if (weather.alertList.size() == 0) {
+            alertView.setVisibility(View.GONE);
+            alertView.stop();
+        } else {
+            alertView.setVisibility(View.VISIBLE);
+            alertView.display(weather.alertList);
+        }
 
-        dailyTitle.setTextColor(weatherView.getThemeColors()[0]);
-        hourlyTitle.setTextColor(weatherView.getThemeColors()[0]);
+        firstTitle.setTextColor(weatherView.getThemeColors()[0]);
+        secondTitle.setTextColor(weatherView.getThemeColors()[0]);
         detailsTitle.setTextColor(weatherView.getThemeColors()[0]);
 
-        TrendViewController.setDailyTrend(
-                this, dailyTrendRecyclerView, weather, history, weatherView.getThemeColors());
-        TrendViewController.setHourlyTrend(
-                this, hourlyTrendRecyclerView, weather, history, weatherView.getThemeColors());
+        if (GeometricWeather.getInstance().getCardOrder().equals("daily_first")) {
+            TrendViewController.setDailyTrend(
+                    this, firstTitle, firstTrendRecyclerView,
+                    weather, history, weatherView.getThemeColors());
+            TrendViewController.setHourlyTrend(
+                    this, secondTitle, secondTrendRecyclerView,
+                    weather, history, weatherView.getThemeColors());
+        } else {
+            TrendViewController.setHourlyTrend(
+                    this, firstTitle, firstTrendRecyclerView,
+                    weather, history, weatherView.getThemeColors());
+            TrendViewController.setDailyTrend(
+                    this, secondTitle, secondTrendRecyclerView,
+                    weather, history, weatherView.getThemeColors());
+        }
 
         detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailRecyclerView.setAdapter(new DetailsAdapter(this, weather));
@@ -473,11 +531,6 @@ public class MainActivity extends GeoActivity
         if (locationNow.equals(locationList.get(0))) {
             startupService();
         }
-    }
-
-    private void setLocationAndReset(Location location) {
-        this.locationNow = location;
-        reset();
     }
 
     private void refreshLocation(Location location) {
@@ -532,7 +585,11 @@ public class MainActivity extends GeoActivity
                         locationHelper.requestLocation(this, locationNow, this);
                     }
                 } else {
-                    SnackbarUtils.showSnackbar(getString(R.string.feedback_request_location_permission_failed));
+                    SnackbarUtils.showSnackbar(
+                            getString(R.string.feedback_request_location_permission_failed),
+                            getString(R.string.feedback_request_permission),
+                            applicationDetalsListener);
+                    setRefreshing(false);
                 }
                 break;
         }
@@ -549,11 +606,12 @@ public class MainActivity extends GeoActivity
                 weatherView.onClick();
                 break;
 
-            case R.id.container_main_trend_daily_card_timeIcon:
+            case R.id.container_main_trend_first_card_timeIcon:
+            case R.id.container_main_trend_first_card_alert:
                 IntentHelper.startAlertActivity(this, locationNow.weather);
                 break;
 
-            case R.id.container_main_trend_daily_card_timeContainer:
+            case R.id.container_main_trend_first_card_timeContainer:
                 IntentHelper.startManageActivityForResult(this);
                 break;
         }
@@ -578,6 +636,13 @@ public class MainActivity extends GeoActivity
         }
         return true;
     }
+
+    private View.OnClickListener applicationDetalsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            IntentHelper.startApplicationDetailsActivity(MainActivity.this);
+        }
+    };
 
     // on touch listener.
 
@@ -613,11 +678,16 @@ public class MainActivity extends GeoActivity
                 } else if (position > locationList.size() - 1) {
                     position = 0;
                 }
-                setLocationAndReset(locationList.get(position));
+
+                locationNow = locationList.get(position);
+                reset();
+
                 return;
             }
         }
-        setLocationAndReset(locationList.get(0));
+
+        locationNow = locationList.get(0);
+        reset();
     }
 
     // on refresh listener.
@@ -699,7 +769,18 @@ public class MainActivity extends GeoActivity
                 setRefreshing(false);
             }
 
-            SnackbarUtils.showSnackbar(getString(R.string.feedback_location_failed));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                    || checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)) {
+                SnackbarUtils.showSnackbar(
+                        getString(R.string.feedback_location_failed),
+                        getString(R.string.feedback_request_permission),
+                        applicationDetalsListener);
+            } else {
+                SnackbarUtils.showSnackbar(getString(R.string.feedback_location_failed));
+            }
         }
     }
 
@@ -714,7 +795,12 @@ public class MainActivity extends GeoActivity
                     || !locationNow.weather.base.date.equals(weather.base.date)
                     || !locationNow.weather.base.time.equals(weather.base.time)) {
                 locationNow.weather = weather;
-                locationNow.history = DatabaseHelper.getInstance(this).readHistory(weather);
+                if (requestLocation.history == null) {
+                    locationNow.history = DatabaseHelper.getInstance(this).readHistory(weather);
+                } else {
+                    locationNow.history = requestLocation.history;
+                    DatabaseHelper.getInstance(this).writeHistory(locationNow.history);
+                }
                 refreshLocation(locationNow);
                 DatabaseHelper.getInstance(this).writeWeather(locationNow, weather);
                 DatabaseHelper.getInstance(this).writeHistory(weather);
@@ -762,7 +848,7 @@ public class MainActivity extends GeoActivity
                 ThreadManager.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
-                        ServiceHelper.resetPollingService(MainActivity.this, true, false);
+                        ServiceHelper.resetNormalService(MainActivity.this, true, false);
                         ServiceHelper.resetForecastService(MainActivity.this, true);
                         ServiceHelper.resetForecastService(MainActivity.this, false);
                     }

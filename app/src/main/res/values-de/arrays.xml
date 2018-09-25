@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
-
-    <!-- Sprache -->
-    <string-array name="languages">
-        <item>Follow system</item>
-        <item>中文</item>
-        <item>繁體中文</item>
-        <item>English</item>
-        <item>Türkçe</item>
-        <item>Français</item>
-        <item>Pусский</item>
-        <item>Deutsch</item>
-        <item>Српски</item>
-    </string-array>
+<resources>
 
     <!-- Aktualisierungsintervall -->
     <string-array name="automatic_refresh_rates">
@@ -43,6 +29,7 @@
         <item>Nano</item>
         <item>Pixel</item>
         <item>Vertical</item>
+        <item>Oreo</item>
     </string-array>
 
     <!-- Icon Stil -->

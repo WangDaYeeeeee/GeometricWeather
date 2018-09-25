@@ -17,97 +17,106 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="DisableBaselineAlignment">
+            tools:ignore="RtlHardcoded">
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            <TextClock
+                android:id="@+id/widget_clock_day_week_clock"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/little_margin"
+                style="@style/widget_text_clock"
+                tools:text="9:10"
+                tools:ignore="RelativeOverlap,RtlHardcoded" />
 
-                <TextClock
-                    android:id="@+id/widget_clock_day_week_clock"
-                    android:textSize="@dimen/little_flag_icon_size"
-                    style="@style/widget_text_clock"
-                    tools:ignore="SpUsage" />
+            <TextClock
+                android:id="@+id/widget_clock_day_week_clock_aa"
+                android:layout_toEndOf="@id/widget_clock_day_week_clock"
+                android:layout_alignBaseline="@id/widget_clock_day_week_clock"
+                style="@style/widget_text_clock_aa"
+                tools:text="AM"
+                tools:ignore="RelativeOverlap,RtlHardcoded" />
 
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/widget_clock_day_week_icon"
+                android:layout_width="@dimen/widget_current_weather_icon_size"
+                android:layout_height="@dimen/widget_current_weather_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/little_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:src="@drawable/weather_cloudy"
+                tools:ignore="ContentDescription,RtlHardcoded" />
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+        </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/widget_clock_day_week_icon"
-                    android:layout_width="@dimen/flag_icon_size"
-                    android:layout_height="@dimen/flag_icon_size"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/little_margin"
-                    android:layout_marginRight="@dimen/little_margin"
-                    android:src="@drawable/weather_cloudy"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="DisableBaselineAlignment">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextClock
-                    android:id="@+id/widget_clock_day_week_title"
-                    android:layout_centerInParent="true"
-                    android:text="@string/wait_refresh"
-                    android:textSize="@dimen/content_text_size"
-                    android:textColor="@color/colorTextLight"
-                    android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:shadowRadius="1"
-                    android:format24Hour="MM-dd EEE"
-                    android:format12Hour="MM-dd EEE"
-                    style="@style/widget_text_clock" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/widget_clock_day_week_subtitle"
-                    android:layout_centerInParent="true"
-                    android:text="@string/ellipsis"
-                    android:textColor="@color/colorTextLight"
-                    android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:shadowRadius="1"
-                    style="@style/content_text"
-                    tools:text="青岛 8℃"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
+
+            <TextClock
+                android:id="@+id/widget_clock_day_week_title"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/large_margin"
+                android:textSize="@dimen/widget_content_text_size"
+                android:textColor="@color/colorTextLight"
+                android:maxLines="1"
+                android:shadowColor="@color/colorTextDark2nd"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                android:format24Hour="@string/date_format_widget_short"
+                android:format12Hour="@string/date_format_widget_short"
+                style="@style/widget_text_clock"
+                tools:text="11-04 周五"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/widget_clock_day_week_lunar"
+                android:layout_toEndOf="@id/widget_clock_day_week_title"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="@dimen/little_margin"
+                android:text=""
+                android:textSize="@dimen/widget_content_text_size"
+                android:textColor="@color/colorTextLight"
+                android:maxLines="1"
+                android:shadowColor="@color/colorTextDark2nd"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                style="@style/content_text"
+                tools:text=" - 九月十八"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/widget_clock_day_week_subtitle"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/little_margin"
+                android:layout_marginEnd="@dimen/large_margin"
+                android:text="@string/ellipsis"
+                android:textSize="@dimen/widget_content_text_size"
+                android:textColor="@color/colorTextLight"
+                android:maxLines="1"
+                android:shadowColor="@color/colorTextDark2nd"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                style="@style/content_text"
+                tools:text="青岛 8℃"
+                tools:ignore="RtlHardcoded" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="DisableBaselineAlignment">
@@ -120,9 +129,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_week_1"
                     android:text="@string/wait_refresh"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -133,8 +143,8 @@
 
                 <ImageView
                     android:id="@+id/widget_clock_day_week_icon_1"
-                    android:layout_width="@dimen/widget_week_icon_size"
-                    android:layout_height="@dimen/widget_week_icon_size"
+                    android:layout_width="@dimen/widget_little_weather_icon_size"
+                    android:layout_height="@dimen/widget_little_weather_icon_size"
                     android:layout_below="@id/widget_clock_day_week_week_1"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="2dp"
@@ -145,9 +155,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_temp_1"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -166,9 +177,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_week_2"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -179,8 +191,8 @@
 
                 <ImageView
                     android:id="@+id/widget_clock_day_week_icon_2"
-                    android:layout_width="@dimen/widget_week_icon_size"
-                    android:layout_height="@dimen/widget_week_icon_size"
+                    android:layout_width="@dimen/widget_little_weather_icon_size"
+                    android:layout_height="@dimen/widget_little_weather_icon_size"
                     android:layout_below="@id/widget_clock_day_week_week_2"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="2dp"
@@ -191,9 +203,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_temp_2"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -212,9 +225,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_week_3"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -225,8 +239,8 @@
 
                 <ImageView
                     android:id="@+id/widget_clock_day_week_icon_3"
-                    android:layout_width="@dimen/widget_week_icon_size"
-                    android:layout_height="@dimen/widget_week_icon_size"
+                    android:layout_width="@dimen/widget_little_weather_icon_size"
+                    android:layout_height="@dimen/widget_little_weather_icon_size"
                     android:layout_below="@id/widget_clock_day_week_week_3"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="2dp"
@@ -237,9 +251,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_temp_3"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -258,9 +273,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_week_4"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -271,8 +287,8 @@
 
                 <ImageView
                     android:id="@+id/widget_clock_day_week_icon_4"
-                    android:layout_width="@dimen/widget_week_icon_size"
-                    android:layout_height="@dimen/widget_week_icon_size"
+                    android:layout_width="@dimen/widget_little_weather_icon_size"
+                    android:layout_height="@dimen/widget_little_weather_icon_size"
                     android:layout_below="@id/widget_clock_day_week_week_4"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="2dp"
@@ -283,9 +299,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_temp_4"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -304,9 +321,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_week_5"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"
@@ -317,8 +335,8 @@
 
                 <ImageView
                     android:id="@+id/widget_clock_day_week_icon_5"
-                    android:layout_width="@dimen/widget_week_icon_size"
-                    android:layout_height="@dimen/widget_week_icon_size"
+                    android:layout_width="@dimen/widget_little_weather_icon_size"
+                    android:layout_height="@dimen/widget_little_weather_icon_size"
                     android:layout_below="@id/widget_clock_day_week_week_5"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="2dp"
@@ -330,9 +348,10 @@
                 <TextView
                     android:id="@+id/widget_clock_day_week_temp_5"
                     android:text="@string/ellipsis"
+                    android:textSize="@dimen/widget_content_text_size"
                     android:textColor="@color/colorTextLight"
                     android:maxLines="1"
-                    android:shadowColor="@color/colorTextGrey"
+                    android:shadowColor="@color/colorTextDark2nd"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="1"

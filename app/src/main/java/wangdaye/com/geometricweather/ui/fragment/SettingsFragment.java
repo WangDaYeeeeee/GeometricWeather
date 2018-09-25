@@ -6,14 +6,21 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
+import java.util.List;
+
 import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.R;
+import wangdaye.com.geometricweather.data.entity.model.Location;
+import wangdaye.com.geometricweather.utils.LanguageUtils;
 import wangdaye.com.geometricweather.utils.SnackbarUtils;
 import wangdaye.com.geometricweather.utils.ValueUtils;
+import wangdaye.com.geometricweather.utils.helpter.DatabaseHelper;
+import wangdaye.com.geometricweather.utils.helpter.LocationHelper;
 import wangdaye.com.geometricweather.utils.helpter.ServiceHelper;
 import wangdaye.com.geometricweather.utils.remoteView.NormalNotificationUtils;
 import wangdaye.com.geometricweather.ui.dialog.TimeSetterDialog;
@@ -45,6 +52,19 @@ public class SettingsFragment extends PreferenceFragment
             backgroundFree.setEnabled(false);
         }
 
+        Preference chineseSource = findPreference(getString(R.string.key_chinese_source));
+        chineseSource.setSummary(
+                ValueUtils.getChineseSource(
+                        getActivity(),
+                        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                .getString(
+                                        getString(R.string.key_chinese_source),
+                                        "cn")));
+        chineseSource.setOnPreferenceChangeListener(this);
+        if (!hasChineseLocation()) {
+            ((PreferenceCategory) findPreference("basic")).removePreference(chineseSource);
+        }
+
         Preference uiStyle = findPreference(getString(R.string.key_ui_style));
         uiStyle.setSummary(
                 ValueUtils.getUIStyle(
@@ -55,6 +75,16 @@ public class SettingsFragment extends PreferenceFragment
                                         "material")));
         uiStyle.setOnPreferenceChangeListener(this);
 
+        Preference cardOrder = findPreference(getString(R.string.key_card_order));
+        cardOrder.setSummary(
+                ValueUtils.getCardOrder(
+                        getActivity(),
+                        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                .getString(
+                                        getString(R.string.key_card_order),
+                                        "daily_first")));
+        cardOrder.setOnPreferenceChangeListener(this);
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             findPreference(getString(R.string.key_navigationBar_color)).setEnabled(false);
         } else {
@@ -63,6 +93,9 @@ public class SettingsFragment extends PreferenceFragment
 
         Preference fahrenheit = findPreference(getString(R.string.key_fahrenheit));
         fahrenheit.setOnPreferenceChangeListener(this);
+
+        Preference imperial = findPreference(getString(R.string.key_imperial));
+        imperial.setOnPreferenceChangeListener(this);
 
         Preference refreshRate = findPreference(getString(R.string.key_refresh_rate));
         refreshRate.setSummary(
@@ -184,7 +217,25 @@ public class SettingsFragment extends PreferenceFragment
         }
     }
 
-    /** interface. */
+    private boolean hasChineseLocation() {
+        if (LanguageUtils.buildLocale(GeometricWeather.getInstance().getLanguage())
+                .getLanguage().toLowerCase().equals("zh")) {
+            return true;
+        }
+
+        List<Location> list = DatabaseHelper.getInstance(getActivity()).readLocationList();
+        for (int i = 0; i < list.size(); i ++) {
+            if (LanguageUtils.isChinese(list.get(i).city)
+                    || LanguageUtils.isChinese(list.get(i).prov)
+                    || LanguageUtils.isChinese(list.get(i).cnty)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // interface.
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
@@ -193,12 +244,20 @@ public class SettingsFragment extends PreferenceFragment
         if (preference.getKey().equals(getString(R.string.key_background_free))) {
             // background free.
             ServiceHelper.resetNormalService(getActivity(), false, true);
+        } else if (preference.getKey().equals(getString(R.string.key_chinese_source))) {
+            // Chinese source.
+            SnackbarUtils.showSnackbar(getString(R.string.feedback_readd_location_after_changing_source));
         } else if (preference.getKey().equals(getString(R.string.key_navigationBar_color))) {
             // navigation bar color.
             GeometricWeather.getInstance().setColorNavigationBar();
             DisplayUtils.setNavigationBarColor(getActivity(), 0);
         } else if (preference.getKey().equals(getString(R.string.key_fahrenheit))) {
             // ℉
+            GeometricWeather.getInstance().setFahrenheit(!GeometricWeather.getInstance().isFahrenheit());
+            SnackbarUtils.showSnackbar(getString(R.string.feedback_restart));
+        } else if (preference.getKey().equals(getString(R.string.key_imperial))) {
+            // imperial units.
+            GeometricWeather.getInstance().setImperial(!GeometricWeather.getInstance().isImperial());
             SnackbarUtils.showSnackbar(getString(R.string.feedback_restart));
         } else if (preference.getKey().equals(getString(R.string.key_forecast_today))) {
             // forecast today.
@@ -263,9 +322,24 @@ public class SettingsFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference.getKey().equals(getString(R.string.key_ui_style))) {
+        if (preference.getKey().equals(getString(R.string.key_chinese_source))) {
+            // Chinese source.
+            if (!GeometricWeather.getInstance().getChineseSource().equals(o)) {
+                DatabaseHelper.getInstance(getActivity()).clearLocation();
+                LocationHelper.clearLocationCache(getActivity());
+                SnackbarUtils.showSnackbar(getString(R.string.feedback_readd_location));
+            }
+            GeometricWeather.getInstance().setChineseSource((String) o);
+            preference.setSummary(ValueUtils.getChineseSource(getActivity(), (String) o));
+        } if (preference.getKey().equals(getString(R.string.key_ui_style))) {
             // UI style.
+            preference.setSummary(ValueUtils.getUIStyle(getActivity(), (String) o));
             SnackbarUtils.showSnackbar(getString(R.string.feedback_restart));
+        } else if (preference.getKey().equals(getString(R.string.key_card_order))) {
+            // Card order.
+            GeometricWeather.getInstance().setCardOrder((String) o);
+            preference.setSummary(ValueUtils.getCardOrder(getActivity(), (String) o));
+            SnackbarUtils.showSnackbar(getString(R.string.feedback_refresh_ui_after_refresh));
         } else if (preference.getKey().equals(getString(R.string.key_refresh_rate))) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
             editor.putString(getString(R.string.key_refresh_rate), (String) o);
@@ -274,6 +348,7 @@ public class SettingsFragment extends PreferenceFragment
             ServiceHelper.resetNormalService(getActivity(), false, true);
         } else if (preference.getKey().equals(getString(R.string.key_language))) {
             preference.setSummary(ValueUtils.getLanguage(getActivity(), (String) o));
+            GeometricWeather.getInstance().setLanguage((String) o);
             SnackbarUtils.showSnackbar(getString(R.string.feedback_restart));
         } else if (preference.getKey().equals(getString(R.string.key_widget_icon_style))
                 || preference.getKey().equals(getString(R.string.key_notification_icon_style))) {

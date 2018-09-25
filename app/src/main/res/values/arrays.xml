@@ -2,6 +2,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <!-- Chinese source. -->
+    <string-array name="chinese_sources">
+        <item>weather.com.cn</item>
+        <item>accuweather.com</item>
+    </string-array>
+    <string-array name="chinese_source_values">
+        <item>cn</item>
+        <item>accu</item>
+    </string-array>
+
     <!-- UI style. -->
     <string-array name="ui_styles">
         <item>Circular sky</item>
@@ -12,28 +22,46 @@
         <item>material</item>
     </string-array>
 
+    <!-- card order. -->
+    <string-array name="card_orders">
+        <item>Daily first</item>
+        <item>Hourly first</item>
+    </string-array>
+    <string-array name="card_order_values">
+        <item>daily_first</item>
+        <item>hourly_first</item>
+    </string-array>
+
     <!-- language. -->
     <string-array name="languages">
-        <item>Follow system</item>
+        <item>@string/follow_system</item>
         <item>中文</item>
         <item>繁體中文</item>
-        <item>English</item>
+        <item>English (America)</item>
+        <item>English (Britain)</item>
+        <item>English (Australia)</item>
         <item>Türkçe</item>
         <item>Français</item>
         <item>Pусский</item>
         <item>Deutsch</item>
         <item>Српски</item>
+        <item>Español</item>
+        <item>Italiano</item>
     </string-array>
     <string-array name="language_values">
         <item>follow_system</item>
         <item>chinese</item>
         <item>unsimplified_chinese</item>
-        <item>english</item>
+        <item>english_america</item>
+        <item>english_britain</item>
+        <item>english_australia</item>
         <item>turkish</item>
         <item>french</item>
         <item>russian</item>
         <item>german</item>
         <item>serbian</item>
+        <item>spanish</item>
+        <item>italian</item>
     </string-array>
 
     <!-- automatic refresh rate. -->
@@ -79,6 +107,7 @@
         <item>Nano</item>
         <item>Pixel</item>
         <item>Vertical</item>
+        <item>Oreo</item>
     </string-array>
     <string-array name="widget_style_values">
         <item>rectangle</item>
@@ -88,6 +117,7 @@
         <item>nano</item>
         <item>pixel</item>
         <item>vertical</item>
+        <item>oreo</item>
     </string-array>
 
     <!-- icon style. -->

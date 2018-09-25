@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import org.greenrobot.greendao.annotation.Entity;
 
 import wangdaye.com.geometricweather.data.entity.model.Location;
+import wangdaye.com.geometricweather.data.entity.table.weather.DaoMaster;
 
 import org.greenrobot.greendao.annotation.Id;
 
@@ -123,14 +124,14 @@ public class LocationEntity {
         }
     }
 
-    private static void clearLocation(SQLiteDatabase database) {
+    public static void clearLocation(SQLiteDatabase database) {
         new DaoMaster(database)
                 .newSession()
                 .getLocationEntityDao()
                 .deleteAll();
     }
 
-    // update
+    // updateRotation
 
     private static void updateLocation(SQLiteDatabase database, LocationEntity entity) {
         new DaoMaster(database)
@@ -170,6 +171,7 @@ public class LocationEntity {
         }
         if (locationList.size() <= 0) {
             locationList.add(Location.buildLocal());
+            insertLocation(database, locationList.get(0));
         }
         return locationList;
     }

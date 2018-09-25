@@ -4,7 +4,7 @@
     <string name="app_name">Weather</string>
     <string name="geometric_weather">Geometric Weather</string>
     <string name="package_name">wangdaye.com.geometricweather</string>
-    <string name="version_code">v2.005</string>
+    <string name="version_code">v2.111</string>
 
     <!-- keyword. -->
     <string name="local">local</string>
@@ -28,6 +28,8 @@
     <string name="nighttime">Nighttime</string>
     <string name="publish_at">Publish at</string>
     <string name="feels_like">Feels like</string>
+    <string name="exercise">运动指数</string>
+    <string name="follow_system">Follow system</string>
 
     <string name="of_clock">:00</string>
     <string name="yesterday">yday</string>
@@ -80,6 +82,12 @@
     <string name="translator">Translators</string>
     <string name="thanks">THX</string>
 
+    <string name="date_format_short">M-d</string>
+    <string name="date_format_long">MMM d</string>
+    <string name="date_format_widget_short">EEEE, MMM d</string>
+    <string name="date_format_widget_long">EEEE, MMM d</string>
+    <string name="date_format_widget_oreo_style">EEEE, MMM d │ </string>
+
     <!-- about. -->
     <string name="baidu_location">Baidu Location</string>
     <string name="retrofit">Retrofit 2.0</string>
@@ -97,6 +105,8 @@
 
     <!-- feedback. -->
     <string name="feedback_request_permission">Permissions</string>
+    <string name="feedback_request_location">Location</string>
+    <string name="feedback_request_location_in_background">Locating in background.</string>
     <string name="feedback_request_location_permission_success">Request location permission success.</string>
     <string name="feedback_request_location_permission_failed">Request location permission failed.</string>
     <string name="feedback_request_location_permission_fdroid">Location detection is not available in F-Droid version.</string>
@@ -127,6 +137,8 @@
     <string name="feedback_refresh_notification_now">Refresh now.</string>
     <string name="feedback_refresh_ui_after_refresh">Take effect when refresh data.</string>
     <string name="feedback_restart">Take effect when restart.</string>
+    <string name="feedback_readd_location">Please re-add locations.</string>
+    <string name="feedback_readd_location_after_changing_source">Please re-add locations after changing data source.</string>
 
     <!-- action -->
     <string name="action_alert">Alert</string>
@@ -140,21 +152,26 @@
     <string name="widget_week">Weekly</string>
     <string name="widget_day_week">Daily + Weekly</string>
     <string name="widget_clock_day_horizontal">Clock + Daily (Horizontal style)</string>
+    <string name="widget_clock_day_details">Clock + Daily (Details)</string>
     <string name="widget_clock_day_vertical">Clock + Daily (Vertical style)</string>
     <string name="widget_clock_day_week">Clock + Daily + Weekly</string>
+    <string name="widget_text">Text</string>
     <string name="wait_refresh">waiting</string>
     <string name="ellipsis">…</string>
 
     <!-- settings -->
     <string name="settings_category_basic">Basic</string>
     <string name="settings_title_background_free">Background free.</string>
+    <string name="settings_title_chinese_source">Chinese weather source.</string>
     <string name="settings_title_ui_style">UI style.</string>
+    <string name="settings_title_card_order">Card order.</string>
     <string name="settings_title_gravity_sensor_switch">Open gravity sensor.</string>
     <string name="settings_title_navigationBar_color">Navigation bar color.</string>
     <string name="settings_navigationBar_color_on">Show theme color.</string>
     <string name="settings_navigationBar_color_off">Dark.</string>
     <string name="settings_language">Language.</string>
     <string name="settings_title_fahrenheit">Fahrenheit.</string>
+    <string name="settings_title_imperial">Imperial units.</string>
     <string name="settings_title_refresh_rate">Automatic refresh rate</string>
     <string name="settings_title_alert_notification_switch">Send alert notification.</string>
     <string name="settings_title_permanent_service">Permanent service.</string>
@@ -191,8 +208,10 @@
     <string name="sp_widget_week_setting">widget_week_setting</string>
     <string name="sp_widget_day_week_setting">widget_day_week_setting</string>
     <string name="sp_widget_clock_day_horizontal_setting">widget_clock_day_horizontal_setting</string>
+    <string name="sp_widget_clock_day_details_setting">widget_clock_day_details_setting</string>
     <string name="sp_widget_clock_day_vertical_setting">widget_clock_day_vertical_setting</string>
     <string name="sp_widget_clock_day_week_setting">widget_clock_day_week_setting</string>
+    <string name="sp_widget_text_setting">widget_text_setting</string>
     <string name="key_view_type">view_type</string>
     <string name="key_show_card">showCard</string>
     <string name="key_hide_subtitle">hide_refresh_time</string>
@@ -200,11 +219,14 @@
     <string name="key_black_text">black_text</string>
 
     <string name="key_background_free">background_free</string>
+    <string name="key_chinese_source">chinese_source</string>
     <string name="key_ui_style">ui_style</string>
+    <string name="key_card_order">card_order</string>
     <string name="key_gravity_sensor_switch">gravity_sensor_switch</string>
     <string name="key_navigationBar_color">navigation_bar_color_switch</string>
     <string name="key_language">language</string>
     <string name="key_fahrenheit">fahrenheit</string>
+    <string name="key_imperial">imperial</string>
     <string name="key_refresh_rate">refresh_rate</string>
     <string name="key_alert_notification_switch">alert_notification_switch</string>
     <string name="key_forecast_today">timing_forecast_switch_today</string>

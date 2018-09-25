@@ -4,6 +4,7 @@
 
     <PreferenceCategory
         android:title="@string/settings_category_basic"
+        android:key="basic"
         android:layout="@layout/preference_category">
 
         <CheckBoxPreference
@@ -13,12 +14,28 @@
             android:summaryOff="@string/off" />
 
         <ListPreference
+            android:title="@string/settings_title_chinese_source"
+            android:key="@string/key_chinese_source"
+            android:entries="@array/chinese_sources"
+            android:entryValues="@array/chinese_source_values"
+            android:dialogTitle="@string/settings_title_chinese_source"
+            android:defaultValue="accu" />
+
+        <ListPreference
             android:title="@string/settings_title_ui_style"
             android:key="@string/key_ui_style"
             android:entries="@array/ui_styles"
             android:entryValues="@array/ui_style_values"
             android:dialogTitle="@string/settings_title_ui_style"
             android:defaultValue="material" />
+
+        <ListPreference
+            android:title="@string/settings_title_card_order"
+            android:key="@string/key_card_order"
+            android:entries="@array/card_orders"
+            android:entryValues="@array/card_order_values"
+            android:dialogTitle="@string/settings_title_card_order"
+            android:defaultValue="daily_first" />
 
         <CheckBoxPreference
             android:title="@string/settings_title_gravity_sensor_switch"
@@ -36,6 +53,12 @@
         <CheckBoxPreference
             android:title="@string/settings_title_fahrenheit"
             android:key="@string/key_fahrenheit"
+            android:summaryOn="@string/on"
+            android:summaryOff="@string/off" />
+
+        <CheckBoxPreference
+            android:title="@string/settings_title_imperial"
+            android:key="@string/key_imperial"
             android:summaryOn="@string/on"
             android:summaryOff="@string/off" />
 

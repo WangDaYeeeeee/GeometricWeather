@@ -6,11 +6,9 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.widget.Toast;
 
 import java.util.List;
 
-import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.data.entity.model.Location;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
 import wangdaye.com.geometricweather.utils.NotificationUtils;
@@ -19,7 +17,7 @@ import wangdaye.com.geometricweather.utils.helpter.PollingUpdateHelper;
 import wangdaye.com.geometricweather.utils.manager.ShortcutsManager;
 
 /**
- * Job update service.
+ * Job updateRotation service.
  * */
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -81,7 +79,7 @@ public abstract class JobUpdateService extends JobService
 
     // interface.
 
-    // on polling update listener.
+    // on polling updateRotation listener.
 
     @Override
     public void onUpdateCompleted(Location location, Weather weather, Weather old, boolean succeed) {
@@ -95,10 +93,6 @@ public abstract class JobUpdateService extends JobService
                         NotificationUtils.checkAndSendAlert(this, weather, old);
                     } else {
                         failed = true;
-                        Toast.makeText(
-                                JobUpdateService.this,
-                                getString(R.string.feedback_get_weather_failed),
-                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 return;

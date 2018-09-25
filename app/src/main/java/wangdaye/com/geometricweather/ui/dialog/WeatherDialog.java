@@ -8,20 +8,19 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
 import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.basic.GeoDialogFragment;
-import wangdaye.com.geometricweather.data.entity.model.Lunar;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
 import wangdaye.com.geometricweather.utils.LanguageUtils;
+import wangdaye.com.geometricweather.utils.helpter.LunarHelper;
 import wangdaye.com.geometricweather.utils.manager.TimeManager;
 import wangdaye.com.geometricweather.utils.ValueUtils;
 import wangdaye.com.geometricweather.utils.helpter.WeatherHelper;
@@ -63,7 +62,7 @@ public class WeatherDialog extends GeoDialogFragment
 
         TextView title = view.findViewById(R.id.dialog_weather_title);
         if (daily) {
-            title.setText(weather.dailyList.get(position).date.split("-", 2)[1]
+            title.setText(weather.dailyList.get(position).getDateInFormat(getString(R.string.date_format_long))
                     + " " + weather.dailyList.get(position).week);
         } else {
             title.setText(weather.hourlyList.get(position).time);
@@ -72,12 +71,7 @@ public class WeatherDialog extends GeoDialogFragment
         TextView subtitle = view.findViewById(R.id.dialog_weather_subtitle);
         if (daily && LanguageUtils.getLanguageCode(getActivity()).startsWith("zh")) {
             String dates[] = weather.dailyList.get(position).date.split("-");
-            Calendar c = Calendar.getInstance();
-            c.set(
-                    Integer.parseInt(dates[0]),
-                    Integer.parseInt(dates[1]) - 1,
-                    Integer.parseInt(dates[2]));
-            subtitle.setText(new Lunar(c).toString());
+            subtitle.setText(LunarHelper.getLunarDate(dates));
         } else {
             subtitle.setVisibility(View.GONE);
         }
@@ -136,23 +130,25 @@ public class WeatherDialog extends GeoDialogFragment
         if (daily) {
             String daytimeTxt = weather.dailyList.get(position).weathers[0] + "  "
                     + ValueUtils.buildCurrentTemp(weather.dailyList.get(position).temps[0], false, GeometricWeather.getInstance().isFahrenheit()) + "\n"
-                    + getString(R.string.wind) + " : " + weather.dailyList.get(position).windDirs[0] + " "
-                    + weather.dailyList.get(position).windSpeeds[0] + " (" + weather.dailyList.get(position).windLevels[0] + ") "
-                    + WeatherHelper.getWindArrows(weather.dailyList.get(position).windDegrees[0]) + "\n"
-                    + getString(R.string.precipitation) + " : " + weather.dailyList.get(position).precipitations[0] + "%";
+                    + getString(R.string.wind) + " : " + weather.dailyList.get(position).windDirs[0]
+                    + (TextUtils.isEmpty(weather.dailyList.get(position).windSpeeds[0]) ? "" : " " + weather.dailyList.get(position).windSpeeds[0])
+                    + " (" + weather.dailyList.get(position).windLevels[0] + ") "
+                    + WeatherHelper.getWindArrows(weather.dailyList.get(position).windDegrees[0])
+                    + (weather.dailyList.get(position).precipitations[0] >= 0 ? "\n" + getString(R.string.precipitation) + " : " + weather.dailyList.get(position).precipitations[0] + "%" : "");
             weatherTexts[0].setText(daytimeTxt);
 
             String nighttimeTxt = weather.dailyList.get(position).weathers[1] + "  "
                     + ValueUtils.buildCurrentTemp(weather.dailyList.get(position).temps[1], false, GeometricWeather.getInstance().isFahrenheit()) + "\n"
-                    + getString(R.string.wind) + " : " + weather.dailyList.get(position).windDirs[1] + " "
-                    + weather.dailyList.get(position).windSpeeds[1] + " (" + weather.dailyList.get(position).windLevels[1] + ") "
-                    + WeatherHelper.getWindArrows(weather.dailyList.get(position).windDegrees[1]) + "\n"
-                    + getString(R.string.precipitation) + " : " + weather.dailyList.get(position).precipitations[1] + "%";
+                    + getString(R.string.wind) + " : " + weather.dailyList.get(position).windDirs[1]
+                    + (TextUtils.isEmpty(weather.dailyList.get(position).windSpeeds[1]) ? "" : " " + weather.dailyList.get(position).windSpeeds[1])
+                    + " (" + weather.dailyList.get(position).windLevels[1] + ") "
+                    + WeatherHelper.getWindArrows(weather.dailyList.get(position).windDegrees[1])
+                    + (weather.dailyList.get(position).precipitations[1] >= 0 ? "\n" + getString(R.string.precipitation) + " : " + weather.dailyList.get(position).precipitations[1] + "%" : "");
             weatherTexts[1].setText(nighttimeTxt);
         } else {
             String text = weather.hourlyList.get(position).weather + "  "
-                    + ValueUtils.buildCurrentTemp(weather.hourlyList.get(position).temp, false, GeometricWeather.getInstance().isFahrenheit()) + "\n"
-                    + getString(R.string.precipitation) + " : " + weather.hourlyList.get(position).precipitation + "%";
+                    + ValueUtils.buildCurrentTemp(weather.hourlyList.get(position).temp, false, GeometricWeather.getInstance().isFahrenheit())
+                    + (weather.hourlyList.get(position).precipitation >= 0 ? "\n" + getString(R.string.precipitation) + " : " + weather.hourlyList.get(position).precipitation + "%" : "");
             weatherTexts[0].setText(text);
         }
         

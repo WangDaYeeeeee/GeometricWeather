@@ -1,10 +1,10 @@
 package wangdaye.com.geometricweather.ui.activity.widget;
 
 import android.annotation.SuppressLint;
-import android.app.WallpaperManager;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
@@ -39,7 +39,9 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
     private ImageView widgetCard;
     private ImageView widgetIcon;
     private TextClock widgetClock;
+    private TextClock widgetClockAA;
     private TextClock widgetTitle;
+    private TextView widgetLunar;
     private TextView widgetSubtitle;
     private TextView[] widgetWeeks;
     private ImageView[] widgetIcons;
@@ -72,7 +74,9 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
 
         this.widgetIcon = widgetView.findViewById(R.id.widget_clock_day_week_icon);
         this.widgetClock = widgetView.findViewById(R.id.widget_clock_day_week_clock);
+        this.widgetClockAA = widgetView.findViewById(R.id.widget_clock_day_week_clock_aa);
         this.widgetTitle = widgetView.findViewById(R.id.widget_clock_day_week_title);
+        this.widgetLunar = widgetView.findViewById(R.id.widget_clock_day_week_lunar);
         this.widgetSubtitle = widgetView.findViewById(R.id.widget_clock_day_week_subtitle);
 
         this.widgetWeeks = new TextView[] {
@@ -95,7 +99,7 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
                 widgetView.findViewById(R.id.widget_clock_day_week_temp_5)};
 
         ImageView wallpaper = findViewById(R.id.activity_create_widget_clock_day_week_wall);
-        wallpaper.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
+        bindWallpaper(wallpaper);
 
         this.container = findViewById(R.id.activity_create_widget_clock_day_week_container);
 
@@ -131,6 +135,7 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
                 .load(imageId)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(widgetIcon);
+        widgetLunar.setText(WidgetClockDayWeekUtils.getLunarText(this));
         widgetSubtitle.setText(WidgetClockDayWeekUtils.getSubtitleText(weather, isFahrenheit()));
 
         for (int i = 0; i < 5; i ++) {
@@ -151,7 +156,9 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
                 widgetCard.setVisibility(View.GONE);
             }
             widgetClock.setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
+            widgetClockAA.setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
             widgetTitle.setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
+            widgetLunar.setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
             widgetSubtitle.setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
             for (int i = 0; i < 5; i ++) {
                 widgetWeeks[i].setTextColor(ContextCompat.getColor(this, R.color.colorTextDark));
@@ -160,7 +167,9 @@ public class CreateWidgetClockDayWeekActivity extends GeoWidgetConfigActivity
         } else {
             widgetCard.setVisibility(View.GONE);
             widgetClock.setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));
+            widgetClockAA.setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));
             widgetTitle.setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));
+            widgetLunar.setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));
             widgetSubtitle.setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));
             for (int i = 0; i < 5; i ++) {
                 widgetWeeks[i].setTextColor(ContextCompat.getColor(this, R.color.colorTextLight));

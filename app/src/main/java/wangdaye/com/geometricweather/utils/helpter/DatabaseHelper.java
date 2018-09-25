@@ -3,21 +3,27 @@ package wangdaye.com.geometricweather.utils.helpter;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
+import wangdaye.com.geometricweather.R;
+import wangdaye.com.geometricweather.data.entity.model.CNCityList;
 import wangdaye.com.geometricweather.data.entity.model.History;
 import wangdaye.com.geometricweather.data.entity.model.Location;
 import wangdaye.com.geometricweather.data.entity.model.weather.Weather;
-import wangdaye.com.geometricweather.data.entity.table.DaoMaster;
+import wangdaye.com.geometricweather.data.entity.table.CNCityEntity;
+import wangdaye.com.geometricweather.data.entity.table.CNCityEntityDao;
 import wangdaye.com.geometricweather.data.entity.table.HistoryEntity;
 import wangdaye.com.geometricweather.data.entity.table.LocationEntity;
+import wangdaye.com.geometricweather.data.entity.table.LocationEntityDao;
 import wangdaye.com.geometricweather.data.entity.table.weather.AlarmEntity;
 import wangdaye.com.geometricweather.data.entity.table.weather.AlarmEntityDao;
 import wangdaye.com.geometricweather.data.entity.table.weather.DailyEntity;
 import wangdaye.com.geometricweather.data.entity.table.weather.DailyEntityDao;
+import wangdaye.com.geometricweather.data.entity.table.weather.DaoMaster;
 import wangdaye.com.geometricweather.data.entity.table.weather.HourlyEntity;
 import wangdaye.com.geometricweather.data.entity.table.weather.HourlyEntityDao;
 import wangdaye.com.geometricweather.data.entity.table.weather.WeatherEntity;
@@ -41,18 +47,40 @@ public class DatabaseHelper {
     }
 
     private GeoWeatherOpenHelper helper;
+
+    private boolean writingCityList;
+    private final Object writingLock = new Object();
+
     private final static String DATABASE_NAME = "Geometric_Weather_db";
 
     private class GeoWeatherOpenHelper extends DaoMaster.DevOpenHelper {
 
+        private Context context;
+
         GeoWeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
             super(context, name, factory);
+            this.context = context;
         }
 
         @Override
         public void onUpgrade(Database db, int oldVersion, int newVersion) {
             Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
+            if (newVersion >= 27 && oldVersion < 29) {
+                // delete locations and guide user to re-add them in version 27 - 28.
+                LocationEntityDao.dropTable(db, true);
+                LocationEntityDao.createTable(db, true);
+                Toast.makeText(
+                        context,
+                        context.getString(R.string.feedback_readd_location),
+                        Toast.LENGTH_SHORT).show();
+            }
+            if (newVersion >= 24 && oldVersion < 26) {
+                // added and modified cn city entity in version 24 - 26.
+                CNCityEntityDao.dropTable(db, true);
+                CNCityEntityDao.createTable(db, true);
+            }
             if (newVersion >= 22) {
+                // rebuild all entities in version 22 and version 23.
                 if (oldVersion < 23) {
                     WeatherEntityDao.dropTable(db, true);
                     DailyEntityDao.dropTable(db, true);
@@ -72,6 +100,7 @@ public class DatabaseHelper {
 
     private DatabaseHelper(Context c) {
         helper = new GeoWeatherOpenHelper(c, DATABASE_NAME, null);
+        writingCityList = false;
     }
 
     private SQLiteDatabase getDatabase() {
@@ -92,6 +121,10 @@ public class DatabaseHelper {
         LocationEntity.deleteLocation(getDatabase(), location);
     }
 
+    public void clearLocation() {
+        LocationEntity.clearLocation(getDatabase());
+    }
+
     public List<Location> readLocationList() {
         return LocationEntity.readLocationList(getDatabase());
     }
@@ -100,6 +133,10 @@ public class DatabaseHelper {
 
     public void writeHistory(Weather weather) {
         HistoryEntity.insertHistory(getDatabase(), weather);
+    }
+
+    public void writeHistory(History history) {
+        HistoryEntity.insertHistory(getDatabase(), history);
     }
 
     public History readHistory(Weather weather) {
@@ -124,6 +161,37 @@ public class DatabaseHelper {
                     .buildWeatherAlarmList(AlarmEntity.searchLocationAlarmEntity(getDatabase(), location));
         }
         return weather;
+    }
+
+    // cn city.
+
+    public void writeCityList(CNCityList list) {
+        if (!writingCityList) {
+            synchronized (writingLock) {
+                if (!writingCityList) {
+                    writingCityList = true;
+                    CNCityEntity.removeCNCityList(getDatabase());
+                    CNCityEntity.insertCNCityList(getDatabase(), list);
+                    writingCityList = false;
+                }
+            }
+        }
+    }
+
+    public CNCityList.CNCity readCNCity(String name) {
+        return CNCityEntity.searchCNCity(getDatabase(), name);
+    }
+
+    public CNCityList.CNCity readCNCity(String name, String province) {
+        return CNCityEntity.searchCNCity(getDatabase(), name, province);
+    }
+
+    public List<CNCityList.CNCity> fuzzyReadCNCity(String name) {
+        return CNCityEntity.fuzzySearchCNCity(getDatabase(), name);
+    }
+
+    public long countCNCity() {
+        return CNCityEntity.countCNCity(getDatabase());
     }
 /*
     // city.
