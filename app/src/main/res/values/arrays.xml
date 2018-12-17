@@ -60,6 +60,7 @@
         <item>Español</item>
         <item>Italiano</item>
         <item>Dutch</item>
+        <item>Magyar</item>
     </string-array>
     <string-array name="language_values">
         <item>follow_system</item>
@@ -76,6 +77,7 @@
         <item>spanish</item>
         <item>italian</item>
         <item>dutch</item>
+        <item>hungarian</item>
     </string-array>
 
     <!-- automatic refresh rate. -->
