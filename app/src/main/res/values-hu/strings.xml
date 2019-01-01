@@ -29,7 +29,7 @@
     <string name="follow_system">Rendszer Követése</string>
     <string name="background_information">Háttérinformáció</string>
 
-    <string name="of_clock">:00</string>
+    <string name="f_clock">:00</string>
     <string name="yesterday">Tegnap</string>
     <string name="tomorrow">Holnap</string>
     <string name="week">Hét</string>
@@ -79,7 +79,7 @@
     <string name="donate">Adományozás (Alipay)</string>
     <string name="gitHub">GitHub</string>
     <string name="translator">Fordítók</string>
-    <string name="thanks">Köszönetek</string>
+    <string name="thanks">Köszönet</string>
 
     <string name="date_format_short">M-d</string>
     <string name="date_format_long">MMM d</string>
@@ -111,7 +111,7 @@
     <string name="feedback_delete_succeed">Sikeres terület törlés.</string>
     <string name="feedback_location_list_cannot_be_null">A területlista nem lehet üres.</string>
 
-    <string name="feedback_search_location">Keressen egy területre vagy \"local\"…</string>
+    <string name="feedback_search_location">Keressen egy területre vagy \"helyi\"…</string>
     <string name="feedback_not_yet_location">Még nincs meghatározva a hely…</string>
     <string name="feedback_search_nothing">Nem találhatóm semmi…</string>
     <string name="feedback_initializing">Keresés indítása…</string>
@@ -151,47 +151,52 @@
 
     <!-- settings -->
     <string name="settings_category_basic">Alapvető</string>
-    <string name="settings_title_background_free">Háttérfeladat mentes.</string>
-    <string name="settings_title_chinese_source">Időjárás forrása.</string>
-    <string name="settings_title_location_service">Helymeghatározó szolgáltatás.</string>
-    <string name="settings_title_ui_style">UI stílus.</string>
-    <string name="settings_title_card_order">Kártya sorrend.</string>
-    <string name="settings_title_gravity_sensor_switch">Gravitációs érzékelő megnyitása.</string>
-    <string name="settings_title_navigationBar_color">Navigációs sáv színe.</string>
-    <string name="settings_navigationBar_color_on">Témaszín mutatása.</string>
-    <string name="settings_navigationBar_color_off">Sötét.</string>
-    <string name="settings_language">Nyelv.</string>
-    <string name="settings_title_fahrenheit">Fahrenheit.</string>
-    <string name="settings_title_imperial">Imperial units.</string>
+    <string name="settings_title_service_provider">Időjárás szolgáltatás</string>
+    <string name="settings_summary_service_provider">Válassza ki az időjárás és a helyzetmeghatározás szolgáltatóját.</string>
+    <string name="settings_title_background_free">Háttérfeladat mentes</string>
+    <string name="settings_title_chinese_source">Időjárás forrása</string>
+    <string name="settings_title_location_service">Helymeghatározó szolgáltatás</string>
+    <string name="settings_title_ui_style">UI stílus</string>
+    <string name="settings_title_card_order">Kártya sorrend</string>
+    <string name="settings_title_gravity_sensor_switch">Gravitációs érzékelő megnyitása</string>
+    <string name="settings_title_navigationBar_color">Navigációs sáv színezése</string>
+    <string name="settings_navigationBar_color_on">Bekapcsolás</string>
+    <string name="settings_navigationBar_color_off">Kikapcsolás</string>
+    <string name="settings_language">Nyelv</string>
+    
+    <string name="settings_title_unit">Mértékegység</string>
+    <string name="settings_summary_unit">Időjárásadatok mértékegységének beállítása.</string>
+    <string name="settings_title_fahrenheit">Fahrenheit</string>
+    <string name="settings_title_imperial">Imperiális</string>    
     <string name="settings_title_refresh_rate">Automatikus frissítések ideje</string>
-    <string name="settings_title_alert_notification_switch">Riasztás értesítések küldése.</string>
-    <string name="settings_title_permanent_service">Állandó szolgáltatás.</string>
+    <string name="settings_title_alert_notification_switch">Riasztási értesítések küldése</string>
+    <string name="settings_title_permanent_service">Állandó szolgáltatás</string>
     <string name="settings_category_forecast">Előrejelzés</string>
-    <string name="settings_title_forecast_today">Mai előrejelzés.</string>
-    <string name="settings_title_forecast_today_time">Készítsen egy előrejelzést mához.</string>
-    <string name="settings_title_forecast_tomorrow">Holnapi előrejelzés.</string>
-    <string name="settings_title_forecast_tomorrow_time">Készítsen egy előrejelzést holnaphoz.</string>
+    <string name="settings_title_forecast_today">Mai előrejelzés</string>
+    <string name="settings_title_forecast_today_time">Készítsen egy előrejelzést a mai naphoz</string>
+    <string name="settings_title_forecast_tomorrow">Holnapi előrejelzés</string>
+    <string name="settings_title_forecast_tomorrow_time">Készítsen egy előrejelzést a holnapi naphoz</string>
     <string name="settings_category_widget">Widget</string>
-    <string name="settings_title_icon_style">Ikonok stílusa.</string>
-    <string name="settings_title_click_widget_to_refresh">Widget frissítése kattintásra.</string>
+    <string name="settings_title_icon_style">Ikonok stílusa</string>
+    <string name="settings_title_click_widget_to_refresh">Widget frissítése kattintásra</string>
     <string name="settings_category_notification">Értesítés</string>
-    <string name="settings_title_notification">Értesítés küldése.</string>
-    <string name="settings_title_notification_temp_icon">Hőmérséklet mutatása kis ikonnal.</string>
-    <string name="settings_title_notification_text_color">Szöveg színe.</string>
-    <string name="settings_title_notification_background">Háttér színe.</string>
-    <string name="settings_notification_background_on">Ugyanaz, mint a beállításokban megadott.</string>
-    <string name="settings_notification_background_off">Rendszer követése.</string>
-    <string name="settings_title_notification_can_be_cleared">Törölhető legyen.</string>
-    <string name="settings_notification_can_be_cleared_on">Törölhető legyen.</string>
-    <string name="settings_notification_can_be_cleared_off">Ne legyen törölhető.</string>
-    <string name="settings_title_notification_hide_icon">Értesítési ikon elrejtése.</string>
-    <string name="settings_notification_hide_icon_on">Elrejtés.</string>
-    <string name="settings_notification_hide_icon_off">Mutatás.</string>
-    <string name="settings_title_notification_hide_in_lockScreen">Zárolt képernyőn elrejtés.</string>
-    <string name="settings_notification_hide_in_lockScreen_on">Elrejtés.</string>
-    <string name="settings_notification_hide_in_lockScreen_off">Mutatás.</string>
-    <string name="settings_title_notification_hide_big_view">Nagy méret rejtése.</string>
-    <string name="settings_notification_hide_big_view_on">Elrejtés.</string>
-    <string name="settings_notification_hide_big_view_off">Mutatás.</string>
+    <string name="settings_title_notification">Értesítés küldése</string>
+    <string name="settings_title_notification_temp_icon">Hőmérséklet mutatása kis ikonnal</string>
+    <string name="settings_title_notification_text_color">Szöveg színe</string>
+    <string name="settings_title_notification_background">Háttér színe</string>
+    <string name="settings_notification_background_on">Bekapcsolás</string>
+    <string name="settings_notification_background_off">Rendszerbeállítás használata</string>
+    <string name="settings_title_notification_can_be_cleared">Törölhető legyen</string>
+    <string name="settings_notification_can_be_cleared_on">Lehessen törölni</string>
+    <string name="settings_notification_can_be_cleared_off">Ne legyen törölhető</string>
+    <string name="settings_title_notification_hide_icon">Értesítési ikon elrejtése</string>
+    <string name="settings_notification_hide_icon_on">Elrejtés</string>
+    <string name="settings_notification_hide_icon_off">Megjelenítés</string>
+    <string name="settings_title_notification_hide_in_lockScreen">Zárolt képernyőn elrejtés</string>
+    <string name="settings_notification_hide_in_lockScreen_on">Elrejtés</string>
+    <string name="settings_notification_hide_in_lockScreen_off">Megjelenítés</string>
+    <string name="settings_title_notification_hide_big_view">Nagy méret rejtése</string>
+    <string name="settings_notification_hide_big_view_on">Elrejtés</string>
+    <string name="settings_notification_hide_big_view_off">Mutatás</string>
 
 </resources>
