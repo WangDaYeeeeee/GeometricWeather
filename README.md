@@ -15,7 +15,7 @@
 ### 上架情况
 
 * 酷安： http://www.coolapk.com/apk/wangdaye.com.geometricweather
-* google play： https://play.google.com/store/apps/details?id=wangdaye.com.geometricweather
+* Google Play： https://play.google.com/store/apps/details?id=wangdaye.com.geometricweather
 
 
 ### 联系作者
