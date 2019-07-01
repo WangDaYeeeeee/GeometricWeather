@@ -90,8 +90,8 @@
     <string name="next">NEXT</string>
     <string name="done">DONE</string>
     <string name="cancel" tools:ignore="ButtonCase">CANCEL</string>
-    <string name="on">ON</string>
-    <string name="off">OFF</string>
+    <string name="on">Enabled</string>
+    <string name="off">Disabled</string>
     <string name="go_to_set">SET</string>
     <string name="help">HELP</string>
     <string name="learn_more">LEARN MORE</string>
@@ -138,12 +138,12 @@
     <string name="feedback_enable_location_information">Enable Location Information</string>
     <string name="feedback_select_location_provider">Select Location Provider</string>
 
-    <string name="feedback_view_style">View style</string>
-    <string name="feedback_show_widget_card">Card background</string>
-    <string name="feedback_show_widget_card_alpha">Card alpha</string>
+    <string name="feedback_view_style">Style</string>
+    <string name="feedback_show_widget_card">Background color</string>
+    <string name="feedback_show_widget_card_alpha">Transparency</string>
     <string name="feedback_hide_subtitle">Hide subtitle</string>
     <string name="feedback_subtitle_data">Subtitle data</string>
-    <string name="feedback_black_text">Dark text.</string>
+    <string name="feedback_black_text">Text color</string>
     <string name="feedback_clock_font">Clock font</string>
 
     <string name="feedback_click_toggle">Press chart to toggle data</string>
@@ -204,24 +204,24 @@
     <!-- settings -->
     <string name="settings_category_basic">Basic</string>
     <string name="settings_title_background_free">Background Free</string>
-    <string name="settings_summary_background_free_on">ON\nIf widgets and notification cannot refresh automatically, please turn off this option.</string>
-    <string name="settings_summary_background_free_off">OFF\nIf you do not want any services to continue working in background, please turn on this option.</string>
+    <string name="settings_summary_background_free_on">Enabled\nIf widgets and notification cannot refresh automatically, please turn off this option.</string>
+    <string name="settings_summary_background_free_off">Disabled\nIf you do not want any services to continue working in background, please turn on this option.</string>
     <string name="settings_title_live_wallpaper">Live wallpaper</string>
     <string name="settings_summary_live_wallpaper">Set Material weather animation as live wallpaper</string>
     <string name="settings_title_service_provider">Service provider</string>
     <string name="settings_summary_service_provider">Select service provider of weather data and location information</string>
-    <string name="settings_title_chinese_source">Chinese weather source</string>
-    <string name="settings_title_location_service">Location Service</string>
+    <string name="settings_title_chinese_source">Weather service</string>
+    <string name="settings_title_location_service">Location service</string>
     <string name="settings_title_dark_mode">Dark mode</string>
-    <string name="settings_title_ui_style">Interface Style</string>
-    <string name="settings_title_icon_provider">Icon provider</string>
+    <string name="settings_title_ui_style">Interface style</string>
+    <string name="settings_title_icon_provider">Icon pack</string>
     <string name="settings_title_appearance">Appearance</string>
     <string name="settings_summary_appearance">Interface style, card order, language…</string>
     <string name="settings_title_card_display">Displayed cards</string>
     <string name="settings_title_card_order">Card order</string>
     <string name="settings_title_gravity_sensor_switch">Gravity sensor</string>
     <string name="settings_language">Language</string>
-    <string name="settings_title_unit">Unit</string>
+    <string name="settings_title_unit">Units</string>
     <string name="settings_summary_unit">Set the unit of weather data</string>
     <string name="settings_title_fahrenheit">Fahrenheit</string>
     <string name="settings_title_imperial">Imperial unit</string>

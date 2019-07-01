@@ -15,6 +15,13 @@
         <item>API Nativa</item>
     </string-array>
 
+    <!-- Dark mode. -->
+    <string-array name="dark_modes">
+        <item>Automático</item>
+        <item>Siempre claro</item>
+        <item>Siempre oscuro</item>
+    </string-array>
+
     <!-- automatic refresh rate. -->
     <string-array name="automatic_refresh_rates">
         <item>0:30</item>

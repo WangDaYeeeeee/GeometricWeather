@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- app. -->
-    <string name="app_name">Weather</string>
+    <string name="app_name">Tiempo</string>
     <string name="geometric_weather">Geometric Weather</string>
 
     <!-- keyword. -->
@@ -64,7 +64,7 @@
     <string name="hourly_overview">Pronóstico por horas</string>
     <string name="air_quality">calidad del aire</string>
     <string name="life_details">Detalles</string>
-    <string name="sunrise_sunset">Posición del sol y la luna</string>
+    <string name="sunrise_sunset">Posición solar/lunar</string>
 
     <string name="next">SIGUIENTE</string>
     <string name="done">HECHO</string>
@@ -89,11 +89,11 @@
     <string name="feedback_location_failed">Localización fallida.</string>
     <string name="feedback_get_weather_failed">Solicitud del clima fallida.</string>
 
-    <string name="feedback_view_style">Estilo de la vista</string>
-    <string name="feedback_show_widget_card">Fondo de la tarjeta</string>
+    <string name="feedback_view_style">Estilo</string>
+    <string name="feedback_show_widget_card">Color de fondo</string>
     <string name="feedback_hide_subtitle">Ocultar subtítulo</string>
-    <string name="feedback_subtitle_data">Datos del subtítulo.</string>
-    <string name="feedback_black_text">Texto oscuro.</string>
+    <string name="feedback_subtitle_data">Datos en subtítulo</string>
+    <string name="feedback_black_text">Color del texto</string>
 
     <string name="feedback_click_toggle">Pulse en la tabla para alternar datos</string>
     <string name="feedback_no_data">SIN DATOS</string>
@@ -147,7 +147,7 @@
     <string name="settings_title_forecast_tomorrow">Pronóstico para mañana</string>
     <string name="settings_title_forecast_tomorrow_time">Hora del pronóstico para mañana</string>
     <string name="settings_category_widget">Widget</string>
-    <string name="settings_title_icon_provider">Proveedor de iconos</string>
+    <string name="settings_title_icon_provider">Paquete de iconos</string>
     <string name="settings_title_click_widget_to_refresh">Actualizar widget al pulsar en él</string>
     <string name="settings_category_notification">Notificación</string>
     <string name="settings_title_notification">Mostrar notificación</string>
@@ -196,7 +196,7 @@
     <string name="feedback_request_location_in_background">Localizando en segundo plano</string>
     <string name="feedback_running_in_background">Ejecutandose en segundo plano para continuar actualizándose</string>
     <string name="feedback_select_location_provider">Seleccione proveedor de localización</string>
-    <string name="feedback_show_widget_card_alpha">Transparencia de la tarjeta</string>
+    <string name="feedback_show_widget_card_alpha">Transparencia del fondo</string>
     <string name="feedback_unusable_geocoder">Este dispositivo no dispone de un geocoder válido. El proveedor de localización ha sido cambiado a Baidu.</string>
     <string name="feedback_updating_weather_data">Actualizando datos meteorológicos</string>
     <string name="get_more">Consiga más</string>
@@ -206,15 +206,15 @@
     <string name="pressure">Presión atmosférica</string>
     <string name="refresh">Refrescar</string>
     <string name="settings_summary_appearance">Estilo de la interfaz, orden de las tarjetas, idioma...</string>
-    <string name="settings_summary_background_free_off">Desactivado</string>
-    <string name="settings_summary_background_free_on">Activado</string>
+    <string name="settings_summary_background_free_on">Activado\nSi los widgets o las notificaciones no se actualizan automáticamente, por favor desactive esta opción</string>
+    <string name="settings_summary_background_free_off">Desactivado\nSi no desea que un servicio continúe trabajando en segundo plano, por favor active esta opción</string>
     <string name="settings_summary_live_wallpaper">Establecer animaciones meteorológicas Material como fondo de pantalla animado</string>
     <string name="settings_summary_service_provider">Seleccione proveedor de datos meteorológicos e información de localización</string>
     <string name="settings_summary_unit">Seleccione las unidades de la información meteorológica</string>
     <string name="settings_title_appearance">Apariencia</string>
     <string name="settings_title_card_display">Tarjetas mostradas</string>
     <string name="settings_title_card_order">Orden de las tarjetas</string>
-    <string name="settings_title_chinese_source">Fuente meteorológica china</string>
+    <string name="settings_title_chinese_source">Servicio meteorológico</string>
     <string name="settings_title_dark_mode">Tema oscuro</string>
     <string name="settings_title_imperial">Unidades imperiales</string>
     <string name="settings_title_live_wallpaper">Fondo de pantalla animado</string>
@@ -232,9 +232,9 @@
     <string name="phase_new">Luna nueva</string>
     <string name="phase_third">Cuarto menguante</string>
     <string name="phase_first">Cuarto creciente</string>
-    <string name="phase_waning_crescent">Luna menguante cóncava</string>
-    <string name="phase_waning_gibbous">Luna menguante convexa</string>
-    <string name="phase_waxing_crescent">Luna creciente cóncava</string>
-    <string name="phase_waxing_gibbous">Luna creciente convexa</string>
+    <string name="phase_waning_crescent">Menguante cóncava</string>
+    <string name="phase_waning_gibbous">Menguante convexa</string>
+    <string name="phase_waxing_crescent">Creciente cóncava</string>
+    <string name="phase_waxing_gibbous">Creciente convexa</string>
 
 </resources>
