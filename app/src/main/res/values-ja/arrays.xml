@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <!-- Do not translate those arrays which named "xxx_values". -->
+    <!-- Do not translate those items with a value of "@string/xxx". -->
+
+    <!-- Chinese source. -->
+    <string-array name="weather_sources">
+        <item>weather.com.cn (中国のみ)</item>
+        <item>caiyun.com (中国のみ)</item>
+        <item>accuweather.com</item>
+    </string-array>
+    <string-array name="weather_source_values">
+        <item>cn</item>
+        <item>caiyun</item>
+        <item>accu</item>
+    </string-array>
+
+    <!-- Location service. -->
+    <string-array name="location_services">
+        <item>Baidu Location</item>
+        <item>Baidu IP Location (中国のみ)</item>
+        <item>AMap Location</item>
+        <item>Native API</item>
+    </string-array>
+    <string-array name="location_service_values">
+        <item>baidu</item>
+        <item>baidu_ip</item>
+        <item>amap</item>
+        <item>native</item>
+    </string-array>
+
+    <!-- Dark mode. -->
+    <string-array name="dark_modes">
+        <item>自動</item>
+        <item>ライトモード</item>
+        <item>ダークモード</item>
+    </string-array>
+    <string-array name="dark_mode_values">
+        <item>auto</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <!-- UI style. -->
+    <string-array name="ui_styles">
+        <item>Circular sky</item>
+        <item>Material animation</item>
+    </string-array>
+    <string-array name="ui_style_values">
+        <item>circular</item>
+        <item>material</item>
+    </string-array>
+    <!-- automatic refresh rate. -->
+    <string-array name="automatic_refresh_rates">
+        <item>30分</item>
+        <item>1時間</item>
+        <item>1.5時間</item>
+        <item>2時間</item>
+        <item>2.5時間</item>
+        <item>3時間</item>
+        <item>3.5時間</item>
+        <item>4時間</item>
+        <item>4.5時間</item>
+        <item>5時間</item>
+        <item>5.5時間</item>
+        <item>6時間</item>
+    </string-array>
+    <string-array name="automatic_refresh_rate_values">
+        <item>0:30</item>
+        <item>1:00</item>
+        <item>1:30</item>
+        <item>2:00</item>
+        <item>2:30</item>
+        <item>3:00</item>
+        <item>3:30</item>
+        <item>4:00</item>
+        <item>4:30</item>
+        <item>5:00</item>
+        <item>5:30</item>
+        <item>6:00</item>
+    </string-array>
+
+    <!-- widget week icon mode. -->
+    <string-array name="week_icon_modes">
+        <item>自動</item>
+        <item>@string/daytime</item><!-- do not translate. -->
+        <item>@string/nighttime</item><!-- do not translate. -->
+    </string-array>
+    <string-array name="week_icon_mode_values">
+        <item>auto</item>
+        <item>day</item>
+        <item>night</item>
+    </string-array>
+
+    <!-- notification style. -->
+    <string-array name="notification_styles">
+        <item>Native</item>
+        <item>@string/geometric_weather</item><!-- do not translate. -->
+    </string-array>
+    <string-array name="notification_style_values">
+        <item>native</item>
+        <item>geometric</item>
+    </string-array>
+
+    <!-- notification text color. -->
+    <string-array name="notification_text_colors">
+        <item>ダーク</item>
+        <item>グレー</item>
+        <item>ライト</item>
+    </string-array>
+    <string-array name="notification_text_color_values">
+        <item>dark</item>
+        <item>grey</item>
+        <item>light</item>
+    </string-array>
+
+    <!-- notification background colors. -->
+    <!-- Do not translate this array. -->
+    <integer-array name="notification_background_colors">
+        <item>@color/notification_background_l</item>
+        <item>@color/notification_background_m</item>
+        <item>@color/notification_background_o</item>
+        <item>@color/notification_background_rootLight</item>
+        <item>@color/notification_background_rootDark</item>
+        <item>@color/notification_background_primary</item>
+    </integer-array>
+
+    <!-- widget style. -->
+    <string-array name="widget_styles">
+        <item>長方形</item>
+        <item>対称的</item>
+        <item>タイル</item>
+        <item>ミニ</item>
+        <item>ナノ</item>
+        <item>ピクセル</item>
+        <item>垂直</item>
+        <item>Oreo</item>
+        <item>Oreo (Google sans)</item>
+    </string-array>
+    <string-array name="widget_style_values">
+        <item>rectangle</item>
+        <item>symmetry</item>
+        <item>tile</item>
+        <item>mini</item>
+        <item>nano</item>
+        <item>pixel</item>
+        <item>vertical</item>
+        <item>oreo</item>
+        <item>oreo_google_sans</item>
+    </string-array>
+
+    <!-- Widget subtitle data. -->
+    <string-array name="subtitle_data">
+        <item>更新時刻</item>
+        <item>AQI (一部エリアでは無効です)</item>
+        <item>風</item>
+        <item>体感温度</item>
+        <item>旧暦</item>
+        <item>カスタム</item>
+    </string-array>
+    <string-array name="subtitle_data_values">
+        <item>time</item>
+        <item>aqi</item>
+        <item>wind</item>
+        <item>sensible_time</item>
+        <item>lunar</item>
+        <item>custom</item>
+    </string-array>
+
+    <!-- widget clock font. -->
+    <string-array name="clock_font">
+        <item>sans-serif-light</item>
+        <item>sans-serif</item>
+        <item>sans-serif-black</item>
+        <item>analog</item>
+    </string-array>
+    <string-array name="clock_font_values">
+        <item>light</item>
+        <item>normal</item>
+        <item>black</item>
+        <item>analog</item>
+    </string-array>
+
+    <!-- widget card style. -->
+    <string-array name="widget_card_styles">
+        <item>None</item>
+        <item>自動</item>
+        <item>ライトモード</item>
+        <item>ダークモード</item>
+    </string-array>
+    <string-array name="widget_card_style_values">
+        <item>none</item>
+        <item>auto</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <!-- widget clock font. -->
+    <string-array name="widget_text_colors">
+        <item>ライト</item>
+        <item>ダーク</item>
+        <item>自動</item>
+    </string-array>
+    <string-array name="widget_text_color_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>auto</item>
+    </string-array>
+
+    <!-- live wallpaper weather kind. -->
+    <string-array name="live_wallpaper_weather_kinds">
+        <item>自動</item>
+        <item>晴れ</item>
+        <item>一部曇り</item>
+        <item>曇り</item>
+        <item>雨</item>
+        <item>雪</item>
+        <item>みぞれ</item>
+        <item>ひょう</item>
+        <item>霧</item>
+        <item>かすみ</item>
+        <item>雷</item>
+        <item>雷雨</item>
+        <item>風</item>
+    </string-array>
+    <string-array name="live_wallpaper_weather_kind_values">
+        <item>auto</item>
+        <item>CLEAR</item>
+        <item>PARTLY_CLOUDY</item>
+        <item>CLOUDY</item>
+        <item>RAIN</item>
+        <item>SNOW</item>
+        <item>SLEET</item>
+        <item>HAIL</item>
+        <item>FOG</item>
+        <item>HAZE</item>
+        <item>THUNDER</item>
+        <item>THUNDERSTORM</item>
+        <item>WIND</item>
+    </string-array>
+
+    <!-- live wallpaper weather kind. -->
+    <string-array name="live_wallpaper_day_night_types">
+        <item>自動</item>
+        <item>日中</item>
+        <item>夜間</item>
+    </string-array>
+    <string-array name="live_wallpaper_day_night_type_values">
+        <item>auto</item>
+        <item>day</item>
+        <item>night</item>
+    </string-array>
+
+    <!-- speed unit. -->
+    <string-array name="speed_units">
+        <item>km/h</item>
+        <item>m/s</item>
+        <item>kn</item>
+        <item>mi/h</item>
+        <item>ft/s</item>
+    </string-array>
+    <string-array name="speed_unit_values">
+        <item>kph</item>
+        <item>mps</item>
+        <item>kn</item>
+        <item>mph</item>
+        <item>ftps</item>
+    </string-array>
+
+    <!-- precipitation unit. -->
+    <string-array name="precipitation_units">
+        <item>mm</item>
+        <item>inch</item>
+        <item>L/m²</item>
+    </string-array>
+    <string-array name="precipitation_unit_values">
+        <item>mm</item>
+        <item>in</item>
+        <item>lpsqm</item>
+    </string-array>
+
+    <!-- temperature unit. -->
+    <string-array name="temperature_units">
+        <item>℃</item>
+        <item>℉</item>
+        <item>K</item>
+    </string-array>
+    <string-array name="temperature_unit_values">
+        <item>c</item>
+        <item>f</item>
+        <item>k</item>
+    </string-array>
+
+    <!-- distance unit. -->
+    <string-array name="distance_units">
+        <item>km</item>
+        <item>m</item>
+        <item>mi</item>
+        <item>nmi</item>
+        <item>ft</item>
+    </string-array>
+    <string-array name="distance_unit_values">
+        <item>km</item>
+        <item>m</item>
+        <item>mi</item>
+        <item>nmi</item>
+        <item>ft</item>
+    </string-array>
+
+    <!-- pressure unit. -->
+    <string-array name="pressure_units">
+        <item>mb</item>
+        <item>kPa</item>
+        <item>hPa</item>
+        <item>atm</item>
+        <item>mmHg</item>
+        <item>inHg</item>
+        <item>kgf/cm²</item>
+    </string-array>
+    <string-array name="pressure_unit_values">
+        <item>mb</item>
+        <item>kpa</item>
+        <item>hpa</item>
+        <item>atm</item>
+        <item>mmhg</item>
+        <item>inhg</item>
+        <item>kgfpsqcm</item>
+    </string-array>
+
+    <!-- air quality unit. -->
+    <string-array name="air_quality_units">
+        <item>μg/m³</item>
+    </string-array>
+    <string-array name="air_quality_unit_values">
+        <item>mugpcum</item>
+    </string-array>
+
+    <!-- duration unit. -->
+    <string-array name="duration_units">
+        <item>h</item> <!-- hour -->
+    </string-array>
+    <string-array name="duration_unit_values">
+        <item>h</item>
+    </string-array>
+
+    <!-- pollen unit. -->
+    <string-array name="pollen_units">
+        <item>/m³</item>
+    </string-array>
+    <string-array name="pollen_unit_values">
+        <item>ppcm</item>
+    </string-array>
+
+</resources>
