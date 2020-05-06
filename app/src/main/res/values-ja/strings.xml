@@ -391,4 +391,17 @@
     <string name="settings_notification_hide_big_view_on">非表示</string>
     <string name="settings_notification_hide_big_view_off">表示</string>
     <string name="resident_location">居住地</string>
+    <string name="wind_0">風力0</string>
+    <string name="wind_1">風力1</string>
+    <string name="wind_2">風力2</string>
+    <string name="wind_3">風力3</string>
+    <string name="wind_4">風力4</string>
+    <string name="wind_5">風力5</string>
+    <string name="wind_6">風力6</string>
+    <string name="wind_7">風力7</string>
+    <string name="wind_8">風力8</string>
+    <string name="wind_9">風力9</string>
+    <string name="wind_10">風力10</string>
+    <string name="wind_11">風力11</string>
+    <string name="wind_12">風力12</string>
 </resources>
