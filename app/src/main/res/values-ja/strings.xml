@@ -66,7 +66,7 @@
     <string name="real_feel_shader_temperature">Real feel shader</string>
     <string name="apparent_temperature">Apparent</string>
     <string name="wind_chill_temperature">Wind chill</string>
-    <string name="wet_bulb_temperature">Wet bulb</string>
+    <string name="wet_bulb_temperature">湿球温度</string>
     <string name="degree_day_temperature">Degree day</string>
 
     <string name="total">合計</string>
@@ -98,10 +98,10 @@
 
     <string name="aqi_1">良い</string>
     <string name="aqi_2">並</string>
-    <string name="aqi_3">中程度の汚染</string>
+    <string name="aqi_3">軽度の汚染</string>
     <string name="aqi_4">中程度の汚染</string>
-    <string name="aqi_5">Heavy pollution</string>
-    <string name="aqi_6">Severe pollution</string>
+    <string name="aqi_5">重度の汚染</string>
+    <string name="aqi_6">深刻な汚染</string>
 
     <string name="phase_new">新月</string>
     <string name="phase_waxing_crescent">三日月</string>
@@ -178,12 +178,12 @@
     <string name="feedback_request_location_permission_success">Location permissions request success</string>
     <string name="feedback_request_location_permission_failed">Location permissions request failed</string>
 
-    <string name="feedback_location_failed">Location failed</string>
-    <string name="feedback_get_weather_failed">Request weather data failed</string>
-    <string name="feedback_location_help_title">Cannot get location correctly?</string>
+    <string name="feedback_location_failed">位置情報を取得できませんでした。</string>
+    <string name="feedback_get_weather_failed">気象データを取得できませんでした</string>
+    <string name="feedback_location_help_title">位置情報が正しくありませんか？</string>
     <string name="feedback_check_location_permission">Check location permissions</string>
     <string name="feedback_enable_location_information">Enable Location Information</string>
-    <string name="feedback_select_location_provider">ロケーションプロバイダーを選択</string>
+    <string name="feedback_select_location_provider">位置情報サービスを選択</string>
     <string name="feedback_add_location_manually">手動でロケーションを追加し、\'$\'を削除</string>
 
     <string name="feedback_view_style">View style</string>
@@ -296,7 +296,7 @@
     <string name="feedback_cannot_start_live_wallpaper_activity">ライブ壁紙のプレビューを開始できません</string>
 
     <string name="feedback_unusable_geocoder">このデバイスには有効なGeocoderが含まれていません。位置情報提供者はBaidu Locationに変更されました。</string>
-    <string name="feedback_about_geocoder">Geocoderは、緯度・経度の位置情報の結果を、\'XX city, YY province \'のような形式に変換してくれるコンポーネントです。このコンポーネントがない場合、ロケーションプロバイダとしてネイティブAPIを使用している場合は、AccuWeatherでしか天気データを取得することができません。</string>
+    <string name="feedback_about_geocoder">Geocoderは、緯度・経度の情報を、\'XX city, YY province \'のような形式に変換してくれるコンポーネントです。このコンポーネントがない場合、位置情報サービスとしてネイティブAPIを使用している場合は、AccuWeatherでしか天気データを取得することができません。</string>
 
     <string name="feedback_today_precipitation_alert">今日は雨が降るかもしれません。</string>
     <string name="feedback_short_term_precipitation_alert">数時間後に雨が降る可能性があります。</string>
