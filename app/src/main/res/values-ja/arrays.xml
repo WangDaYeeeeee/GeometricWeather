@@ -22,7 +22,7 @@
         <item>Baidu Location</item>
         <item>Baidu IP Location (中国のみ)</item>
         <item>AMap Location</item>
-        <item>Native API</item>
+        <item>ネイティブAPI</item>
     </string-array>
     <string-array name="location_service_values">
         <item>baidu</item>
@@ -45,8 +45,8 @@
 
     <!-- UI style. -->
     <string-array name="ui_styles">
-        <item>Circular sky</item>
-        <item>Material animation</item>
+        <item>丸い空</item>
+        <item>マテリアルアニメーション</item>
     </string-array>
     <string-array name="ui_style_values">
         <item>circular</item>
@@ -185,7 +185,7 @@
 
     <!-- widget card style. -->
     <string-array name="widget_card_styles">
-        <item>None</item>
+        <item>無し</item>
         <item>自動</item>
         <item>ライトモード</item>
         <item>ダークモード</item>
@@ -252,105 +252,4 @@
         <item>day</item>
         <item>night</item>
     </string-array>
-
-    <!-- speed unit. -->
-    <string-array name="speed_units">
-        <item>km/h</item>
-        <item>m/s</item>
-        <item>kn</item>
-        <item>mi/h</item>
-        <item>ft/s</item>
-    </string-array>
-    <string-array name="speed_unit_values">
-        <item>kph</item>
-        <item>mps</item>
-        <item>kn</item>
-        <item>mph</item>
-        <item>ftps</item>
-    </string-array>
-
-    <!-- precipitation unit. -->
-    <string-array name="precipitation_units">
-        <item>mm</item>
-        <item>inch</item>
-        <item>L/m²</item>
-    </string-array>
-    <string-array name="precipitation_unit_values">
-        <item>mm</item>
-        <item>in</item>
-        <item>lpsqm</item>
-    </string-array>
-
-    <!-- temperature unit. -->
-    <string-array name="temperature_units">
-        <item>℃</item>
-        <item>℉</item>
-        <item>K</item>
-    </string-array>
-    <string-array name="temperature_unit_values">
-        <item>c</item>
-        <item>f</item>
-        <item>k</item>
-    </string-array>
-
-    <!-- distance unit. -->
-    <string-array name="distance_units">
-        <item>km</item>
-        <item>m</item>
-        <item>mi</item>
-        <item>nmi</item>
-        <item>ft</item>
-    </string-array>
-    <string-array name="distance_unit_values">
-        <item>km</item>
-        <item>m</item>
-        <item>mi</item>
-        <item>nmi</item>
-        <item>ft</item>
-    </string-array>
-
-    <!-- pressure unit. -->
-    <string-array name="pressure_units">
-        <item>mb</item>
-        <item>kPa</item>
-        <item>hPa</item>
-        <item>atm</item>
-        <item>mmHg</item>
-        <item>inHg</item>
-        <item>kgf/cm²</item>
-    </string-array>
-    <string-array name="pressure_unit_values">
-        <item>mb</item>
-        <item>kpa</item>
-        <item>hpa</item>
-        <item>atm</item>
-        <item>mmhg</item>
-        <item>inhg</item>
-        <item>kgfpsqcm</item>
-    </string-array>
-
-    <!-- air quality unit. -->
-    <string-array name="air_quality_units">
-        <item>μg/m³</item>
-    </string-array>
-    <string-array name="air_quality_unit_values">
-        <item>mugpcum</item>
-    </string-array>
-
-    <!-- duration unit. -->
-    <string-array name="duration_units">
-        <item>h</item> <!-- hour -->
-    </string-array>
-    <string-array name="duration_unit_values">
-        <item>h</item>
-    </string-array>
-
-    <!-- pollen unit. -->
-    <string-array name="pollen_units">
-        <item>/m³</item>
-    </string-array>
-    <string-array name="pollen_unit_values">
-        <item>ppcm</item>
-    </string-array>
-
 </resources>
