@@ -36,15 +36,15 @@
     <string name="publish_at">更新</string>
     <string name="feels_like">体感温度</string>
     <string name="follow_system">本体設定</string>
-    <string name="background_information">背景情報</string>
+    <string name="background_information">バックグラウンド情報</string>
     <string name="pressure">気圧</string>
     <string name="visibility">視程</string>
-    <string name="dew_point">露点温度</string>
+    <string name="dew_point">露点</string>
     <string name="cloud_cover">雲量</string>
-    <string name="ceiling">雲高</string>
-    <string name="get_more">Get more</string>
-    <string name="get_more_store">Get more from app store</string>
-    <string name="get_more_github">Get more from GitHub</string>
+    <string name="ceiling">雲低高度</string>
+    <string name="get_more">追加する</string>
+    <string name="get_more_store">アプリストアから追加する</string>
+    <string name="get_more_github">GitHub から追加する</string>
     <string name="refresh">更新</string>
     <string name="restart">再起動</string>
     <string name="edit">編集</string>
@@ -74,30 +74,32 @@
     <string name="rain">雨</string>
     <string name="snow">雪</string>
     <string name="ice">氷</string>
-<!--
-    <string name="wind_0">Calm</string>
-    <string name="wind_1">Light air</string>
-    <string name="wind_2">Light breeze</string>
-    <string name="wind_3">Gentle breeze</string>
-    <string name="wind_4">Moderate breeze</string>
-    <string name="wind_5">Fresh breeze</string>
-    <string name="wind_6">Strong breeze</string>
-    <string name="wind_7">Near breeze</string>
-    <string name="wind_8">Gale</string>
-    <string name="wind_9">Strong gale</string>
-    <string name="wind_10">Storm</string>
-    <string name="wind_11">Violent storm</string>
-    <string name="wind_12">Hurricane/Typhoon</string>
--->
+
+    
+    <string name="wind_0">風力0</string>
+    <string name="wind_1">風力1</string>
+    <string name="wind_2">風力2</string>
+    <string name="wind_3">風力3</string>
+    <string name="wind_4">風力4</string>
+    <string name="wind_5">風力5</string>
+    <string name="wind_6">風力6</string>
+    <string name="wind_7">風力7</string>
+    <string name="wind_8">風力8</string>
+    <string name="wind_9">風力9</string>
+    <string name="wind_10">風力10</string>
+    <string name="wind_11">風力11</string>
+    <string name="wind_12">風力12</string>
+    
+
     <string name="precipitation_light">霧雨</string>
     <string name="precipitation_middle">雨</string>
     <string name="precipitation_heavy">大雨</string>
     <string name="precipitation_rainstorm">暴風雨</string>
 
-    <string name="aqi_1">Fresh air</string>
-    <string name="aqi_2">Clear air</string>
-    <string name="aqi_3">Slight polluted</string>
-    <string name="aqi_4">Moderate pollution</string>
+    <string name="aqi_1">良い</string>
+    <string name="aqi_2">並</string>
+    <string name="aqi_3">中程度の汚染</string>
+    <string name="aqi_4">中程度の汚染</string>
     <string name="aqi_5">Heavy pollution</string>
     <string name="aqi_6">Severe pollution</string>
 
@@ -106,20 +108,20 @@
     <string name="phase_first">上弦</string>
     <string name="phase_waxing_gibbous">十三夜</string>
     <string name="phase_full">満月</string>
-    <string name="phase_waning_gibbous">十八夜s</string>
+    <string name="phase_waning_gibbous">十八夜</string>
     <string name="phase_third">下弦</string>
     <string name="phase_waning_crescent">二十六夜</string>
 
-    <string name="grass">Grass</string>
-    <string name="mold">Mold</string>
-    <string name="ragweed">Ragweed</string>
-    <string name="tree">Tree</string>
+    <string name="grass">草</string>
+    <string name="mold">カビ</string>
+    <string name="ragweed">ブタクサ</string>
+    <string name="tree">木</string>
 
     <string name="daily_overview">日時予報</string>
     <string name="hourly_overview">毎時予報</string>
     <string name="minutely_overview">詳細予報</string>
     <string name="precipitation_overview">降水量予報</string>
-    <string name="air_quality">大気汚染</string>
+    <string name="air_quality">空気質指数</string>
     <string name="allergen">アレルギー</string>
     <string name="life_details">詳細</string>
     <string name="sunrise_sunset">太陽と月</string>
@@ -150,9 +152,9 @@
     <!-- Week  : EEEE(long) / EEE(short). -->
     <string name="date_format_short">M-d</string>
     <string name="date_format_long">MMM dd日</string>
-    <string name="date_format_widget_short">EEEE, MMM dd日</string>
-    <string name="date_format_widget_long">EEEE, MMM dd日</string>
-    <string name="date_format_widget_oreo_style">EEEE, MMM dd日</string>
+    <string name="date_format_widget_short">EEEE MMM dd日</string>
+    <string name="date_format_widget_long">EEEE MMM dd日</string>
+    <string name="date_format_widget_oreo_style">EEEE MMM dd日</string>
 
     <!-- about. -->
     <!-- Optional, the following set of strings are not necessarily translated. -->
@@ -187,12 +189,12 @@
     <string name="feedback_view_style">View style</string>
     <string name="feedback_show_widget_card">背景色</string>
     <string name="feedback_show_widget_card_alpha">透明度</string>
-    <string name="feedback_hide_subtitle">Hide subtitle</string>
-    <string name="feedback_subtitle_data">Subtitle data</string>
+    <string name="feedback_hide_subtitle">字幕を隠す</string>
+    <string name="feedback_subtitle_data">字幕データ</string>
     <string name="feedback_black_text">文字の色</string>
     <string name="feedback_text_size">文字サイズ</string>
     <string name="feedback_clock_font">時間のフォント</string>
-    <string name="feedback_custom_subtitle_explanation">何を入力しても構いませんが、文章の長さに注意してください。天気データを引用する場合は、対応するキーワードを$で参照してください。\n\n例えば、現在の天気＝$cw$の場合は、現在の天気＝晴れの日と表示されます。</string>
+    <string name="feedback_custom_subtitle_explanation">何を入力しても構いませんが、文章の長さに注意してください。天気データを引用する場合は、対応するキーワードを$で参照してください。\n\n例えば、現在の天気＝$cw$の場合は、現在の天気＝晴れと表示されます。</string>
     <!-- keep those content with the format "$xxx$". -->
     <!-- keep "\n" -->
     <string name="feedback_custom_subtitle_keywords">
@@ -221,37 +223,37 @@
         $ws$ : 曜日 (短い)\n
         $dd$ : 日ごとの説明\n
         $hd$ : 時間ごとの説明\n
-        $enter$ : Enter\n
+        $enter$ : 改行\n
         \n
-        $0dw$, $1dw$, …, $4dw$ : \nDaytime Weather of Today, Tmw, …, 4 days later\n
+        $0dw$, $1dw$, …, $4dw$ : \n日中の天気, 明日…, 4日目\n
         \n
-        $0nw$, $1nw$, …, $4nw$ : \nNighttime Weather of Today, Tmw, …, 4 days later\n
+        $0nw$, $1nw$, …, $4nw$ : \n夜間の天気, 明日, …, 4日目\n
         \n
-        $0dt$, $1dt$, …, $4dt$ : \nDaytime Temperature of Today, Tmw, …, 4 days later (℃/℉)\n
+        $0dt$, $1dt$, …, $4dt$ : \n日中の気温, 明日, …, 4日目 (℃/℉)\n
         \n
-        $0nt$, $1nt$, …, $4nt$ : \nNighttime Temperature of Today, Tmw, …, 4 days later (℃/℉)\n
+        $0nt$, $1nt$, …, $4nt$ : \n夜間の天気, 明日, …, 4日目 (℃/℉)\n
         \n
-        $0dtd$, $1dtd$, …, $4dtd$ : \nDaytime Temperature of Today, Tmw, …, 4 days later (°)\n
+        $0dtd$, $1dtd$, …, $4dtd$ : \n日中の気温, 明日, …, 4日目 (°)\n
         \n
-        $0ntd$, $1ntd$, …, $4ntd$ : \nNighttime Temperature of Today, Tmw, …, 4 days later (°)\n
+        $0ntd$, $1ntd$, …, $4ntd$ : \n夜間の天気, 明日, …, 4日目 (°)\n
         \n
-        $0dp$, $1dp$, …, $4dp$ : \nDaytime Precipitation of Today, Tmw, …, 4 days later (%)\n
+        $0dp$, $1dp$, …, $4dp$ : \n日中の降水量, 明日, …, 4日目 (%)\n
         \n
-        $0np$, $1np$, …, $4np$ : \nNighttime Precipitation of Today, Tmw, …, 4 days later (%)\n
+        $0np$, $1np$, …, $4np$ : \n夜間の降水量, 明日, …, 4日目 (%)\n
         \n
-        $0dwd$, $1dwd$, …, $4dwd$ : \nDaytime Wind of Today, Tmw, …, 4 days later\n
+        $0dwd$, $1dwd$, …, $4dwd$ : \n日中の風, 明日, …, 4日目\n
         \n
-        $0nwd$, $1nwd$, …, $4nwd$ : \nNighttime Wind of Today, Tmw, …, 4 days later\n
+        $0nwd$, $1nwd$, …, $4nwd$ : \n夜間の風, 明日, …, 4日目\n
         \n
-        $0sr$, $1sr$, …, $4sr$ : \nSunrise of Today, Tmw, …, 4 days later\n
+        $0sr$, $1sr$, …, $4sr$ : \n今日の日の出, 明日, …, 4日目\n
         \n
-        $0ss$, $1ss$, …, $4ss$ : \nSunset of Today, Tmw, …, 4 days later\n
+        $0ss$, $1ss$, …, $4ss$ : \n今日の日没, 明日, …, 4日目\n
         \n
-        $0mr$, $1mr$, …, $4mr$ : \nMoonrise of Today, Tmw, …, 4 days later\n
+        $0mr$, $1mr$, …, $4mr$ : \n今日の月の出, 明日, …, 4日目\n
         \n
-        $0ms$, $1ms$, …, $4ms$ : \nMoonset of Today, Tmw, …, 4 days later\n
+        $0ms$, $1ms$, …, $4ms$ : \n今日の月没, 明日, …, 4日目\n
         \n
-        $0mp$, $1mp$, …, $4mp$ : \nMoon Phase of Today, Tmw, …, 4 days later\n
+        $0mp$, $1mp$, …, $4mp$ : \n今日の月の満ち欠け, 明日, …, 4日目\n
     </string>
 
     <string name="feedback_live_wallpaper_weather_kind">天気</string>
@@ -263,7 +265,7 @@
     <string name="feedback_collect_failed">この場所は既に追加されています</string>
     <string name="feedback_collect_succeed">場所を追加しました</string>
     <string name="feedback_delete_succeed">場所を削除しました</string>
-    <string name="feedback_location_list_cannot_be_null">場所をすべて削除することはできません</string>
+    <string name="feedback_location_list_cannot_be_null">すべての場所を削除することはできません</string>
 
     <string name="feedback_search_location">検索する</string>
     <string name="feedback_not_yet_location">まだ場所はありません</string>
@@ -286,7 +288,7 @@
     <!-- Wrong   : ... after turning off 'Background free', ... After turning off "Free background" ... -->
     <string name="feedback_interpret_background_notification_content">端末によっては、「バックグラウンドで更新しない」をオフにした後、通知バーにクリアできない通知が表示される場合があります。</string>
     <string name="feedback_interpret_notification_group_title">グループ通知をブロックする</string>
-    <string name="feedback_interpret_notification_group_content">「バックグラウンドで更新しない」をオフにすると、通知バーにバックグラウンドサービスが起動していることを示す通知が表示されます。アプリの情報ページの「バックグラウンド情報チャンネル」をオフにすることで、この通知をブロックすることができます。</string>
+    <string name="feedback_interpret_notification_group_content">「バックグラウンドで更新しない」をオフにすると、通知バーにバックグラウンドサービスが起動していることを示す通知が表示されます。アプリの情報ページの「バックグラウンド情報」をオフにすることで、この通知をブロックすることができます。</string>
 
     <string name="feedback_ignore_battery_optimizations_title">バッテリーの最適化を無視する</string>
     <string name="feedback_ignore_battery_optimizations_content">バックグラウンドサービスを継続して動作させるために、GeometricWeatherのバッテリー最適化は無視してください。</string>
@@ -310,21 +312,22 @@
     <string name="action_search">検索</string>
     <string name="action_settings">設定</string>
     <string name="action_preview">プレビュー</string>
-    <string name="action_about">About</string>
-    <string name="action_appStore">App Store</string>
+    <string name="action_about">Geometric Weather について</string>
+    <string name="action_appStore">アプリストア</string>
 
     <!-- widget -->
+    <string name="widget_day">毎日</string>
     <string name="widget_week">週間</string>
     <string name="widget_day_week">毎日 + 週間</string>
-    <string name="widget_clock_day_horizontal">時計 + 日中 (水平スタイル)</string>
-    <string name="widget_clock_day_details">時計 + 日中 (詳細)</string>
-    <string name="widget_clock_day_vertical">時計 + 日中 (垂直スタイル)</string>
-    <string name="widget_clock_day_week">時計 + 日中 + 週間</string>
+    <string name="widget_clock_day_horizontal">時計 + 毎日 (水平)</string>
+    <string name="widget_clock_day_details">時計 + 毎日 (詳細)</string>
+    <string name="widget_clock_day_vertical">時計 + 毎日 (垂直)</string>
+    <string name="widget_clock_day_week">時計 + 毎日 + 週間</string>
     <string name="widget_text">テキスト</string>
     <string name="widget_trend_daily">日中の動き</string>
     <string name="widget_trend_hourly">時間ごと動き</string>
     <string name="widget_multi_city">複数の都市</string>
-    <string name="wait_refresh">waiting</string>
+    <string name="wait_refresh">更新を待っています</string>
     <string name="ellipsis">…</string>
 
     <!-- settings -->
@@ -339,12 +342,12 @@
     <string name="settings_title_weather_source">気象情報</string>
     <string name="settings_title_location_service">位置情報サービス</string>
     <string name="settings_title_dark_mode">ダークモード</string>
-    <string name="settings_title_ui_style">インターフェーススタイル</string>
+    <string name="settings_title_ui_style">UIスタイル</string>
     <string name="settings_title_icon_provider">アイコンパック</string>
     <string name="settings_title_appearance">外観</string>
-    <string name="settings_summary_appearance">インターフェーススタイル, オーダーカード, 言語…</string>
+    <string name="settings_summary_appearance">UIスタイル, カード, 言語…</string>
     <string name="settings_title_card_display">表示カード</string>
-    <string name="settings_title_card_order">オーダーカード</string>
+    <string name="settings_title_card_order">カード</string>
     <string name="settings_title_gravity_sensor_switch">重力センサー</string>
     <string name="settings_title_list_animation_switch">リストアニメーション</string>
     <string name="settings_title_item_animation_switch">アイテムアニメーション</string>
@@ -357,7 +360,7 @@
     <string name="settings_title_pressure_unit">圧力単位</string>
     <string name="settings_title_speed_unit">速度単位</string>
     <string name="settings_title_refresh_rate">自動更新</string>
-    <string name="settings_title_alert_notification_switch">警報を通知する</string>
+    <string name="settings_title_alert_notification_switch">悪天候警告</string>
     <string name="settings_title_precipitation_notification_switch">降水予報を通知する</string>
     <string name="settings_title_permanent_service">Permanent service</string>
     <string name="settings_category_forecast">予報の通知</string>
@@ -370,7 +373,7 @@
     <string name="settings_title_minimal_icon">シンプルなアイコン</string>
     <string name="settings_title_click_widget_to_refresh">タップで更新</string>
     <string name="settings_category_notification">通知</string>
-    <string name="settings_title_notification">通知を送る</string>
+    <string name="settings_title_notification">継続的な通知</string>
     <string name="settings_title_notification_style">通知スタイル</string>
     <string name="settings_title_notification_temp_icon">気温を通知バーに表示する</string>
     <string name="settings_title_notification_color">通知カラー</string>
@@ -391,17 +394,4 @@
     <string name="settings_notification_hide_big_view_on">非表示</string>
     <string name="settings_notification_hide_big_view_off">表示</string>
     <string name="resident_location">居住地</string>
-    <string name="wind_0">風力0</string>
-    <string name="wind_1">風力1</string>
-    <string name="wind_2">風力2</string>
-    <string name="wind_3">風力3</string>
-    <string name="wind_4">風力4</string>
-    <string name="wind_5">風力5</string>
-    <string name="wind_6">風力6</string>
-    <string name="wind_7">風力7</string>
-    <string name="wind_8">風力8</string>
-    <string name="wind_9">風力9</string>
-    <string name="wind_10">風力10</string>
-    <string name="wind_11">風力11</string>
-    <string name="wind_12">風力12</string>
 </resources>
