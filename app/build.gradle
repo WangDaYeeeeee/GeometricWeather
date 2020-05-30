@@ -20,10 +20,11 @@ android {
             zipAlignEnabled true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix ".foss"
 
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "GeometricWeather ${variant.versionName}.apk"
+                    outputFileName = "GeometricWeather ${variant.versionName}-foss.apk"
                 }
             }
         }
