@@ -303,7 +303,12 @@
     <string name="settings_title_item_animation_switch">Eszközanimáció</string>
     <string name="settings_language">Nyelv</string>
     <string name="settings_title_unit">Mértékegységek</string>
-    <string name="settings_summary_unit">Időjárásadatok mértékegységének beállítása.</string> //where to continue from
+    <string name="settings_summary_unit">Időjárásadatok mértékegységének beállítása.</string>
+    <string name="settings_title_temperature_unit">Hőmérséklet egysége</string>
+    <string name="settings_title_distance_unit">Távolság egysége</string>
+    <string name="settings_title_precipitation_unit">Csapadék egysége</string>
+    <string name="settings_title_pressure_unit">Légnyomás egysége</string>
+    <string name="settings_title_speed_unit">Szélsebesség egysége</string>
     <string name="settings_title_refresh_rate">Automatikus Frissítés Ideje</string>
     <string name="settings_title_alert_notification_switch">Riasztási Értesítések Küldése</string>
     <string name="settings_title_precipitation_notification_switch">Küldjön Csapadékelőrejelzést</string>
@@ -314,9 +319,10 @@
     <string name="settings_title_forecast_tomorrow">Holnapi Előrejelzés</string>
     <string name="settings_title_forecast_tomorrow_time">Idő A Holnapi Előrejelzéshez</string>
     <string name="settings_category_widget">Widget</string>
+    <string name="settings_title_week_icon_mode">Heti ikonváltó mód</string>
     <string name="settings_title_minimal_icon">Minimalista Ikonok</string>
-    <string name="settings_title_icon_provider">Ikonszolgáltató</string>
     <string name="settings_title_click_widget_to_refresh">Widget Frissítése Kattintásra</string>
+    <string name="settings_title_widget_config">Widget beállítások</string>
     <string name="settings_category_notification">Értesítés</string>
     <string name="settings_title_notification">Értesítés Küldése</string>
     <string name="settings_title_notification_style">Értesítés Stílusa</string>
