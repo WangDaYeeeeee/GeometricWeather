@@ -13,6 +13,7 @@ import wangdaye.com.geometricweather.basic.model.Location;
 import wangdaye.com.geometricweather.basic.model.option.provider.WeatherSource;
 import wangdaye.com.geometricweather.basic.model.weather.Weather;
 import wangdaye.com.geometricweather.db.DatabaseHelper;
+import wangdaye.com.geometricweather.settings.SettingsOptionManager;
 import wangdaye.com.geometricweather.weather.observer.BaseObserver;
 import wangdaye.com.geometricweather.weather.observer.ObserverContainer;
 import wangdaye.com.geometricweather.weather.service.AccuWeatherService;
@@ -79,29 +80,10 @@ public class WeatherHelper {
     }
 
     public void requestLocation(Context context, String query, @NonNull final OnRequestLocationListener l) {
-        searchServices = new WeatherService[] {
-                getWeatherService(WeatherSource.ACCU),
-                getWeatherService(WeatherSource.CN),
-                getWeatherService(WeatherSource.CAIYUN)
-        };
+        Observable<List<Location>> searchList = Observable.create(emitter ->
+                emitter.onNext(getWeatherService(SettingsOptionManager.getInstance(context).getWeatherSource()).requestLocation(context, query)));
 
-        Observable<List<Location>> accu = Observable.create(emitter ->
-                emitter.onNext(searchServices[0].requestLocation(context, query)));
-
-        Observable<List<Location>> cn = Observable.create(emitter ->
-                emitter.onNext(searchServices[1].requestLocation(context, query)));
-
-        Observable<List<Location>> caiyun = Observable.create(emitter ->
-                emitter.onNext(searchServices[2].requestLocation(context, query)));
-
-        Observable.zip(accu, cn, caiyun, (accuList, cnList, caiyunList) -> {
-            List<Location> locationList = new ArrayList<>();
-            locationList.addAll(accuList);
-            locationList.addAll(cnList);
-            locationList.addAll(caiyunList);
-            return locationList;
-        }).compose(SchedulerTransformer.create())
-                .subscribe(new ObserverContainer<>(compositeDisposable, new BaseObserver<List<Location>>() {
+        searchList.compose(SchedulerTransformer.create()).subscribe(new ObserverContainer<>(compositeDisposable, new BaseObserver<List<Location>>() {
                     @Override
                     public void onSucceed(List<Location> locationList) {
                         if (locationList != null && locationList.size() != 0) {
