@@ -24,6 +24,7 @@ import wangdaye.com.geometricweather.utils.NetworkUtils;
 import wangdaye.com.geometricweather.weather.service.AccuWeatherService;
 import wangdaye.com.geometricweather.weather.service.CNWeatherService;
 import wangdaye.com.geometricweather.weather.service.CaiYunWeatherService;
+import wangdaye.com.geometricweather.weather.service.MfWeatherService;
 import wangdaye.com.geometricweather.weather.service.WeatherService;
 
 /**
@@ -36,6 +37,7 @@ public class LocationHelper {
     @NonNull private final WeatherService accuWeather;
     @NonNull private final WeatherService cnWeather;
     @NonNull private final WeatherService caiyunWeather;
+    @NonNull private final WeatherService mfWeather;
 
     public LocationHelper(Context context) {
         switch (SettingsOptionManager.getInstance(context).getLocationProvider()) {
@@ -58,6 +60,7 @@ public class LocationHelper {
         accuWeather = new AccuWeatherService();
         cnWeather = new CNWeatherService();
         caiyunWeather = new CaiYunWeatherService();
+        mfWeather = new MfWeatherService();
     }
 
     public void requestLocation(Context context, Location location, boolean background,
@@ -119,6 +122,11 @@ public class LocationHelper {
                 location = new Location(location, WeatherSource.CAIYUN);
                 caiyunWeather.requestLocation(context, location, new ChineseCityLocationCallback(context, location, l));
                 break;
+
+            case MF:
+                location = new Location(location, WeatherSource.MF);
+                mfWeather.requestLocation(context, location, new MfLocationCallback(context, location, l));
+                break;
         }
     }
 
@@ -127,6 +135,7 @@ public class LocationHelper {
         accuWeather.cancel();
         cnWeather.cancel();
         caiyunWeather.cancel();
+        mfWeather.cancel();
     }
 
     public String[] getPermissions(boolean background) {
@@ -196,6 +205,37 @@ class ChineseCityLocationCallback implements WeatherService.RequestLocationCallb
 
     ChineseCityLocationCallback(Context context, Location location,
                                 @NonNull LocationHelper.OnRequestLocationListener l) {
+        this.context = context;
+        this.location = location;
+        this.listener = l;
+    }
+
+    @Override
+    public void requestLocationSuccess(String query, List<Location> locationList) {
+        if (locationList.size() > 0) {
+            Location src = locationList.get(0);
+            Location result = new Location(src, true, src.isResidentPosition());
+            DatabaseHelper.getInstance(context).writeLocation(result);
+            listener.requestLocationSuccess(result);
+        } else {
+            requestLocationFailed(query);
+        }
+    }
+
+    @Override
+    public void requestLocationFailed(String query) {
+        listener.requestLocationFailed(location);
+    }
+}
+
+class MfLocationCallback implements WeatherService.RequestLocationCallback {
+
+    private final Context context;
+    private final Location location;
+    private final LocationHelper.OnRequestLocationListener listener;
+
+    MfLocationCallback(Context context, Location location,
+                         @NonNull LocationHelper.OnRequestLocationListener l) {
         this.context = context;
         this.location = location;
         this.listener = l;

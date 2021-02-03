@@ -11,7 +11,8 @@ public enum WeatherSource {
 
     CN("cn", 0xff033566, "weather.com.cn"),
     CAIYUN("caiyun", 0xff5ebb8e, " caiyunapp.com"),
-    ACCU("accu", 0xffef5823, "accuweather.com");
+    ACCU("accu", 0xffef5823, "accuweather.com"),
+    MF("mf", 0xff005892, "meteofrance.com");
 
     private String sourceId;
     @ColorInt private int sourceColor;
