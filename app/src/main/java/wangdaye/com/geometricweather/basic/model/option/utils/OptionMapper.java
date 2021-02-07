@@ -96,6 +96,9 @@ public class OptionMapper {
             case "caiyun":
                 return WeatherSource.CAIYUN;
 
+            case "mf":
+                return WeatherSource.MF;
+
             default:
                 return WeatherSource.ACCU;
         }

@@ -46,6 +46,13 @@ android {
         it.buildConfigField 'String', 'ACCU_AQI_KEY', ACCU_AQI_KEY
         it.buildConfigField 'String', 'BAIDU_IP_LOCATION_BASE_URL', BAIDU_IP_LOCATION_BASE_URL
         it.buildConfigField 'String', 'BAIDU_IP_LOCATION_AK', BAIDU_IP_LOCATION_AK
+        it.buildConfigField 'String', 'MF_WSFT_KEY', MF_WSFT_KEY
+        it.buildConfigField 'String', 'MF_WSFT_BASE_URL', MF_WSFT_BASE_URL
+        it.buildConfigField 'String', 'IQA_AIR_PARIF_KEY', IQA_AIR_PARIF_KEY
+        it.buildConfigField 'String', 'IQA_AIR_PARIF_URL', IQA_AIR_PARIF_URL
+        it.buildConfigField 'String', 'IQA_ATMO_AURA_KEY', IQA_ATMO_AURA_KEY
+        it.buildConfigField 'String', 'IQA_ATMO_AURA_URL', IQA_ATMO_AURA_URL
+        it.buildConfigField 'String', 'IQA_ATMO_SUD_URL', IQA_ATMO_SUD_URL
     }
     sourceSets{
         main{

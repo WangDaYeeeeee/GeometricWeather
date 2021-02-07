@@ -4,7 +4,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -19,6 +18,7 @@ import wangdaye.com.geometricweather.weather.observer.ObserverContainer;
 import wangdaye.com.geometricweather.weather.service.AccuWeatherService;
 import wangdaye.com.geometricweather.weather.service.CNWeatherService;
 import wangdaye.com.geometricweather.weather.service.CaiYunWeatherService;
+import wangdaye.com.geometricweather.weather.service.MfWeatherService;
 import wangdaye.com.geometricweather.weather.service.WeatherService;
 
 /**
@@ -46,6 +46,9 @@ public class WeatherHelper {
 
             case CAIYUN:
                 return new CaiYunWeatherService();
+
+            case MF:
+                return new MfWeatherService();
 
             default: // ACCU.
                 return new AccuWeatherService();

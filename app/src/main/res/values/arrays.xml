@@ -10,11 +10,13 @@
         <item>weather.com.cn (Only For China)</item>
         <item> caiyunapp.com (Only For China)</item>
         <item>accuweather.com</item>
+        <item>Météo France</item>
     </string-array>
     <string-array name="weather_source_values">
         <item>cn</item>
         <item>caiyun</item>
         <item>accu</item>
+        <item>mf</item>
     </string-array>
 
     <!-- Location service. -->
