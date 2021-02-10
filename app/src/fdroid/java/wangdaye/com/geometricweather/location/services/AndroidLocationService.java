@@ -12,21 +12,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
-import android.provider.Settings;
-import android.text.TextUtils;
-
 import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import wangdaye.com.geometricweather.utils.LanguageUtils;
+import wangdaye.com.geometricweather.utils.helpter.AsyncHelper;
 
 /**
  * Android Location service.
@@ -168,12 +165,7 @@ public class AndroidLocationService extends LocationService {
             return;
         }
 
-        Observable.create((ObservableOnSubscribe<Result>) emitter ->
-                emitter.onNext(buildResult(location))
-        ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(this::handleResultIfNecessary)
-                .subscribe();
+        AsyncHelper.runOnIO(emitter -> emitter.send(buildResult(location)), this::handleResultIfNecessary);
     }
 
     private void handleResultIfNecessary(@Nullable Result result) {
