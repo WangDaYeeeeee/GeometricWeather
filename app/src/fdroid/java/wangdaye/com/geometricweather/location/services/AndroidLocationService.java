@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import wangdaye.com.geometricweather.utils.LanguageUtils;
-import wangdaye.com.geometricweather.utils.helpter.AsyncHelper;
+import wangdaye.com.geometricweather.utils.helpters.AsyncHelper;
 
 /**
  * Android Location service.
