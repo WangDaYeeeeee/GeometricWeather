@@ -77,8 +77,7 @@ public class ServiceProviderSettingsFragment extends AbstractSettingsFragment {
             List<CharSequence> locationValues = new ArrayList<>();
             for (int i = 0; i < locationService.getEntries().length; ++i) {
                 if (LocationProvider.getInstance((String) locationService.getEntryValues()[i]) != LocationProvider.AMAP
-                        && LocationProvider.getInstance((String) locationService.getEntryValues()[i]) != LocationProvider.BAIDU
-                        && LocationProvider.getInstance((String) locationService.getEntryValues()[i]) != LocationProvider.BAIDU_IP) {
+                        && LocationProvider.getInstance((String) locationService.getEntryValues()[i]) != LocationProvider.BAIDU) {
                     locationEntries.add(locationService.getEntries()[i]);
                     locationValues.add(locationService.getEntryValues()[i]);
                 }
