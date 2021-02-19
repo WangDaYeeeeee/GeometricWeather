@@ -59,10 +59,17 @@ android {
     }
     sourceSets{
         pub {
+            java.srcDirs = ["src/bugly", "src/proprietary"]
+            manifest.srcFile "AndroidManifest-proprietary.xml"
             jniLibs.srcDir 'libs'
             jni.srcDirs = []
         }
+        fdroid {
+            java.srcDirs = ["src/nobugly", "src/opensource"]
+        }
         gplay {
+            java.srcDirs = ["src/nobugly", "src/proprietary"]
+            manifest.srcFile "AndroidManifest-proprietary.xml"
             jniLibs.srcDir 'libs'
             jni.srcDirs = []
         }
