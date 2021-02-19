@@ -43,21 +43,6 @@ public class ServiceProviderSettingsFragment extends AbstractSettingsFragment {
     private void initPreferences() {
         // weather source.
         ListPreference chineseSource = findPreference(getString(R.string.key_weather_source));
-
-        // Remove closed source providers if building the F-Droid flavor
-        if (getBuildFlavor().contains("fdroid")) {
-            List<CharSequence> weatherEntries = new ArrayList<>();
-            List<CharSequence> weatherValues = new ArrayList<>();
-            for (int i = 0; i < chineseSource.getEntries().length; ++i) {
-                if (WeatherSource.getInstance((String) chineseSource.getEntryValues()[i]) != WeatherSource.CN
-                        && WeatherSource.getInstance((String) chineseSource.getEntryValues()[i]) != WeatherSource.CAIYUN) {
-                    weatherEntries.add(chineseSource.getEntries()[i]);
-                    weatherValues.add(chineseSource.getEntryValues()[i]);
-                }
-            }
-            setListPreferenceValues(chineseSource, weatherEntries, weatherValues);
-        }
-
         chineseSource.setSummary(getSettingsOptionManager().getWeatherSource().getSourceName(requireContext()));
         chineseSource.setOnPreferenceChangeListener((preference, newValue) -> {
             WeatherSource source = WeatherSource.getInstance((String) newValue);
