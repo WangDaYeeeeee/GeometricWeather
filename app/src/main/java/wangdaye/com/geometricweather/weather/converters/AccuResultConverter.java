@@ -457,12 +457,12 @@ public class AccuResultConverter {
         if (icon == 1 || icon == 2 || icon == 30
                 || icon == 33 || icon == 34) {
             return WeatherCode.CLEAR;
-        } else if (icon == 3 || icon == 4 || icon == 6 || icon == 7
+        } else if (icon == 3 || icon == 4 || icon == 6
                 || icon == 35 || icon == 36 || icon == 38) {
             return WeatherCode.PARTLY_CLOUDY;
         } else if (icon == 5 || icon == 37) {
             return WeatherCode.HAZE;
-        } else if (icon == 8) {
+        } else if (icon == 7 || icon == 8) {
             return WeatherCode.CLOUDY;
         } else if (icon == 11) {
             return WeatherCode.FOG;
