@@ -158,16 +158,7 @@ public class AccuResultConverter {
                             aqiResult == null ? new AirQuality(
                                     null, null, null, null,
                                     null, null, null, null
-                            ) : new AirQuality(
-                                    CommonConverter.getAqiQuality(context, aqiResult.Index),
-                                    aqiResult.Index,
-                                    aqiResult.ParticulateMatter2_5,
-                                    aqiResult.ParticulateMatter10,
-                                    aqiResult.SulfurDioxide,
-                                    aqiResult.NitrogenDioxide,
-                                    aqiResult.Ozone,
-                                    aqiResult.CarbonMonoxide
-                            ),
+                            ) : getAirQuality(context, aqiResult),
                             (float) currentResult.RelativeHumidity,
                             (float) currentResult.Pressure.Metric.Value,
                             (float) currentResult.Visibility.Metric.Value,
@@ -196,6 +187,43 @@ public class AccuResultConverter {
         } catch (Exception ignored) {
             return new WeatherService.WeatherResultWrapper(null);
         }
+    }
+
+    private static AirQuality getAirQuality(Context context, AccuAqiResult aqiResult) {
+        Float ParticulateMatter2_5 = null;
+        Float ParticulateMatter10 = null;
+        Float SulfurDioxide = null;
+        Float NitrogenDioxide = null;
+        Float Ozone = null;
+        Float CarbonMonoxide = null;
+
+        for (AccuAqiResult.AqiData.Pollutant pollutant : aqiResult.data.get(0).pollutants) {
+            switch (pollutant.type) {
+                case "PM2.5":
+                    ParticulateMatter2_5 = pollutant.concentration.value;
+                case "PM10":
+                    ParticulateMatter10 = pollutant.concentration.value;
+                case "No2":
+                    NitrogenDioxide = pollutant.concentration.value;
+                case "O3":
+                    Ozone = pollutant.concentration.value;
+                case "CO":
+                    CarbonMonoxide = pollutant.concentration.value;
+                case "SO2":
+                    SulfurDioxide = pollutant.concentration.value;
+            }
+        }
+
+        return new AirQuality(
+                CommonConverter.getAqiQuality(context, aqiResult.data.get(0).overallIndex),
+                aqiResult.data.get(0).overallIndex,
+                ParticulateMatter2_5,
+                ParticulateMatter10,
+                SulfurDioxide,
+                NitrogenDioxide,
+                Ozone,
+                CarbonMonoxide
+        );
     }
 
     private static List<Daily> getDailyList(Context context, AccuDailyResult dailyResult) {
