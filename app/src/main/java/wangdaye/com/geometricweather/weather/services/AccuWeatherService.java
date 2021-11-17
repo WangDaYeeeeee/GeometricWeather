@@ -75,7 +75,8 @@ public class AccuWeatherService extends WeatherService {
 
         Observable<AccuAqiResult> aqi = mApi.getAirQuality(
                 location.getCityId(),
-                SettingsManager.getInstance(context).getProviderAccuAqiKey(true)
+                SettingsManager.getInstance(context).getProviderAccuAqiKey(true),
+                languageCode
         ).onExceptionResumeNext(
                 Observable.create(emitter -> emitter.onNext(new EmptyAqiResult()))
         );
