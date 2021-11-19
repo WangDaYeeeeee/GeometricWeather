@@ -17,8 +17,11 @@ import java.util.List;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.common.basic.GeoActivity;
 import wangdaye.com.geometricweather.common.basic.models.Location;
+import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay;
+import wangdaye.com.geometricweather.common.basic.models.options.appearance.HourlyTrendDisplay;
 import wangdaye.com.geometricweather.common.basic.models.options.provider.WeatherSource;
 import wangdaye.com.geometricweather.common.basic.models.weather.Base;
+import wangdaye.com.geometricweather.common.basic.models.weather.Daily;
 import wangdaye.com.geometricweather.common.basic.models.weather.Hourly;
 import wangdaye.com.geometricweather.common.basic.models.weather.Minutely;
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather;
@@ -194,13 +197,47 @@ public class HourlyViewHolder extends AbstractMainCardViewHolder {
                         SettingsManager.getInstance(context).getPrecipitationUnit()
                 );
                 break;
+
+            case WIND:
+                mTrendAdapter.wind(
+                        (GeoActivity) context,
+                        mTrendRecyclerView,
+                        location,
+                        themeManager,
+                        SettingsManager.getInstance(context).getSpeedUnit()
+                );
+                break;
         }
+        mTrendAdapter.notifyDataSetChanged();
     }
 
     private List<TagAdapter.Tag> getTagList(Weather weather, WeatherSource source) {
         List<TagAdapter.Tag> tagList = new ArrayList<>();
-        tagList.add(new MainTag(context.getString(R.string.tag_temperature), MainTag.Type.TEMPERATURE));
-        // tagList.addAll(getPrecipitationTagList(weather));
+        List<HourlyTrendDisplay> displayList
+                = SettingsManager.getInstance(context).getHourlyTrendDisplayList();
+        for (HourlyTrendDisplay display : displayList) {
+            switch (display) {
+                case TAG_TEMPERATURE:
+                    tagList.add(new MainTag(context.getString(R.string.tag_temperature), MainTag.Type.TEMPERATURE));
+                    break;
+
+                case TAG_WIND:
+                    for (Hourly hourly : weather.getHourlyForecast()) {
+                        if (hourly.getWind().isValidSpeed()) {
+                            tagList.add(new MainTag(context.getString(R.string.tag_wind), MainTag.Type.WIND));
+                            break;
+                        }
+                    }
+                    break;
+
+                case TAG_PRECIPITATION:
+                    tagList.addAll(getPrecipitationTagList(weather));
+                    break;
+            }
+        }
+        if (tagList.size() == 0) {
+            tagList.add(new MainTag(context.getString(R.string.tag_temperature), MainTag.Type.TEMPERATURE));
+        }
         return tagList;
     }
 

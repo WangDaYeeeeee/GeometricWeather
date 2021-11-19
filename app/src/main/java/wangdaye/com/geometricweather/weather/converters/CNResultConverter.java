@@ -351,6 +351,12 @@ public class CNResultConverter {
                                     null,
                                     null,
                                     null
+                            ),
+                            new Wind(
+                                    forecast.wind_direct,
+                                    new WindDegree(getWindDegree(forecast.wind_direct), false),
+                                    null,
+                                    forecast.wind_speed
                             )
                     )
             );

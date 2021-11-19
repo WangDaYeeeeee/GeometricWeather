@@ -386,6 +386,7 @@
     <string name="settings_summary_appearance">Interface style, card order, language…</string>
     <string name="settings_title_card_display">Displayed cards</string>
     <string name="settings_title_daily_trend_display">Display daily trend</string>
+    <string name="settings_title_hourly_trend_display">Display hourly trend</string>
     <string name="settings_title_trend_horizontal_line_switch">Horizontal lines in trend</string>
     <string name="settings_title_exchange_day_night_temp_switch">Exchange day night temperature</string>
     <string name="settings_title_card_order">Card order</string>
@@ -491,6 +492,7 @@
     <string name="key_appearance">appearance</string>
     <string name="key_card_display">card_display_2</string>
     <string name="key_daily_trend_display">daily_trend_display</string>
+    <string name="key_hourly_trend_display">hourly_trend_display</string>
     <string name="key_trend_horizontal_line_switch">trend_horizontal_line_switch</string>
     <string name="key_exchange_day_night_temp_switch">exchange_day_night_temp_switch</string>
     <string name="key_gravity_sensor_switch">gravity_sensor_switch</string>

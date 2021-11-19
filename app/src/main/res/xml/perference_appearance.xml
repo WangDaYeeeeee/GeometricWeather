@@ -22,6 +22,10 @@
         android:title="@string/settings_title_daily_trend_display"
         android:key="@string/key_daily_trend_display" />
 
+    <Preference
+        android:title="@string/settings_title_hourly_trend_display"
+        android:key="@string/key_hourly_trend_display" />
+
     <CheckBoxPreference
         android:title="@string/settings_title_trend_horizontal_line_switch"
         android:key="@string/key_trend_horizontal_line_switch"

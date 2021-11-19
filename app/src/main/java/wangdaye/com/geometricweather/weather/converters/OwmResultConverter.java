@@ -169,6 +169,7 @@ public class OwmResultConverter {
                     null,
                     getDailyList(context, oneCallResult.daily, airPollutionForecastResult),
                     getHourlyList(
+                            context,
                             oneCallResult.current.sunrise,
                             oneCallResult.current.sunset,
                             oneCallResult.hourly
@@ -313,7 +314,7 @@ public class OwmResultConverter {
         return rain + snow;
     }
 
-    private static List<Hourly> getHourlyList(long sunrise, long sunset, List<OwmOneCallResult.Hourly> resultList) {
+    private static List<Hourly> getHourlyList(Context context, long sunrise, long sunset, List<OwmOneCallResult.Hourly> resultList) {
         List<Hourly> hourlyList = new ArrayList<>(resultList.size());
         for (OwmOneCallResult.Hourly result : resultList) {
             hourlyList.add(
@@ -345,6 +346,12 @@ public class OwmResultConverter {
                                     null,
                                     null,
                                     null
+                            ),
+                            new Wind(
+                                    getWindDirection(result.windDeg),
+                                    new WindDegree(result.windDeg, false),
+                                    result.windSpeed * 3.6f,
+                                    CommonConverter.getWindLevel(context, result.windSpeed * 3.6f)
                             )
                     )
             );

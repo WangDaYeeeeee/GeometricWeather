@@ -133,7 +133,7 @@ configurations {
 }
 
 greendao {
-    schemaVersion 60
+    schemaVersion 61
     generateTests false
 }
 

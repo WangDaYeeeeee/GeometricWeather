@@ -8,6 +8,7 @@ import wangdaye.com.geometricweather.common.basic.models.weather.Hourly;
 import wangdaye.com.geometricweather.common.basic.models.weather.Precipitation;
 import wangdaye.com.geometricweather.common.basic.models.weather.PrecipitationProbability;
 import wangdaye.com.geometricweather.common.basic.models.weather.Temperature;
+import wangdaye.com.geometricweather.common.basic.models.weather.Wind;
 import wangdaye.com.geometricweather.db.entities.HourlyEntity;
 import wangdaye.com.geometricweather.db.converters.WeatherSourceConverter;
 
@@ -45,6 +46,11 @@ public class HourlyEntityGenerator {
         entity.rainPrecipitationProbability = hourly.getPrecipitationProbability().getRain();
         entity.snowPrecipitationProbability = hourly.getPrecipitationProbability().getSnow();
         entity.icePrecipitationProbability = hourly.getPrecipitationProbability().getIce();
+
+        entity.windDirection = hourly.getWind().getDirection();
+        entity.windDegree = hourly.getWind().getDegree();
+        entity.windSpeed = hourly.getWind().getSpeed();
+        entity.windLevel = hourly.getWind().getLevel();
 
         return entity;
     }
@@ -84,6 +90,12 @@ public class HourlyEntityGenerator {
                         entity.rainPrecipitationProbability,
                         entity.snowPrecipitationProbability,
                         entity.icePrecipitationProbability
+                ),
+                new Wind(
+                        entity.windDirection,
+                        entity.windDegree,
+                        entity.windSpeed,
+                        entity.windLevel
                 )
         );
     }

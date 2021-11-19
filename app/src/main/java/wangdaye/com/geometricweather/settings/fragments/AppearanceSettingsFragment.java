@@ -13,6 +13,7 @@ import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.CardDisplay;
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay;
+import wangdaye.com.geometricweather.common.basic.models.options.appearance.HourlyTrendDisplay;
 import wangdaye.com.geometricweather.common.basic.models.weather.Temperature;
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper;
 import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper;
@@ -130,6 +131,17 @@ public class AppearanceSettingsFragment extends AbstractSettingsFragment {
         ));
         dailyTrendDisplay.setOnPreferenceClickListener(preference -> {
             IntentHelper.startDailyTrendDisplayManageActivityForResult(requireActivity(), 1);
+            return true;
+        });
+
+        // hourly trend display.
+        Preference hourlyTrendDisplay = findPreference(getString(R.string.key_hourly_trend_display));
+        hourlyTrendDisplay.setSummary(HourlyTrendDisplay.getSummary(
+                requireActivity(),
+                SettingsManager.getInstance(requireActivity()).getHourlyTrendDisplayList()
+        ));
+        hourlyTrendDisplay.setOnPreferenceClickListener(preference -> {
+            IntentHelper.startHourlyTrendDisplayManageActivityForResult(requireActivity(), 1);
             return true;
         });
     }

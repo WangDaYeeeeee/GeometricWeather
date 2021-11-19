@@ -8,7 +8,9 @@ import java.util.Date;
 
 import wangdaye.com.geometricweather.common.basic.models.weather.WeatherCode;
 import wangdaye.com.geometricweather.common.basic.models.weather.Hourly;
+import wangdaye.com.geometricweather.common.basic.models.weather.WindDegree;
 import wangdaye.com.geometricweather.db.converters.WeatherCodeConverter;
+import wangdaye.com.geometricweather.db.converters.WindDegreeConverter;
 
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -51,19 +53,24 @@ public class HourlyEntity {
     public Float rainPrecipitationProbability;
     public Float snowPrecipitationProbability;
     public Float icePrecipitationProbability;
-    @Generated(hash = 1553100243)
-    public HourlyEntity(Long id, String cityId, String weatherSource, Date date,
-            long time, boolean daylight, String weatherText,
-            WeatherCode weatherCode, int temperature, Integer realFeelTemperature,
-            Integer realFeelShaderTemperature, Integer apparentTemperature,
-            Integer windChillTemperature, Integer wetBulbTemperature,
-            Integer degreeDayTemperature, Float totalPrecipitation,
-            Float thunderstormPrecipitation, Float rainPrecipitation,
-            Float snowPrecipitation, Float icePrecipitation,
-            Float totalPrecipitationProbability,
-            Float thunderstormPrecipitationProbability,
+
+    public String windDirection;
+    @Convert(converter = WindDegreeConverter.class, columnType = Float.class)
+    public WindDegree windDegree;
+    public Float windSpeed;
+    public String windLevel;
+    @Generated(hash = 1386003914)
+    public HourlyEntity(Long id, String cityId, String weatherSource, Date date, long time,
+            boolean daylight, String weatherText, WeatherCode weatherCode, int temperature,
+            Integer realFeelTemperature, Integer realFeelShaderTemperature,
+            Integer apparentTemperature, Integer windChillTemperature,
+            Integer wetBulbTemperature, Integer degreeDayTemperature,
+            Float totalPrecipitation, Float thunderstormPrecipitation,
+            Float rainPrecipitation, Float snowPrecipitation, Float icePrecipitation,
+            Float totalPrecipitationProbability, Float thunderstormPrecipitationProbability,
             Float rainPrecipitationProbability, Float snowPrecipitationProbability,
-            Float icePrecipitationProbability) {
+            Float icePrecipitationProbability, String windDirection, WindDegree windDegree,
+            Float windSpeed, String windLevel) {
         this.id = id;
         this.cityId = cityId;
         this.weatherSource = weatherSource;
@@ -89,6 +96,10 @@ public class HourlyEntity {
         this.rainPrecipitationProbability = rainPrecipitationProbability;
         this.snowPrecipitationProbability = snowPrecipitationProbability;
         this.icePrecipitationProbability = icePrecipitationProbability;
+        this.windDirection = windDirection;
+        this.windDegree = windDegree;
+        this.windSpeed = windSpeed;
+        this.windLevel = windLevel;
     }
     @Generated(hash = 617074574)
     public HourlyEntity() {
@@ -246,6 +257,30 @@ public class HourlyEntity {
     }
     public void setIcePrecipitationProbability(Float icePrecipitationProbability) {
         this.icePrecipitationProbability = icePrecipitationProbability;
+    }
+    public String getWindDirection() {
+        return this.windDirection;
+    }
+    public void setWindDirection(String windDirection) {
+        this.windDirection = windDirection;
+    }
+    public WindDegree getWindDegree() {
+        return this.windDegree;
+    }
+    public void setWindDegree(WindDegree windDegree) {
+        this.windDegree = windDegree;
+    }
+    public Float getWindSpeed() {
+        return this.windSpeed;
+    }
+    public void setWindSpeed(Float windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+    public String getWindLevel() {
+        return this.windLevel;
+    }
+    public void setWindLevel(String windLevel) {
+        this.windLevel = windLevel;
     }
 
 }

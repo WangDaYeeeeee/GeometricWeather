@@ -3,6 +3,7 @@ package wangdaye.com.geometricweather.weather.converters;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -184,7 +185,7 @@ public class AccuResultConverter {
                             toInt(currentResult.TemperatureSummary.Past24HourRange.Minimum.Metric.Value)
                     ),
                     getDailyList(context, dailyResult),
-                    getHourlyList(hourlyResultList),
+                    getHourlyList(context, hourlyResultList),
                     getMinutelyList(
                             dailyResult.DailyForecasts.get(0).Sun.Rise,
                             dailyResult.DailyForecasts.get(0).Sun.Set,
@@ -366,7 +367,7 @@ public class AccuResultConverter {
         return null;
     }
 
-    private static List<Hourly> getHourlyList(List<AccuHourlyResult> resultList) {
+    private static List<Hourly> getHourlyList(Context context, List<AccuHourlyResult> resultList) {
         List<Hourly> hourlyList = new ArrayList<>(resultList.size());
         for (AccuHourlyResult result : resultList) {
             hourlyList.add(
@@ -386,18 +387,24 @@ public class AccuResultConverter {
                                     null
                             ),
                             new Precipitation(
+                                    (float) result.TotalLiquid.Value,
                                     null,
-                                    null,
-                                    null,
-                                    null,
-                                    null
+                                    (float) result.Rain.Value,
+                                    (float) (result.Snow.Value * 10),
+                                    (float) result.Ice.Value
                             ),
                             new PrecipitationProbability(
                                     (float) result.PrecipitationProbability,
-                                    null,
-                                    null,
-                                    null,
-                                    null
+                                    (float) result.ThunderstormProbability,
+                                    (float) result.RainProbability,
+                                    (float) result.SnowProbability,
+                                    (float) result.IceProbability
+                            ),
+                            new Wind(
+                                    result.Wind.Direction.Localized,
+                                    new WindDegree(result.Wind.Direction.Degrees, false),
+                                    (float) result.WindGust.Speed.Value,
+                                    CommonConverter.getWindLevel(context, result.WindGust.Speed.Value)
                             )
                     )
             );

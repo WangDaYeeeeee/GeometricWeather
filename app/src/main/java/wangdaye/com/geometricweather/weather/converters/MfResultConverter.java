@@ -166,7 +166,7 @@ public class MfResultConverter {
                                                               MfWarningsResult warningsResult,
                                                               @Nullable AtmoAuraQAResult aqiAtmoAuraResult) {
         try {
-            List<Hourly> hourly = getHourlyList(forecastResult.forecasts, forecastResult.probabilityForecast);
+            List<Hourly> hourly = getHourlyList(context, forecastResult.forecasts, forecastResult.probabilityForecast);
             Weather weather = new Weather(
                     new Base(
                             location.getCityId(),
@@ -540,7 +540,7 @@ public class MfResultConverter {
         );
     }
 
-    private static List<Hourly> getHourlyList(List<MfForecastResult.Forecast> hourlyForecastResult, List<MfForecastResult.ProbabilityForecast> probabilityForecastResult) {
+    private static List<Hourly> getHourlyList(Context context, List<MfForecastResult.Forecast> hourlyForecastResult, List<MfForecastResult.ProbabilityForecast> probabilityForecastResult) {
         List<Hourly> hourlyList = new ArrayList<>(hourlyForecastResult.size());
         for (MfForecastResult.Forecast hourlyForecast : hourlyForecastResult) {
             hourlyList.add(
@@ -562,7 +562,13 @@ public class MfResultConverter {
                                     null
                             ),
                             getHourlyPrecipitation(hourlyForecast),
-                            getHourlyPrecipitationProbability(probabilityForecastResult, hourlyForecast.dt)
+                            getHourlyPrecipitationProbability(probabilityForecastResult, hourlyForecast.dt),
+                            new Wind(
+                                    hourlyForecast.wind.icon,
+                                    new WindDegree(hourlyForecast.wind.direction.equals("Variable") ? 0.0f : Float.parseFloat(hourlyForecast.wind.direction), hourlyForecast.wind.direction.equals("Variable")),
+                                    hourlyForecast.wind.speed * 3.6f,
+                                    CommonConverter.getWindLevel(context, hourlyForecast.wind.speed * 3.6f)
+                            )
                     )
             );
         }

@@ -8,6 +8,7 @@ import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.models.options.*
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.CardDisplay
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay
+import wangdaye.com.geometricweather.common.basic.models.options.appearance.HourlyTrendDisplay
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.Language
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.UIStyle
 import wangdaye.com.geometricweather.common.basic.models.options.provider.LocationProvider
@@ -45,6 +46,9 @@ class SettingsManager private constructor(context: Context){
                 + "&wind"
                 + "&uv_index"
                 + "&precipitation")
+        private const val DEFAULT_HOURLY_TREND_DISPLAY = ("temperature"
+                + "&wind"
+                + "&precipitation")
 
         const val DEFAULT_TODAY_FORECAST_TIME = "07:00"
         const val DEFAULT_TOMORROW_FORECAST_TIME = "21:00"
@@ -75,6 +79,7 @@ class SettingsManager private constructor(context: Context){
     private val iconProvider = context.getString(R.string.key_icon_provider)
     private val cardDisplayList = context.getString(R.string.key_card_display)
     private val dailyTrendDisplayList = context.getString(R.string.key_daily_trend_display)
+    private val hourlyTrendDisplayList = context.getString(R.string.key_hourly_trend_display)
 
     private val trendHorizontalLinesEnabled = context.getString(R.string.key_trend_horizontal_line_switch)
     private val exchangeDayNightTempEnabled = context.getString(R.string.key_exchange_day_night_temp_switch)
@@ -226,6 +231,20 @@ class SettingsManager private constructor(context: Context){
         config.edit()
                 .putString(dailyTrendDisplayList, DailyTrendDisplay.toValue(list))
                 .apply()
+    }
+
+    fun getHourlyTrendDisplayList(): List<HourlyTrendDisplay> {
+        return ArrayList(
+            HourlyTrendDisplay.toHourlyTrendDisplayList(
+                config.getString(hourlyTrendDisplayList, DEFAULT_HOURLY_TREND_DISPLAY)
+            )
+        )
+    }
+
+    fun setHourlyTrendDisplayList(list: List<HourlyTrendDisplay>) {
+        config.edit()
+            .putString(hourlyTrendDisplayList, HourlyTrendDisplay.toValue(list))
+            .apply()
     }
 
     fun isTrendHorizontalLinesEnabled(): Boolean {

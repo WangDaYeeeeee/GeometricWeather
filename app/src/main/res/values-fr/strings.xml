@@ -352,7 +352,8 @@
     <string name="settings_title_appearance">Apparence</string>
     <string name="settings_summary_appearance">Thème de l’interface, ordre des cartes, langue…</string>
     <string name="settings_title_card_display">Cartes affichées</string>
-    <string name="settings_title_daily_trend_display">Afficher les tendances journalières</string>
+    <string name="settings_title_daily_trend_display">Tendances journalières affichées</string>
+    <string name="settings_title_hourly_trend_display">Tendances par heure affichées</string>
     <string name="settings_title_trend_horizontal_line_switch">Lignes horizontales dans les tendances</string>
     <string name="settings_title_exchange_day_night_temp_switch">Inverser les températures jour et nuit</string>
     <string name="settings_title_card_order">Ordre des cartes</string>

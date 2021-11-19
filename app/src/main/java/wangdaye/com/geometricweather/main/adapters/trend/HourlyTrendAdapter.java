@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import wangdaye.com.geometricweather.common.basic.GeoActivity;
 import wangdaye.com.geometricweather.common.basic.models.Location;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.PrecipitationUnit;
+import wangdaye.com.geometricweather.common.basic.models.options.unit.SpeedUnit;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.TemperatureUnit;
+import wangdaye.com.geometricweather.main.adapters.trend.daily.DailyWindAdapter;
 import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyTemperatureAdapter;
+import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyWindAdapter;
 import wangdaye.com.geometricweather.main.utils.MainThemeManager;
 import wangdaye.com.geometricweather.resource.providers.ResourceProvider;
 import wangdaye.com.geometricweather.common.ui.widgets.trend.TrendRecyclerView;
@@ -33,6 +36,10 @@ public class HourlyTrendAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
     public void precipitation(GeoActivity activity, TrendRecyclerView parent, Location location,
                               ResourceProvider provider, MainThemeManager themeManager, PrecipitationUnit unit) {
         mAdapter = new HourlyPrecipitationAdapter(activity, parent, location, provider, themeManager, unit);
+    }
+
+    public void wind(GeoActivity activity, TrendRecyclerView parent, Location location, MainThemeManager themeManager, SpeedUnit unit) {
+        mAdapter = new HourlyWindAdapter(activity, parent, location, themeManager, unit);
     }
 
     @NonNull
@@ -61,6 +68,8 @@ public class HourlyTrendAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
             return 1;
         } else if (mAdapter instanceof HourlyPrecipitationAdapter) {
             return 2;
+        } else if (mAdapter instanceof HourlyWindAdapter) {
+            return 3;
         }
         return -1;
     }

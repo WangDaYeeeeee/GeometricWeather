@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.BidiFormatter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,11 +32,13 @@ public class Hourly implements Serializable {
     private final Temperature temperature;
     private final Precipitation precipitation;
     private final PrecipitationProbability precipitationProbability;
+    private final Wind wind;
 
     public Hourly(Date date, long time, boolean daylight,
                   String weatherText, WeatherCode weatherCode,
                   Temperature temperature,
-                  Precipitation precipitation, PrecipitationProbability precipitationProbability) {
+                  Precipitation precipitation, PrecipitationProbability precipitationProbability,
+                  Wind wind) {
         this.date = date;
         this.time = time;
         this.daylight = daylight;
@@ -42,6 +47,7 @@ public class Hourly implements Serializable {
         this.temperature = temperature;
         this.precipitation = precipitation;
         this.precipitationProbability = precipitationProbability;
+        this.wind = wind;
     }
 
     public Date getDate() {
@@ -74,6 +80,10 @@ public class Hourly implements Serializable {
 
     public PrecipitationProbability getPrecipitationProbability() {
         return precipitationProbability;
+    }
+
+    public Wind getWind() {
+        return wind;
     }
 
     public String getHour(Context context) {
