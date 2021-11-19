@@ -379,11 +379,11 @@ public class AccuResultConverter {
                             getWeatherCode(result.WeatherIcon),
                             new Temperature(
                                     toInt(result.Temperature.Value),
+                                    toInt(result.RealFeelTemperature.Value),
+                                    toInt(result.RealFeelTemperatureShade.Value),
                                     null,
                                     null,
-                                    null,
-                                    null,
-                                    null,
+                                    toInt(result.WetBulbTemperature.Value),
                                     null
                             ),
                             new Precipitation(

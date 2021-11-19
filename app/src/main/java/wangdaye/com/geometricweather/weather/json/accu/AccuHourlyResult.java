@@ -32,6 +32,10 @@ public class AccuHourlyResult {
      */
 
     public Temperature Temperature;
+    public RealFeelTemperature RealFeelTemperature;
+    public RealFeelTemperatureShade RealFeelTemperatureShade;
+    public WetBulbTemperature WetBulbTemperature;
+
     public int PrecipitationProbability;
     public int ThunderstormProbability;
     public int RainProbability;
@@ -102,6 +106,24 @@ public class AccuHourlyResult {
     public String Link;
 
     public static class Temperature {
+        public double Value;
+        public String Unit;
+        public int UnitType;
+    }
+
+    public static class RealFeelTemperature {
+        public double Value;
+        public String Unit;
+        public int UnitType;
+    }
+
+    public static class RealFeelTemperatureShade {
+        public double Value;
+        public String Unit;
+        public int UnitType;
+    }
+
+    public static class WetBulbTemperature {
         public double Value;
         public String Unit;
         public int UnitType;
