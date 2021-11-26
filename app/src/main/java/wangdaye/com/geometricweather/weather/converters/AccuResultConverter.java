@@ -405,7 +405,8 @@ public class AccuResultConverter {
                                     new WindDegree(result.Wind.Direction.Degrees, false),
                                     (float) result.WindGust.Speed.Value,
                                     CommonConverter.getWindLevel(context, result.WindGust.Speed.Value)
-                            )
+                            ),
+                            new UV(result.UVIndex, null, result.UVIndexText)
                     )
             );
         }

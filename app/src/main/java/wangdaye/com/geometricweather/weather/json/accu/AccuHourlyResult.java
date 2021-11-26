@@ -79,6 +79,9 @@ public class AccuHourlyResult {
     public Wind Wind;
     public WindGust WindGust;
 
+    public int UVIndex;
+    public String UVIndexText;
+
     public TotalLiquid TotalLiquid;
     /**
      * Value : 0.0

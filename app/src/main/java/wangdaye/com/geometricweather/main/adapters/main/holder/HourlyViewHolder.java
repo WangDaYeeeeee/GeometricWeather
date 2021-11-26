@@ -17,11 +17,9 @@ import java.util.List;
 import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.common.basic.GeoActivity;
 import wangdaye.com.geometricweather.common.basic.models.Location;
-import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay;
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.HourlyTrendDisplay;
 import wangdaye.com.geometricweather.common.basic.models.options.provider.WeatherSource;
 import wangdaye.com.geometricweather.common.basic.models.weather.Base;
-import wangdaye.com.geometricweather.common.basic.models.weather.Daily;
 import wangdaye.com.geometricweather.common.basic.models.weather.Hourly;
 import wangdaye.com.geometricweather.common.basic.models.weather.Minutely;
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather;
@@ -207,6 +205,10 @@ public class HourlyViewHolder extends AbstractMainCardViewHolder {
                         SettingsManager.getInstance(context).getSpeedUnit()
                 );
                 break;
+
+            case UV_INDEX:
+                mTrendAdapter.uv((GeoActivity) context, mTrendRecyclerView, location, themeManager);
+                break;
         }
         mTrendAdapter.notifyDataSetChanged();
     }
@@ -225,6 +227,15 @@ public class HourlyViewHolder extends AbstractMainCardViewHolder {
                     for (Hourly hourly : weather.getHourlyForecast()) {
                         if (hourly.getWind().isValidSpeed()) {
                             tagList.add(new MainTag(context.getString(R.string.tag_wind), MainTag.Type.WIND));
+                            break;
+                        }
+                    }
+                    break;
+
+                case TAG_UV_INDEX:
+                    for (Hourly hourly : weather.getHourlyForecast()) {
+                        if (hourly.getUV().isValid()) {
+                            tagList.add(new MainTag(context.getString(R.string.tag_uv), MainTag.Type.UV_INDEX));
                             break;
                         }
                     }

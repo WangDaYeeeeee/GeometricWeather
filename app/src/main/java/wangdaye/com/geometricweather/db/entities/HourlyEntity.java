@@ -59,7 +59,13 @@ public class HourlyEntity {
     public WindDegree windDegree;
     public Float windSpeed;
     public String windLevel;
-    @Generated(hash = 1386003914)
+
+    // uv.
+    public Integer uvIndex;
+    public String uvLevel;
+    public String uvDescription;
+
+    @Generated(hash = 764945270)
     public HourlyEntity(Long id, String cityId, String weatherSource, Date date, long time,
             boolean daylight, String weatherText, WeatherCode weatherCode, int temperature,
             Integer realFeelTemperature, Integer realFeelShaderTemperature,
@@ -70,7 +76,8 @@ public class HourlyEntity {
             Float totalPrecipitationProbability, Float thunderstormPrecipitationProbability,
             Float rainPrecipitationProbability, Float snowPrecipitationProbability,
             Float icePrecipitationProbability, String windDirection, WindDegree windDegree,
-            Float windSpeed, String windLevel) {
+            Float windSpeed, String windLevel, Integer uvIndex, String uvLevel,
+            String uvDescription) {
         this.id = id;
         this.cityId = cityId;
         this.weatherSource = weatherSource;
@@ -100,6 +107,9 @@ public class HourlyEntity {
         this.windDegree = windDegree;
         this.windSpeed = windSpeed;
         this.windLevel = windLevel;
+        this.uvIndex = uvIndex;
+        this.uvLevel = uvLevel;
+        this.uvDescription = uvDescription;
     }
     @Generated(hash = 617074574)
     public HourlyEntity() {
@@ -283,4 +293,22 @@ public class HourlyEntity {
         this.windLevel = windLevel;
     }
 
+    public Integer getUvIndex() {
+        return this.uvIndex;
+    }
+    public void setUvIndex(Integer uvIndex) {
+        this.uvIndex = uvIndex;
+    }
+    public String getUvLevel() {
+        return this.uvLevel;
+    }
+    public void setUvLevel(String uvLevel) {
+        this.uvLevel = uvLevel;
+    }
+    public String getUvDescription() {
+        return this.uvDescription;
+    }
+    public void setUvDescription(String uvDescription) {
+        this.uvDescription = uvDescription;
+    }
 }

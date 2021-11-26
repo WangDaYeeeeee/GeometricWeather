@@ -15,6 +15,7 @@ public enum HourlyTrendDisplay {
 
     TAG_TEMPERATURE("temperature", R.string.temperature),
     TAG_WIND("wind", R.string.wind),
+    TAG_UV_INDEX("uv_index", R.string.uv_index),
     TAG_PRECIPITATION("precipitation", R.string.precipitation);
 
     private final String value;
@@ -50,6 +51,10 @@ public enum HourlyTrendDisplay {
 
                     case "wind":
                         list.add(TAG_WIND);
+                        break;
+
+                    case "uv_index":
+                        list.add(TAG_UV_INDEX);
                         break;
 
                     case "precipitation":

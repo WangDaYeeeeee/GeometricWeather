@@ -125,6 +125,7 @@ public class HourlyTrendDisplayManageActivity extends GeoActivity {
         List<HourlyTrendDisplay> otherTags = new ArrayList<>();
         otherTags.add(HourlyTrendDisplay.TAG_TEMPERATURE);
         otherTags.add(HourlyTrendDisplay.TAG_WIND);
+        otherTags.add(HourlyTrendDisplay.TAG_UV_INDEX);
         otherTags.add(HourlyTrendDisplay.TAG_PRECIPITATION);
         for (int i = otherTags.size() - 1; i >= 0; i --) {
             for (int j = 0; j < displayTags.size(); j ++) {

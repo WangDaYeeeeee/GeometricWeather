@@ -444,7 +444,8 @@ public class CaiyunResultConverter {
                                             context,
                                             Float.parseFloat(forecast.wind.value.get(i).speed)
                                     )
-                            )
+                            ),
+                            new UV(null, null, null)
                     )
             );
         }

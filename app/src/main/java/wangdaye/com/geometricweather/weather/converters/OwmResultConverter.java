@@ -352,7 +352,8 @@ public class OwmResultConverter {
                                     new WindDegree(result.windDeg, false),
                                     result.windSpeed * 3.6f,
                                     CommonConverter.getWindLevel(context, result.windSpeed * 3.6f)
-                            )
+                            ),
+                            new UV(toInt(result.uvi), null, null)
                     )
             );
         }

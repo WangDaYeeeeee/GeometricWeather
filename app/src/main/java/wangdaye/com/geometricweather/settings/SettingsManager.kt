@@ -48,6 +48,7 @@ class SettingsManager private constructor(context: Context){
                 + "&precipitation")
         private const val DEFAULT_HOURLY_TREND_DISPLAY = ("temperature"
                 + "&wind"
+                + "&uv_index"
                 + "&precipitation")
 
         const val DEFAULT_TODAY_FORECAST_TIME = "07:00"

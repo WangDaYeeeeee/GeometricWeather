@@ -11,8 +11,8 @@ import wangdaye.com.geometricweather.common.basic.models.Location;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.PrecipitationUnit;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.SpeedUnit;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.TemperatureUnit;
-import wangdaye.com.geometricweather.main.adapters.trend.daily.DailyWindAdapter;
 import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyTemperatureAdapter;
+import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyUVAdapter;
 import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyWindAdapter;
 import wangdaye.com.geometricweather.main.utils.MainThemeManager;
 import wangdaye.com.geometricweather.resource.providers.ResourceProvider;
@@ -20,7 +20,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.trend.TrendRecyclerView;
 import wangdaye.com.geometricweather.main.adapters.trend.hourly.AbsHourlyTrendAdapter;
 import wangdaye.com.geometricweather.main.adapters.trend.hourly.HourlyPrecipitationAdapter;
 
-public class HourlyTrendAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HourlyTrendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private @Nullable AbsHourlyTrendAdapter mAdapter;
 
@@ -40,6 +40,10 @@ public class HourlyTrendAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void wind(GeoActivity activity, TrendRecyclerView parent, Location location, MainThemeManager themeManager, SpeedUnit unit) {
         mAdapter = new HourlyWindAdapter(activity, parent, location, themeManager, unit);
+    }
+
+    public void uv(GeoActivity activity, TrendRecyclerView parent, Location location, MainThemeManager themeManager) {
+        mAdapter = new HourlyUVAdapter(activity, parent, location, themeManager);
     }
 
     @NonNull
@@ -70,6 +74,8 @@ public class HourlyTrendAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
             return 2;
         } else if (mAdapter instanceof HourlyWindAdapter) {
             return 3;
+        } else if (mAdapter instanceof HourlyUVAdapter) {
+            return 4;
         }
         return -1;
     }

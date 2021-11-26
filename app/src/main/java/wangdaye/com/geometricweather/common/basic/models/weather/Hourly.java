@@ -33,12 +33,13 @@ public class Hourly implements Serializable {
     private final Precipitation precipitation;
     private final PrecipitationProbability precipitationProbability;
     private final Wind wind;
+    private final UV uv;
 
     public Hourly(Date date, long time, boolean daylight,
                   String weatherText, WeatherCode weatherCode,
                   Temperature temperature,
                   Precipitation precipitation, PrecipitationProbability precipitationProbability,
-                  Wind wind) {
+                  Wind wind, UV uv) {
         this.date = date;
         this.time = time;
         this.daylight = daylight;
@@ -48,6 +49,7 @@ public class Hourly implements Serializable {
         this.precipitation = precipitation;
         this.precipitationProbability = precipitationProbability;
         this.wind = wind;
+        this.uv = uv;
     }
 
     public Date getDate() {
@@ -84,6 +86,10 @@ public class Hourly implements Serializable {
 
     public Wind getWind() {
         return wind;
+    }
+
+    public UV getUV() {
+        return uv;
     }
 
     public String getHour(Context context) {

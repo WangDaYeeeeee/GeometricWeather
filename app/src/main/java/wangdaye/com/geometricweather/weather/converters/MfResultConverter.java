@@ -568,7 +568,8 @@ public class MfResultConverter {
                                     new WindDegree(hourlyForecast.wind.direction.equals("Variable") ? 0.0f : Float.parseFloat(hourlyForecast.wind.direction), hourlyForecast.wind.direction.equals("Variable")),
                                     hourlyForecast.wind.speed * 3.6f,
                                     CommonConverter.getWindLevel(context, hourlyForecast.wind.speed * 3.6f)
-                            )
+                            ),
+                            new UV(null, null, null)
                     )
             );
         }
