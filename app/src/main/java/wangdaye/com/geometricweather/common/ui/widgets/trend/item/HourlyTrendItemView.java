@@ -28,11 +28,14 @@ public class HourlyTrendItemView extends AbsTrendItemView {
 
     @Nullable private OnClickListener mClickListener;
 
+    @Nullable private String mDayText;
     @Nullable private String mHourText;
     @Nullable private Drawable mIconDrawable;
 
     @ColorInt private int mContentColor;
+    @ColorInt private int mSubTitleColor;
 
+    private float mDayTextBaseLine;
     private float mHourTextBaseLine;
 
     private float mIconLeft;
@@ -78,7 +81,7 @@ public class HourlyTrendItemView extends AbsTrendItemView {
         mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.content_text_size));
         mPaint.setTextAlign(Paint.Align.CENTER);
 
-        setTextColor(Color.BLACK);
+        setTextColor(Color.BLACK, Color.GRAY);
 
         mIconSize = (int) DisplayUtils.dpToPx(getContext(), ICON_SIZE_DIP);
 
@@ -97,7 +100,13 @@ public class HourlyTrendItemView extends AbsTrendItemView {
 
         Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
 
-        // week text.
+        // day text.
+        y += textMargin;
+        mDayTextBaseLine = y - fontMetrics.top;
+        y += fontMetrics.bottom - fontMetrics.top;
+        y += textMargin;
+
+        // hour text.
         y += textMargin;
         mHourTextBaseLine = y - fontMetrics.top;
         y += fontMetrics.bottom - fontMetrics.top;
@@ -150,9 +159,15 @@ public class HourlyTrendItemView extends AbsTrendItemView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // week text.
-        if (mHourText != null) {
+        // day text.
+        if (mDayText != null) {
             mPaint.setColor(mContentColor);
+            canvas.drawText(mDayText, getMeasuredWidth() / 2f, mDayTextBaseLine, mPaint);
+        }
+
+        // hour text.
+        if (mHourText != null) {
+            mPaint.setColor(mSubTitleColor);
             canvas.drawText(mHourText, getMeasuredWidth() / 2f, mHourTextBaseLine, mPaint);
         }
 
@@ -178,13 +193,19 @@ public class HourlyTrendItemView extends AbsTrendItemView {
         return super.onTouchEvent(event);
     }
 
+    public void setDayText(String dayText) {
+        mDayText = dayText;
+        invalidate();
+    }
+
     public void setHourText(String hourText) {
         mHourText = hourText;
         invalidate();
     }
 
-    public void setTextColor(@ColorInt int contentColor) {
+    public void setTextColor(@ColorInt int contentColor, @ColorInt int subTitleColor) {
         mContentColor = contentColor;
+        mSubTitleColor = subTitleColor;
         invalidate();
     }
 
