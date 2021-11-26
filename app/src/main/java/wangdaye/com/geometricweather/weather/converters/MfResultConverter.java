@@ -577,25 +577,26 @@ public class MfResultConverter {
     }
 
     private static List<Minutely> getMinutelyList(long sunrise, long sunset, @Nullable MfRainResult rainResult) {
-        //if (rainResult == null) {
-        return new ArrayList<>();
-        //}
-        /*List<Minutely> minutelyList = new ArrayList<>(rainResult.rainForecasts.size());
+        if (rainResult == null) {
+            return new ArrayList<>();
+        }
+        List<Minutely> minutelyList = new ArrayList<>(rainResult.rainForecasts.size());
+        long minuteZero = rainResult.rainForecasts.get(0).date / 60;
         for (MfRainResult.RainForecast rainForecast : rainResult.rainForecasts) {
             minutelyList.add(
                     new Minutely(
                             new Date(rainForecast.date * 1000),
-                            rainForecast.date,
+                            rainForecast.date * 1000,
                             CommonConverter.isDaylight(new Date(sunrise * 1000), new Date(sunset * 1000), new Date(rainForecast.date * 1000)),
                             rainForecast.desc,
-                            getWeatherCode(interval.IconCode), // TODO
-                            0, // TODO
-                            0, // TODO
-                            0 // TODO
+                            rainForecast.rain > 1 ? WeatherCode.RAIN : getWeatherCode(null),
+                            toInt((rainForecast.date / 60) - minuteZero), // TODO
+                            null,
+                            null
                     )
             );
         }
-        return minutelyList;*/
+        return minutelyList;
     }
 
     private static List<Alert> getWarningsList(MfWarningsResult warningsResult) {
