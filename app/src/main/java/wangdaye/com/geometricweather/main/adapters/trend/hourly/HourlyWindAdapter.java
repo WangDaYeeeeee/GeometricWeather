@@ -154,7 +154,7 @@ public class HourlyWindAdapter extends AbsHourlyTrendAdapter<HourlyWindAdapter.V
                 )
         );
         parent.setLineColor(mThemeManager.getLineColor(activity));
-        parent.setData(keyLineList, mHighestWindSpeed, -mHighestWindSpeed);
+        parent.setData(keyLineList, mHighestWindSpeed, 0);
     }
 
     @NonNull
