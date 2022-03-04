@@ -64,9 +64,10 @@ public interface AccuWeatherApi {
                                              @Query("details") boolean details,
                                              @Query("q") String q);
 
-    @GET("airquality/v1/observations/{city_key}.json")
+    @GET("airquality/v2/forecasts/observations/{city_key}")
     Observable<AccuAqiResult> getAirQuality(@Path("city_key") String city_key,
-                                            @Query("apikey") String apikey);
+                                            @Query("apikey") String apikey,
+                                            @Query("language") String language);
 
     @GET("alerts/v1/{city_key}.json")
     Observable<List<AccuAlertResult>> getAlert(@Path("city_key") String city_key,
