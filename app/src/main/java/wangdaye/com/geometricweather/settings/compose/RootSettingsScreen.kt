@@ -401,6 +401,26 @@ fun RootSettingsView(context: Context, navController: NavHostController) {
         }
         sectionFooterItem(R.string.settings_category_notification)
 
+        // Gadgetbridge.
+        sectionHeaderItem(R.string.settings_category_gadgetbridge_support)
+        checkboxPreferenceItem(R.string.settings_title_gadgetbridge_support_enable) { id ->
+            CheckboxPreferenceView(
+                titleId = id,
+                summaryOnId = R.string.on,
+                summaryOffId = R.string.off,
+                checked = SettingsManager
+                    .getInstance(context)
+                    .isGadgetbridgeSupportEnabled,
+                onValueChanged = {
+                    SettingsManager
+                        .getInstance(context)
+                        .isGadgetbridgeSupportEnabled = it
+                    PollingManager.resetNormalBackgroundTask(context, true)
+                }
+            )
+        }
+        sectionFooterItem(R.string.settings_category_gadgetbridge_support)
+
         bottomInsetItem()
     }
 }

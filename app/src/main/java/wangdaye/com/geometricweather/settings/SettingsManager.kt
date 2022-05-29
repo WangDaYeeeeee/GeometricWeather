@@ -349,6 +349,15 @@ class SettingsManager private constructor(context: Context) {
         }
         get() = config.getBoolean("notification_can_clear_switch", false)
 
+    // Gadgetbridge.
+
+    var isGadgetbridgeSupportEnabled: Boolean
+        set(value) {
+            config.edit().putBoolean("gadgetbridge_support_switch", value).apply()
+            notifySettingsChanged()
+        }
+        get() = config.getBoolean("gadgetbridge_support_switch", false)
+
     // service provider advanced.
 
     var customAccuWeatherKey: String

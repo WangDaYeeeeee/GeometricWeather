@@ -434,6 +434,8 @@
     <string name="settings_title_notification_hide_big_view">Extended style</string>
     <string name="settings_notification_hide_big_view_on">Hide</string>
     <string name="settings_notification_hide_big_view_off">Show</string>
+    <string name="settings_category_gadgetbridge_support">Gadgetbridge support</string>
+    <string name="settings_title_gadgetbridge_support_enable">Enable gadgetbridge support</string>
     <string name="settings_provider_default_value">Default (unchanged)</string>
     <string name="settings_provider_accu_weather">AccuWeather</string>
     <string name="settings_provider_accu_weather_key">AccuWeather weather key</string>

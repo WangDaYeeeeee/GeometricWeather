@@ -11,6 +11,7 @@ import wangdaye.com.geometricweather.R;
 import wangdaye.com.geometricweather.common.basic.models.Location;
 import wangdaye.com.geometricweather.common.basic.models.options.unit.TemperatureUnit;
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather;
+import wangdaye.com.geometricweather.gadgetbridge.GadgetbridgeAPI;
 import wangdaye.com.geometricweather.remoteviews.presenters.AndroidSWidgetIMP;
 import wangdaye.com.geometricweather.remoteviews.presenters.ClockDayDetailsWidgetIMP;
 import wangdaye.com.geometricweather.remoteviews.presenters.ClockDayHorizontalWidgetIMP;
@@ -27,6 +28,9 @@ import wangdaye.com.geometricweather.remoteviews.presenters.WeekWidgetIMP;
 public class WidgetHelper {
 
     public static void updateWidgetIfNecessary(Context context, Location location) {
+        if (GadgetbridgeAPI.isEnabled(context)) {
+            GadgetbridgeAPI.sendWeatherBroadcast(context, location);
+        }
         if (DayWidgetIMP.isEnable(context)) {
             DayWidgetIMP.updateWidgetView(context, location);
         }
