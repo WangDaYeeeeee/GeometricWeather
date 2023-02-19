@@ -2,6 +2,7 @@ package wangdaye.com.geometricweather.common.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class NetworkUtils {
 
@@ -9,7 +10,9 @@ public class NetworkUtils {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         if (manager != null) {
-            return manager.getActiveNetworkInfo() != null;
+            NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+            NetworkInfo vpnInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_VPN);
+            return activeNetworkInfo != null || (vpnInfo != null && vpnInfo.isConnected());
         }
         return false;
     }
