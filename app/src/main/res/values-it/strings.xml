@@ -10,7 +10,7 @@
     <string name="default_location">Posizione predefinita</string>
     <string name="live">Attualmente</string>
     <string name="today">Oggi</string>
-    <string name="refresh_at">Aggiornato il</string>
+    <string name="refresh_at">Aggiornato alle</string>
     <string name="local_time">Ora locale</string>
     <string name="precipitation">Precipitazioni</string>
     <string name="precipitation_probability">Probabilità di precipitazioni</string>
