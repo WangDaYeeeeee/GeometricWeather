@@ -4,17 +4,18 @@
     <string name="geometric_weather">Geometrik Hava Durumu</string>
 
     <!-- keyword. -->
-    <string name="current_location">Bulunduğunuz konumu</string>
+    <string name="current_location">Bulunduğunuz konum</string>
     <string name="default_location">varsayılan konum</string>
-    <string name="live">Rüzgar</string>
+    <string name="live">Şu anda</string>
     <string name="today">Bugün</string>
     <string name="refresh_at">Son güncelleme</string>
-    <string name="precipitation">Yağış ihtimali</string>
-    <string name="maxi_temp">Gündüz</string>
-    <string name="mini_temp">Gece</string>
+    <string name="precipitation">Yağış</string>
+    <string name="maxi_temp">En yüksek</string>
+    <string name="mini_temp">En düşük</string>
     <string name="time">Zaman</string>
-    <string name="day">Tüm gün</string>
+    <string name="day">Gündüz</string>
     <string name="night">Gece</string>
+    <string name="temperature">Sıcaklık</string>
     <string name="wind">Rüzgar</string>
     <string name="sensible_temp">Hissedilen sıcaklık</string>
     <string name="humidity">Nem</string>
@@ -26,89 +27,114 @@
     <string name="publish_at">Yayın</string>
     <string name="feels_like">Hissedilen</string>
     <string name="follow_system">Sistem Dili</string>
+    <string name="pressure">Atmosferik basınç</string>
+    <string name="visibility">Görüş mesafesi</string>
+    <string name="dew_point">Yoğunlaşma derecesi</string>
+    <string name="cloud_cover">Bulut oranı</string>
+    <string name="ceiling">Bulut tavan mesafesi</string>
+    <string name="edit">Düzenle</string>
 
     <string name="of_clock">:00</string>
     <string name="yesterday">Dün</string>
     <string name="tomorrow">Yarın</string>
     <string name="week">Hafta</string>
-    <string name="week_1">PZT</string>
-    <string name="week_2">SAL</string>
-    <string name="week_3">ÇRŞ</string>
-    <string name="week_4">PER</string>
-    <string name="week_5">CUM</string>
-    <string name="week_6">CMT</string>
-    <string name="week_7">PAZ</string>
+    <string name="week_1">Pzt</string>
+    <string name="week_2">Sal</string>
+    <string name="week_3">Çar</string>
+    <string name="week_4">Per</string>
+    <string name="week_5">Cum</string>
+    <string name="week_6">Cts</string>
+    <string name="week_7">Paz</string>
 
-    <string name="wind_0">Sakin</string>
-    <string name="wind_1">Hafif</string>
-    <string name="wind_2">Hafif bir esinti</string>
-    <string name="wind_3">Hafif esinti</string>
-    <string name="wind_4">Orta dereceli esinti</string>
-    <string name="wind_5">Taze esinti</string>
+    <string name="wind_0">Rüzgarsız</string>
+    <string name="wind_1">Hafif esinti</string>
+    <string name="wind_2">Hafif esinti</string>
+    <string name="wind_3">Orta esinti</string>
+    <string name="wind_4">Orta esinti</string>
+    <string name="wind_5">Esintili</string>
     <string name="wind_6">Kuvvetli esinti</string>
-    <string name="wind_7">Yakın esinti</string>
-    <string name="wind_8">Rüzgar</string>
+    <string name="wind_7">Hafif rüzgar</string>
+    <string name="wind_8">Rüzgarlı</string>
     <string name="wind_9">Kuvvetli rüzgar</string>
     <string name="wind_10">Fırtına</string>
-    <string name="wind_11">Şiddetli Fırtına</string>
+    <string name="wind_11">Şiddetli fırtına</string>
     <string name="wind_12">Kasırga/Tayfun</string>
 
-    <string name="aqi_1">Taze hava</string>
+    <string name="aqi_1">Temiz hava</string>
     <string name="aqi_2">Temiz hava</string>
-    <string name="aqi_3">Az kirli</string>
-    <string name="aqi_4">Orta kirli</string>
-    <string name="aqi_5">Çok kirli</string>
-    <string name="aqi_6">Tehlikeli</string>
+    <string name="aqi_3">Biraz kirli hava</string>
+    <string name="aqi_4">Orta kirli hava</string>
+    <string name="aqi_5">Çok kirli hava</string>
+    <string name="aqi_6">Aşırı kirli hava</string>
 
-    <string name="daily_overview">günlük</string>
-    <string name="hourly_overview">saatlik</string>
-    <string name="air_quality">hava kalitesi</string>
+    <string name="phase_new">Yeniay</string>
+    <string name="phase_waxing_crescent">Hilal</string>
+    <string name="phase_first">İlk dördün</string>
+    <string name="phase_waxing_gibbous">Şişkin ay</string>
+    <string name="phase_full">Dolunay</string>
+    <string name="phase_waning_gibbous">Şişkin ay</string>
+    <string name="phase_third">Son dördün</string>
+    <string name="phase_waning_crescent">Hilal</string>
+
+    <string name="grass">Çimen poleni</string>
+    <string name="mold">Küf</string>
+    <string name="ragweed">Kanaryaotu poleni</string>
+    <string name="tree">Ağaç poleni</string>
+
+    <string name="daily_overview">Günlük tahmin</string>
+    <string name="hourly_overview">Saatlik tahmin</string>
+    <string name="air_quality">Hava kalitesi</string>
+    <string name="allergen">Alerjen</string>
     <string name="life_details">Detaylar</string>
     <string name="sunrise_sunset">Güneş &amp; ay</string>
 
     <string name="next">SONRAKİ</string>
-    <string name="done">BİTTİ</string>
+    <string name="done">TAMAM</string>
     <string name="cancel" tools:ignore="ButtonCase">İPTAL</string>
-    <string name="on">AÇ</string>
-    <string name="off">KAPAT</string>
+    <string name="on">Açık</string>
+    <string name="off">Kapalı</string>
 
-    <string name="about_app">HAKKINDA</string>
+    <string name="about_app">Hakkında</string>
     <string name="introduce">Giriş</string>
     <string name="email">E-posta</string>
     <string name="gitHub">GitHub</string>
-    <string name="thanks">TŞK</string>
+    <string name="thanks">Teşekkürler</string>
     <string name="translator">Çevirmenler</string>
 
     <!-- feedback. -->
     <string name="feedback_request_permission">İzinler</string>
     <string name="feedback_request_location">Konum</string>
-    <string name="feedback_request_location_permission_success">Konum izin isteği başarılı.</string>
-    <string name="feedback_request_location_permission_failed">Konum izin isteği başarısız.</string>
+    <string name="feedback_request_location_permission_success">Konum izin isteği başarılı</string>
+    <string name="feedback_request_location_permission_failed">Konum izin isteği başarısız</string>
 
-    <string name="feedback_location_failed">Konum başarısız.</string>
-    <string name="feedback_get_weather_failed">Hava Durumu isteği başarısız.</string>
+    <string name="feedback_location_failed">Konum bulunamadı</string>
+    <string name="feedback_get_weather_failed">Hava durumu verisi alınamadı</string>
 
-    <string name="feedback_view_style">Görüntüleme şekli.</string>
-    <string name="feedback_show_widget_card">Kart görünümü.</string>
-    <string name="feedback_black_text">Koyu yazı.</string>
+    <string name="feedback_view_style">Görüntüleme şekli</string>
+    <string name="feedback_show_widget_card">Arkaplan rengi</string>
+    <string name="feedback_black_text">Yazı rengi</string>
 
-    <string name="feedback_click_toggle">Verileri değiştirmek için grafiği tıklayın.</string>
+    <string name="feedback_click_toggle">Verileri değiştirmek için grafiği tıklayın</string>
     <string name="feedback_no_data">VERİ YOK</string>
 
     <string name="feedback_collect_failed">Bu konum mevcut.</string>
-    <string name="feedback_collect_succeed">Konum ekleme başarılı.</string>
-    <string name="feedback_delete_succeed">Konum kaldırma başarılı.</string>
-    <string name="feedback_location_list_cannot_be_null">Konum listesi boş olamaz.</string>
+    <string name="feedback_collect_succeed">Konum ekleme başarılı</string>
+    <string name="feedback_delete_succeed">Konum kaldırma başarılı</string>
+    <string name="feedback_location_list_cannot_be_null">Konum listesi boş olamaz</string>
 
-    <string name="feedback_search_location">Konum ara…</string>
-    <string name="feedback_not_yet_location">Henüz konum yok…</string>
-    <string name="feedback_search_nothing">Hiçbir şey aranmadı…</string>
-    <string name="feedback_initializing">Başlatılıyor…</string>
+    <string name="feedback_search_location">Konum ara...</string>
+    <string name="feedback_not_yet_location">Henüz konum yok...</string>
+    <string name="feedback_search_nothing">Hiçbir şey aranmadı...</string>
+    <string name="feedback_initializing">Başlatılıyor...</string>
 
-    <string name="feedback_refresh_notification_after_back">Ana sayfaya geri döndüğünüzde etkili olacak.</string>
-    <string name="feedback_refresh_notification_now">Şimdi güncelle.</string>
-    <string name="feedback_refresh_ui_after_refresh">Veri güncellendiğinde etkili olacak.</string>
-    <string name="feedback_restart">Yeniden başlatınca etkili olacak.</string>
+    <string name="feedback_refresh_notification_after_back">Ana sayfaya geri döndüğünüzde etkili olacak</string>
+    <string name="feedback_refresh_notification_now">Şimdi güncelle</string>
+    <string name="feedback_refresh_ui_after_refresh">Veri güncellendiğinde etkili olacak</string>
+    <string name="feedback_restart">Yeniden başlatınca etkili olacak</string>
+
+    <string name="feedback_click_to_get_more">Detaylı bilgi için dokunun</string>
+
+    <string name="content_desc_powered_by">Sağlayıcı: $</string> <!-- $ = weather source. -->
 
     <!-- action -->
     <string name="action_alert">Uyarı</string>
@@ -118,38 +144,95 @@
     <string name="action_about">Hakkında</string>
 
     <!-- widget -->
+    <string name="widget_text">Metin</string>
+    <string name="widget_material_you_forecast">Material You - Tahmin</string>
+    <string name="widget_material_you_current">Material You - Şu Anki Durum</string>
     <string name="widget_day">Günlük</string>
     <string name="widget_week">Haftalık</string>
     <string name="widget_day_week">Günlük + Haftalık</string>
-    <string name="widget_clock_day_horizontal">Saat + Günlük (Yatay görünüm)</string>
-    <string name="widget_clock_day_vertical">Saat + Günlük (Dikey görünüm)</string>
-    <string name="widget_clock_day_week">Saat + Günlük + Haftalık</string>
+    <string name="widget_clock_day_horizontal">Saatlik + Günlük (Yatay)</string>
+    <string name="widget_clock_day_vertical">Saatlik + Günlük (Dikey)</string>
+    <string name="widget_clock_day_week">Saatlik + Günlük + Haftalık</string>
     <string name="wait_refresh">bekliyor</string>
     <string name="ellipsis">…</string>
+    <string name="widget_trend_hourly">Saatlik Görünüm</string>
+    <string name="widget_multi_city">Çoklu Şehir Görünümü</string>
+    <string name="widget_clock_day_details">Saatlik + Günlük (Detaylı)</string>
+    <string name="widget_trend_daily">Günlük Görünüm</string>
 
     <!-- settings -->
+    <string name="settings_title_background_free">Sadece önplanda çalıştır</string>
+    <string name="settings_summary_background_free_on">Açık\nEğer bildirimler ve widget yenileme otomatik olarak çalışmıyorsa lütfen bu ayarı kapatın.</string>
+    <string name="settings_summary_background_free_off">Kapalı\nEğer bildirimler ve widget yenileme otomatik olarak çalışmıyorsa lütfen bu ayarı kapatın.</string>
     <string name="settings_category_basic">Temel</string>
-    <string name="settings_language">Dil.</string>
-    <string name="settings_title_permanent_service">kalıcı servis.</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_title_permanent_service">Kalıcı servis</string>
     <string name="settings_category_forecast">Tahmin</string>
-    <string name="settings_title_forecast_today">Bugün için tahmin.</string>
-    <string name="settings_title_forecast_today_time">Bugün için tahmin zamanı.</string>
-    <string name="settings_title_forecast_tomorrow">Yarın için tahmin.</string>
-    <string name="settings_title_forecast_tomorrow_time">Yarın için tahmin zamanı.</string>
+    <string name="settings_title_forecast_today">Günlük hava durumu raporu</string>
+    <string name="settings_title_forecast_today_time">Günlük hava durumu rapor zamanı</string>
+    <string name="settings_title_forecast_tomorrow">Ertesi gün hava durumu raporu</string>
+    <string name="settings_title_forecast_tomorrow_time">Ertesi gün hava durumu rapor zamanı</string>
     <string name="settings_category_widget">Widget</string>
-    <string name="settings_category_notification">Uyarı</string>
-    <string name="settings_title_notification">Uyarı gönder.</string>
-    <string name="settings_title_notification_text_color">Yazı rengi.</string>
-    <string name="settings_title_notification_background">Arkaplan rengi.</string>
-    <string name="settings_notification_background_off">Sistem varsayılanı.</string>
-    <string name="settings_title_notification_can_be_cleared">Kaldırılabilir.</string>
-    <string name="settings_notification_can_be_cleared_on">Kaldırılabilir.</string>
-    <string name="settings_notification_can_be_cleared_off">Kaldırılamaz.</string>
-    <string name="settings_title_notification_hide_icon">Uyarı ikonunu gizle.</string>
-    <string name="settings_notification_hide_icon_on">Gizle.</string>
-    <string name="settings_notification_hide_icon_off">Göster.</string>
-    <string name="settings_title_notification_hide_in_lockScreen">Kilit ekranında gizle.</string>
-    <string name="settings_notification_hide_in_lockScreen_on">Gizle (Sistem ayarlarında açmanız gerekir).</string>
-    <string name="settings_notification_hide_in_lockScreen_off">Göster.</string>
+    <string name="settings_category_notification">Bildirim</string>
+    <string name="settings_title_notification">Bildirim gönder</string>
+    <string name="settings_title_notification_text_color">Yazı rengi</string>
+    <string name="settings_title_notification_background">Arkaplan rengi</string>
+    <string name="settings_notification_background_off">Sistem ayarını kullan</string>
+    <string name="settings_title_notification_can_be_cleared">Kaldırılabilir bildirim yap</string>
+    <string name="settings_notification_can_be_cleared_on">Kaldırılabilir bildirim</string>
+    <string name="settings_notification_can_be_cleared_off">Kalıcı bildirim</string>
+    <string name="settings_title_notification_hide_icon">Bildirim simgesini gizle</string>
+    <string name="settings_notification_hide_icon_on">Gizle</string>
+    <string name="settings_notification_hide_icon_off">Göster</string>
+    <string name="settings_title_notification_hide_in_lockScreen">Kilit ekranında gizle</string>
+    <string name="settings_notification_hide_in_lockScreen_on">Gizle (Sistem ayarlarında açmanız gerekir)</string>
+    <string name="settings_notification_hide_in_lockScreen_off">Göster</string>
+    <string name="settings_title_alert_notification_switch">Uyarı bildirimleri</string>
+    <string name="settings_title_precipitation_notification_switch">Yağış bildirimleri</string>
+    <string name="settings_title_refresh_rate">Otomatik yenileme sıklığı</string>
+    <string name="settings_title_dark_mode">Koyu mod</string>
+    <string name="settings_title_live_wallpaper">Canlı duvar kağıdı</string>
+    <string name="settings_summary_live_wallpaper">Hava durumu animasyonunu duvar kağıdı olarak belirleyin</string>
+    <string name="settings_title_service_provider">Veri sağlayıcısı</string>
+    <string name="settings_summary_service_provider">Hava durumu ve konum verisi için sağlayıcı seçin</string>
+    <string name="settings_title_unit">Birim</string>
+    <string name="settings_summary_unit">Hava durumu için ölçü birimi belirleyin</string>
+    <string name="settings_title_appearance">Görünüm</string>
+    <string name="settings_summary_appearance">Uygulama arayüzü, kart sırası, dil...</string>
+    <string name="settings_title_week_icon_mode">Haftalık rapor simgeleri</string>
+    <string name="settings_title_minimal_icon">Minimalist simgeler</string>
+    <string name="settings_title_notification_style">Bildirim türü</string>
+    <string name="settings_title_notification_temp_icon">Sıcaklığı bildirim simgesi olarak kullan</string>
+    <string name="settings_title_notification_feels_like">Hissedilen sıcaklığı kullan</string>
+    <string name="settings_title_card_display">Gösterilen kartlar</string>
+    <string name="settings_title_weather_source">Hava durumu veri sağlayıcısı</string>
+    <string name="settings_title_location_service">Konum servisi</string>
+    <string name="settings_title_service_provider_advanced">Gelişmiş veri sağlayıcı ayarları</string>
+    <string name="settings_summary_service_provider_advanced">Uzman kullanıcılar için</string>
+    <string name="settings_provider_accu_weather_key">AccuWeather hava durumu tahmin veri anahtarı</string>
+    <string name="settings_provider_accu_current_key">AccuWeather şu anki durum veri anahtarı</string>
+    <string name="settings_provider_accu_aqi_key">AccuWeather AQI anahtarı</string>
+    <string name="settings_provider_owm">OpenWeather</string>
+    <string name="settings_provider_owm_key">OpenWeather anahtarı</string>
+    <string name="settings_provider_baidu_ip_location">Baidu IP konumu</string>
+    <string name="settings_provider_mf_wsft_key">Météo France WSFT anahtarı</string>
+    <string name="settings_provider_iqa_air_parif_key">Air Parif anahtarı</string>
+    <string name="settings_provider_iqa_atmo_aura_key">ATMO AURA anahtarı</string>
+    <string name="settings_provider_default_value">Varsayılan</string>
+    <string name="settings_title_temperature_unit">Sıcaklık birimi</string>
+    <string name="settings_title_distance_unit">Uzaklık birimi</string>
+    <string name="settings_title_precipitation_unit">Yağış birimi</string>
+    <string name="settings_title_pressure_unit">Basınç birimi</string>
+    <string name="settings_title_speed_unit">Hız birimi</string>
+    <string name="settings_title_icon_provider">Simge stili</string>
+    <string name="settings_title_card_display">Gösterilen kartlar</string>
+    <string name="settings_title_daily_trend_display">Günlük durumu göster</string>
+    <string name="settings_title_hourly_trend_display">Saatlik durumu göster</string>
+    <string name="settings_title_trend_horizontal_line_switch">Durum grafiğine yatay çizgi ekle</string>
+    <string name="settings_title_exchange_day_night_temp_switch">Gündüz/gece değerlerinin yerini değiştir</string>
+    <string name="settings_title_card_order">Kart sırası</string>
+    <string name="settings_title_gravity_sensor_switch">Arayüzde eğim sensörünü kullan</string>
+    <string name="settings_title_list_animation_switch">Liste animasyonu</string>
+    <string name="settings_title_item_animation_switch">Öğe animasyonu</string>
 
 </resources>
