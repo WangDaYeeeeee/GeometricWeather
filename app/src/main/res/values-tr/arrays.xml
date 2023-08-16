@@ -16,10 +16,10 @@
         <item>Mini</item>
         <item>Nano</item>
         <item>Pixel</item>
-        <item>Vertical</item>
+        <item>Dikey</item>
         <item>Oreo</item>
         <item>Oreo (Google sans)</item>
-        <item>Temperature</item>
+        <item>Sıcaklık</item>
     </string-array>
 
 </resources>
