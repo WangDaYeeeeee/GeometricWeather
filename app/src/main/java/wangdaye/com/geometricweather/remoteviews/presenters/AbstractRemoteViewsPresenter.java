@@ -176,11 +176,15 @@ public abstract class AbstractRemoteViewsPresenter {
                 return false;
             }
 
-            if (ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED) {
-                return false;
+            // On Android 13+ (API 33+), READ_EXTERNAL_STORAGE is deprecated and
+            // WallpaperManager.getDrawable() no longer requires it.
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
             }
 
             Drawable drawable = manager.getDrawable();

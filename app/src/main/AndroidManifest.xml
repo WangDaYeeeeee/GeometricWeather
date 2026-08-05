@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="wangdaye.com.geometricweather">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- location. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <!-- request for some location SDKs and reading wallpaper in widget config activities. -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- request for some location SDKs and reading wallpaper in widget config activities.
+         On Android 13+ (API 33+), granular media permissions are used instead. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <!-- polling service. -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- query internet state. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -293,8 +295,19 @@
 
         <service
             android:name=".background.polling.services.permanent.observer.TimeObserverService"
-            android:process=":polling" />
-        <service android:name=".background.polling.services.permanent.observer.FakeForegroundService" />
+            android:process=":polling"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="time_observation" />
+        </service>
+        <service
+            android:name=".background.polling.services.permanent.observer.FakeForegroundService"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="time_observation" />
+        </service>
 
         <service
             android:name=".background.polling.services.permanent.update.ForegroundNormalUpdateService"
@@ -317,17 +330,7 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".background.interfaces.CMWeatherProviderService"
-            android:permission="cyanogenmod.permission.BIND_WEATHER_PROVIDER_SERVICE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="cyanogenmod.weatherservice.WeatherProviderService" />
-            </intent-filter>
-            <meta-data
-                android:name="cyanogenmod.weatherservice"
-                android:resource="@xml/cm_weather_provider_options" />
-        </service>
+        <!-- CyanogenMod Weather Provider Service removed (CyanogenMod is a defunct project). -->
 
         <service
             android:name=".wallpaper.MaterialLiveWallpaperService"

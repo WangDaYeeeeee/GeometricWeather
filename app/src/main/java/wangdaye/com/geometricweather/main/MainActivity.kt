@@ -9,9 +9,11 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,8 +50,6 @@ class MainActivity : GeoActivity(),
     private lateinit var viewModel: MainActivityViewModel
 
     companion object {
-        const val SEARCH_ACTIVITY = 4
-
         const val ACTION_MAIN = "com.wangdaye.geometricweather.Main"
         const val KEY_MAIN_ACTIVITY_LOCATION_FORMATTED_ID = "MAIN_ACTIVITY_LOCATION_FORMATTED_ID"
 
@@ -87,6 +87,91 @@ class MainActivity : GeoActivity(),
 
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
             updateSystemBarStyle()
+        }
+    }
+
+    // Activity Result API for search activity.
+    private val searchActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            val location: Location? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                result.data.getParcelableExtra(SearchActivity.KEY_LOCATION, Location::class.java)
+            } else {
+                result.data.getParcelableExtra(SearchActivity.KEY_LOCATION)
+            }
+            if (location != null) {
+                viewModel.addLocation(location, null)
+                SnackbarHelper.showSnackbar(getString(R.string.feedback_collect_succeed))
+            }
+        }
+    }
+
+    // Activity Result API for permissions.
+    private val permissionsResultLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val request = viewModel.permissionsRequest.value
+        if (request == null
+            || request.permissionList.isEmpty()
+            || request.target == null) {
+            return@registerForActivityResult
+        }
+
+        val deniedEssential = permissions.entries.firstOrNull { (permission, granted) ->
+            !granted && isEssentialLocationPermission(permission)
+        }
+        if (deniedEssential != null) {
+            // if the user denied an essential location permission.
+            if (request.target.isUsable || isLocationPermissionsGranted) {
+                viewModel.updateWithUpdatingChecking(
+                    request.triggeredByUser,
+                    false
+                )
+            } else {
+                viewModel.cancelRequest()
+            }
+            return@registerForActivityResult
+        }
+
+        // check background location permissions.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            && !viewModel.statementManager.isBackgroundLocationDeclared
+            && ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.feedback_background_location_title)
+                .setMessage(R.string.feedback_background_location_summary)
+                .setPositiveButton(R.string.go_to_set) { _, _ ->
+                    // mark background location permission declared.
+                    viewModel.statementManager.setBackgroundLocationDeclared(this)
+                    // request background location permission.
+                    backgroundLocationPermissionLauncher.launch(
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    )
+                }
+                .setCancelable(false)
+                .show()
+        }
+        viewModel.updateWithUpdatingChecking(
+            request.triggeredByUser,
+            false
+        )
+    }
+
+    // Activity Result API for single permission (background location).
+    private val backgroundLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        val request = viewModel.permissionsRequest.value
+        if (request != null) {
+            viewModel.updateWithUpdatingChecking(
+                request.triggeredByUser,
+                false
+            )
         }
     }
 
@@ -132,27 +217,6 @@ class MainActivity : GeoActivity(),
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         consumeIntentAction(getIntent())
-    }
-
-    override fun onActivityReenter(resultCode: Int, data: Intent) {
-        super.onActivityReenter(resultCode, data)
-        if (resultCode == SEARCH_ACTIVITY) {
-            val f = findManagementFragment()
-            f?.prepareReenterTransition()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            SEARCH_ACTIVITY -> if (resultCode == RESULT_OK && data != null) {
-                val location: Location? = data.getParcelableExtra(SearchActivity.KEY_LOCATION)
-                if (location != null) {
-                    viewModel.addLocation(location, null)
-                    SnackbarHelper.showSnackbar(getString(R.string.feedback_collect_succeed))
-                }
-            }
-        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -257,16 +321,15 @@ class MainActivity : GeoActivity(),
                         if (request != null
                             && request.permissionList.isNotEmpty()
                             && request.target != null) {
-                            requestPermissions(
-                                request.permissionList.toTypedArray(),
-                                0
+                            permissionsResultLauncher.launch(
+                                request.permissionList.toTypedArray()
                             )
                         }
                     }
                     .setCancelable(false)
                     .show()
             } else {
-                requestPermissions(it.permissionList.toTypedArray(), 0)
+                permissionsResultLauncher.launch(it.permissionList.toTypedArray())
             }
         }
         viewModel.mainMessage.observe(this) {
@@ -290,66 +353,6 @@ class MainActivity : GeoActivity(),
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        val request = viewModel.permissionsRequest.value
-        if (request == null
-            || request.permissionList.isEmpty()
-            || request.target == null) {
-            return
-        }
-
-        grantResults.zip(permissions).firstOrNull { // result, permission
-            it.first != PackageManager.PERMISSION_GRANTED
-                    && isEssentialLocationPermission(permission = it.second)
-        }?.let {
-            // if the user denied an essential location permissions.
-            if (request.target.isUsable || isLocationPermissionsGranted) {
-                viewModel.updateWithUpdatingChecking(
-                    request.triggeredByUser,
-                    false
-                )
-            } else {
-                viewModel.cancelRequest()
-            }
-
-            return
-        }
-
-        // check background location permissions.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-            && !viewModel.statementManager.isBackgroundLocationDeclared
-            && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.feedback_background_location_title)
-                .setMessage(R.string.feedback_background_location_summary)
-                .setPositiveButton(R.string.go_to_set) { _, _ ->
-                    // mark background location permission declared.
-                    viewModel.statementManager.setBackgroundLocationDeclared(this)
-                    // request background location permission.
-                    requestPermissions(
-                        arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                        0
-                    )
-                }
-                .setCancelable(false)
-                .show()
-        }
-        viewModel.updateWithUpdatingChecking(
-            request.triggeredByUser,
-            false
-        )
-    }
-
     private fun isLocationPermission(
         permission: String
     ) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -365,10 +368,10 @@ class MainActivity : GeoActivity(),
     }
 
     private val isLocationPermissionsGranted: Boolean
-        get() = ActivityCompat.checkSelfPermission(
+        get() = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+        ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
@@ -520,7 +523,7 @@ class MainActivity : GeoActivity(),
     // management fragment callback.
 
     override fun onSearchBarClicked(searchBar: View) {
-        IntentHelper.startSearchActivityForResult(this, searchBar, SEARCH_ACTIVITY)
+        IntentHelper.startSearchActivity(this, searchBar)
     }
 
     override fun onSelectProviderActivityStarted() {

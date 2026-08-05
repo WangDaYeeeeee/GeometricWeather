@@ -28,6 +28,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
+import androidx.core.graphics.Insets;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 
@@ -450,9 +452,11 @@ public final class Snackbar {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
         @Override
         public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+            WindowInsetsCompat compat = WindowInsetsCompat.toWindowInsetsCompat(insets);
+            Insets systemInsets = compat.getInsets(WindowInsetsCompat.Type.systemBars());
             mWindowInsets.set(
-                    insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(),
-                    insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom()
+                    systemInsets.left, systemInsets.top,
+                    systemInsets.right, systemInsets.bottom
             );
             Utils.consumeInsets(this, mWindowInsets);
             return insets;

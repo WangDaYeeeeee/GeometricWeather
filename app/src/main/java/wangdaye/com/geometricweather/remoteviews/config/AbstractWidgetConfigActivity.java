@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,11 +29,15 @@ import android.widget.RemoteViews;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.graphics.Insets;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -119,6 +124,24 @@ public abstract class AbstractWidgetConfigActivity extends GeoActivity
     protected boolean alignEnd;
 
     private long mLastBackPressedTime = -1;
+
+    private boolean mPendingWallpaperBind = false;
+    private boolean mPendingWallpaperUpdate = false;
+
+    // Activity Result API for storage permission.
+    private final ActivityResultLauncher<String> storagePermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (granted) {
+                    if (mPendingWallpaperBind) {
+                        mPendingWallpaperBind = false;
+                        bindWallpaperInternal();
+                    }
+                    if (mPendingWallpaperUpdate) {
+                        mPendingWallpaperUpdate = false;
+                        updateHostView();
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -282,7 +305,9 @@ public abstract class AbstractWidgetConfigActivity extends GeoActivity
         int adaptiveWidth = DisplayUtils.getTabletListAdaptiveWidth(this, screenWidth);
         int paddingHorizontal = (screenWidth - adaptiveWidth) / 2;
         mTopContainer.setOnApplyWindowInsetsListener((v, insets) -> {
-            mWidgetContainer.setPadding(paddingHorizontal, insets.getSystemWindowInsetTop(),
+            WindowInsetsCompat compat = WindowInsetsCompat.toWindowInsetsCompat(insets);
+            Insets systemInsets = compat.getInsets(WindowInsetsCompat.Type.systemBars());
+            mWidgetContainer.setPadding(paddingHorizontal, systemInsets.top,
                     paddingHorizontal, 0);
             return insets;
         });
@@ -611,13 +636,21 @@ public abstract class AbstractWidgetConfigActivity extends GeoActivity
 
     @SuppressLint("MissingPermission")
     private void bindWallpaper(boolean checkPermissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // On Android 13+, READ_EXTERNAL_STORAGE is deprecated and not needed for wallpaper.
+            bindWallpaperInternal();
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkPermissions) {
-            boolean hasPermission = checkPermissions(0);
+            boolean hasPermission = checkStoragePermission();
             if (!hasPermission) {
                 return;
             }
         }
+        bindWallpaperInternal();
+    }
 
+    private void bindWallpaperInternal() {
         try {
             WallpaperManager manager = WallpaperManager.getInstance(this);
             if (manager != null) {
@@ -636,35 +669,14 @@ public abstract class AbstractWidgetConfigActivity extends GeoActivity
      *         false: request permissions.
      * */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean checkPermissions(int requestCode) {
+    private boolean checkStoragePermission() {
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, requestCode);
+            mPendingWallpaperBind = true;
+            storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case 0:
-                bindWallpaper(false);
-                if (textColorValueNow.equals("auto")) {
-                    updateHostView();
-                }
-                break;
-
-            case 1:
-                bindWallpaper(false);
-                updateHostView();
-                break;
-        }
     }
 
     // on check changed listener(switch).
@@ -766,7 +778,7 @@ public abstract class AbstractWidgetConfigActivity extends GeoActivity
 
                 boolean hasPermission = true;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    hasPermission = checkPermissions(1);
+                    hasPermission = checkStoragePermission();
                 }
                 if (hasPermission) {
                     updateHostView();

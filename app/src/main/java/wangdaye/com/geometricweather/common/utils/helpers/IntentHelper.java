@@ -124,11 +124,9 @@ public class IntentHelper {
         activity.startActivity(intent);
     }
 
-    public static void startSearchActivityForResult(Activity activity, View bar, int requestCode) {
-        ActivityCompat.startActivityForResult(
-                activity,
+    public static void startSearchActivity(Activity activity, View bar) {
+        activity.startActivity(
                 new Intent(activity, SearchActivity.class),
-                requestCode,
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity,
                         Pair.create(bar, activity.getString(R.string.transition_activity_search_bar))

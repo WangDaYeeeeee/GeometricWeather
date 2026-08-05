@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -34,8 +35,6 @@ import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.settings.compose.*
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
-private const val PERMISSION_CODE_POST_NOTIFICATION = 0
-
 class SettingsActivity : GeoActivity() {
 
     private val cardDisplayState = mutableStateOf(
@@ -49,6 +48,16 @@ class SettingsActivity : GeoActivity() {
     )
 
     private var requestPostNotificationPermissionSucceedCallback: (() -> Unit)? = null
+
+    // Activity Result API for POST_NOTIFICATIONS permission.
+    private val postNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            requestPostNotificationPermissionSucceedCallback?.let { it() }
+            requestPostNotificationPermissionSucceedCallback = null
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,23 +83,6 @@ class SettingsActivity : GeoActivity() {
             if (hourlyTrendDisplayState.value != hourlyTrendDisplayList) {
                 hourlyTrendDisplayState.value = hourlyTrendDisplayList
             }
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSION_CODE_POST_NOTIFICATION) {
-            if (grantResults.count { it == PackageManager.PERMISSION_GRANTED } == grantResults.size) {
-                // all granted.
-                requestPostNotificationPermissionSucceedCallback?.let { it() }
-                requestPostNotificationPermissionSucceedCallback = null
-            }
-            return
         }
     }
 
@@ -144,9 +136,8 @@ class SettingsActivity : GeoActivity() {
                             }
 
                             requestPostNotificationPermissionSucceedCallback = succeedCallback
-                            requestPermissions(
-                                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                                PERMISSION_CODE_POST_NOTIFICATION
+                            postNotificationPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
                             )
                         }
                     )

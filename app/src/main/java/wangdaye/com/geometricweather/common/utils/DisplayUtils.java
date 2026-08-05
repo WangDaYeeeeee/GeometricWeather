@@ -26,6 +26,8 @@ import androidx.annotation.Px;
 import androidx.annotation.Size;
 import androidx.annotation.StyleRes;
 import androidx.core.graphics.ColorUtils;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.google.android.material.resources.TextAppearance;
 
@@ -75,33 +77,27 @@ public class DisplayUtils {
             boolean navigationShader,
             boolean lightNavigation
     ) {
-        int visibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        // Enable edge-to-edge using the modern API.
+        WindowCompat.setDecorFitsSystemWindows(window, false);
 
-        // status bar.
-        if (lightStatus) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                visibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            } else {
-                lightStatus = false;
-                statusShader = true;
+        WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, window.getDecorView());
+        if (insetsController != null) {
+            insetsController.setAppearanceLightStatusBars(lightStatus);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                insetsController.setAppearanceLightNavigationBars(lightNavigation);
             }
         }
 
-        // navigation bar.
-        if (lightNavigation) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                visibility |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            } else {
-                lightNavigation = false;
-                navigationShader = true;
-            }
+        // Fallback for light status/navigation on older devices.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            lightStatus = false;
+            statusShader = true;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            lightNavigation = false;
+            navigationShader = true;
         }
         navigationShader &= Build.VERSION.SDK_INT < Build.VERSION_CODES.Q;
-
-        // flags.
-        window.getDecorView().setSystemUiVisibility(visibility);
 
         // colors.
         if (!statusShader) {

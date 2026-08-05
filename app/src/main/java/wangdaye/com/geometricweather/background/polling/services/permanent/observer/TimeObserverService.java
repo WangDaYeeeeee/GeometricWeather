@@ -155,7 +155,11 @@ public class TimeObserverService extends Service {
         filter.addAction(Intent.ACTION_TIME_CHANGED);
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         sReceiver = new TimeTickReceiver();
-        registerReceiver(sReceiver, filter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(sReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(sReceiver, filter);
+        }
     }
 
     private void unregisterReceiver() {
