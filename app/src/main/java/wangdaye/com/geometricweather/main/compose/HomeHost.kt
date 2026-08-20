@@ -1,29 +1,32 @@
-package wangdaye.com.geometricweather.main.fragments
+package wangdaye.com.geometricweather.main.compose
 
 import android.animation.Animator
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.ColorUtils
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.GeoActivity
-import wangdaye.com.geometricweather.common.basic.livedata.EqualtableLiveData
 import wangdaye.com.geometricweather.common.basic.models.Location
+import wangdaye.com.geometricweather.common.snackbar.SnackbarContainer
 import wangdaye.com.geometricweather.common.ui.widgets.SwipeSwitchLayout
-import wangdaye.com.geometricweather.common.ui.widgets.SwipeSwitchLayout.OnSwitchListener
+import wangdaye.com.geometricweather.common.bus.EventBus
 import wangdaye.com.geometricweather.databinding.FragmentHomeBinding
 import wangdaye.com.geometricweather.main.MainActivityViewModel
 import wangdaye.com.geometricweather.main.adapters.main.MainAdapter
+import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
 import wangdaye.com.geometricweather.main.layouts.MainLayoutManager
 import wangdaye.com.geometricweather.main.utils.MainModuleUtils
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
@@ -34,40 +37,44 @@ import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherView
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController
 
-class HomeFragment : MainModuleFragment() {
+/**
+ * View-backed Home content hosted from Compose via [AndroidView].
+ * Keeps [WeatherView], [MainAdapter] / [MainLayoutManager], and [SwipeSwitchLayout]
+ * as real Android Views so the weather animation is not rewritten to Canvas.
+ */
+class HomeHost(
+    private val activity: GeoActivity,
+    private val viewModel: MainActivityViewModel,
+    var onManageIconClicked: () -> Unit,
+    var onSettingsIconClicked: () -> Unit,
+) {
 
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: MainActivityViewModel
-    private lateinit var weatherView: WeatherView
+    val binding: FragmentHomeBinding = FragmentHomeBinding.inflate(activity.layoutInflater)
+    val weatherView: WeatherView = ThemeManager
+        .getInstance(activity)
+        .weatherThemeDelegate
+        .getWeatherView(activity)
+    val root: View
+        get() = binding.root
+
+    val snackbarContainer: SnackbarContainer
+        get() = SnackbarContainer(activity, binding.root as ViewGroup, true)
 
     private var adapter: MainAdapter? = null
     private var scrollListener: OnScrollListener? = null
     private var recyclerViewAnimator: Animator? = null
     private var resourceProvider: ResourceProvider? = null
-
-    private val previewOffset = EqualtableLiveData(0)
-    private var callback: Callback? = null
+    private val previewOffset = MutableStateFlow(0)
     private var weatherDrawableOverride: Boolean? = null
+    private var collectJob: Job? = null
+    private var lastUiMode: Int = activity.resources.configuration.uiMode
+    private var released = false
 
-    interface Callback {
-        fun onManageIconClicked()
-        fun onSettingsIconClicked()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-
-        initModel()
-
-        // attach weather view.
-        weatherView = ThemeManager
-            .getInstance(requireContext())
-            .weatherThemeDelegate
-            .getWeatherView(requireContext())
+    init {
+        binding.root.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         (binding.switchLayout.parent as CoordinatorLayout).addView(
             weatherView as View,
             0,
@@ -76,33 +83,55 @@ class HomeFragment : MainModuleFragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-
         initView()
-        setCallback(requireActivity() as Callback)
-
-        return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun startCollecting(owner: LifecycleOwner) {
+        if (collectJob != null) {
+            return
+        }
+        collectJob = owner.lifecycleScope.launch {
+            owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.currentLocation.collectLatest { holder ->
+                        holder?.let { updateViews(it.location) }
+                    }
+                }
+                launch {
+                    viewModel.loading.collectLatest { setRefreshing(it) }
+                }
+                launch {
+                    viewModel.indicator.collectLatest { data ->
+                        data ?: return@collectLatest
+                        binding.switchLayout.isEnabled = data.total > 1
+                        if (binding.switchLayout.totalCount != data.total
+                            || binding.switchLayout.position != data.index) {
+                            binding.switchLayout.setData(data.index, data.total)
+                            binding.indicator.setSwitchView(binding.switchLayout)
+                        }
+                        binding.indicator.visibility =
+                            if (data.total > 1) View.VISIBLE else View.GONE
+                    }
+                }
+                launch {
+                    previewOffset.collectLatest {
+                        binding.root.post {
+                            if (!released) {
+                                updatePreviewSubviews()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun onActivityResume() {
         applyWeatherDrawable()
     }
 
-    override fun onPause() {
-        super.onPause()
+    fun onActivityPause() {
         weatherView.setDrawable(false)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        adapter = null
-        binding.recyclerView.clearOnScrollListeners()
-        scrollListener = null
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        applyWeatherDrawable()
     }
 
     fun setWeatherDrawableEnabled(enabled: Boolean) {
@@ -110,20 +139,17 @@ class HomeFragment : MainModuleFragment() {
         applyWeatherDrawable()
     }
 
-    private fun applyWeatherDrawable() {
-        if (!::weatherView.isInitialized) {
-            return
-        }
-        weatherView.setDrawable(weatherDrawableOverride ?: !isHidden)
+    fun applyWeatherDrawable() {
+        weatherView.setDrawable(weatherDrawableOverride ?: true)
     }
 
-    override fun setSystemBarStyle() {
+    fun setSystemBarStyle() {
         ThemeManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .weatherThemeDelegate
             .setSystemBarStyle(
-                requireContext(),
-                requireActivity().window,
+                activity,
+                activity.window,
                 statusShader = scrollListener?.topOverlap == true,
                 lightStatus = false,
                 navigationShader = true,
@@ -131,16 +157,38 @@ class HomeFragment : MainModuleFragment() {
             )
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
+    fun onConfigurationChangedIfNeeded() {
+        val uiMode = activity.resources.configuration.uiMode
+        if (uiMode == lastUiMode) {
+            return
+        }
+        lastUiMode = uiMode
         updateDayNightColors()
         updateViews()
     }
 
-    // init.
+    @JvmOverloads
+    fun updateViews(location: Location? = viewModel.currentLocation.value?.location) {
+        if (location == null || released) {
+            return
+        }
+        ensureResourceProvider()
+        updateContentViews(location = location)
+        binding.root.post {
+            if (!released) {
+                updatePreviewSubviews()
+            }
+        }
+    }
 
-    private fun initModel() {
-        viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
+    fun release() {
+        released = true
+        collectJob?.cancel()
+        collectJob = null
+        adapter = null
+        binding.recyclerView.clearOnScrollListeners()
+        scrollListener = null
+        weatherView.setDrawable(false)
     }
 
     @SuppressLint("ClickableViewAccessibility", "NonConstantResourceId", "NotifyDataSetChanged")
@@ -148,23 +196,15 @@ class HomeFragment : MainModuleFragment() {
         ensureResourceProvider()
 
         weatherView.setGravitySensorEnabled(
-            SettingsManager.getInstance(requireContext()).isGravitySensorEnabled
+            SettingsManager.getInstance(activity).isGravitySensorEnabled
         )
 
-        binding.toolbar.setNavigationOnClickListener {
-            if (callback != null) {
-                callback!!.onManageIconClicked()
-            }
-        }
+        binding.toolbar.setNavigationOnClickListener { onManageIconClicked() }
         binding.toolbar.inflateMenu(R.menu.activity_main)
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.action_manage -> if (callback != null) {
-                    callback!!.onManageIconClicked()
-                }
-                R.id.action_settings -> if (callback != null) {
-                    callback!!.onSettingsIconClicked()
-                }
+                R.id.action_manage -> onManageIconClicked()
+                R.id.action_settings -> onSettingsIconClicked()
             }
             true
         }
@@ -185,13 +225,13 @@ class HomeFragment : MainModuleFragment() {
         }
 
         val listAnimationEnabled = SettingsManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .isListAnimationEnabled
         val itemAnimationEnabled = SettingsManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .isItemAnimationEnabled
         adapter = MainAdapter(
-            (requireActivity() as GeoActivity),
+            activity,
             binding.recyclerView,
             weatherView,
             null,
@@ -203,55 +243,16 @@ class HomeFragment : MainModuleFragment() {
         binding.recyclerView.layoutManager = MainLayoutManager()
         binding.recyclerView.addOnScrollListener(OnScrollListener().also { scrollListener = it })
         binding.recyclerView.setOnTouchListener(indicatorStateListener)
-
-        viewModel.currentLocation.asLiveData().observe(viewLifecycleOwner) {
-            it?.let { locationHolder -> updateViews(locationHolder.location) }
-        }
-
-        viewModel.loading.asLiveData().observe(viewLifecycleOwner) { setRefreshing(it) }
-
-        viewModel.indicator.asLiveData().observe(viewLifecycleOwner) {
-            val data = it ?: return@observe
-            binding.switchLayout.isEnabled = data.total > 1
-
-            if (binding.switchLayout.totalCount != data.total
-                || binding.switchLayout.position != data.index) {
-                binding.switchLayout.setData(data.index, data.total)
-                binding.indicator.setSwitchView(binding.switchLayout)
-            }
-
-            binding.indicator.visibility = if (data.total > 1) View.VISIBLE else View.GONE
-        }
-
-        previewOffset.observe(viewLifecycleOwner) {
-            binding.root.post {
-                if (isFragmentViewCreated) {
-                    updatePreviewSubviews()
-                }
-            }
-        }
     }
 
     private fun updateDayNightColors() {
+        val location = viewModel.currentLocation.value?.location ?: return
         binding.refreshLayout.setProgressBackgroundColorSchemeColor(
             MainThemeColorProvider.getColor(
-                location = viewModel.currentLocation.value!!.location,
+                location = location,
                 id = R.attr.colorSurface
             )
         )
-    }
-
-    // control.
-
-    @JvmOverloads
-    fun updateViews(location: Location = viewModel.currentLocation.value!!.location) {
-        ensureResourceProvider()
-        updateContentViews(location = location)
-        binding.root.post {
-            if (isFragmentViewCreated) {
-                updatePreviewSubviews()
-            }
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
@@ -262,7 +263,6 @@ class HomeFragment : MainModuleFragment() {
         }
 
         updateDayNightColors()
-
         binding.switchLayout.reset()
 
         if (location.weather == null) {
@@ -271,8 +271,7 @@ class HomeFragment : MainModuleFragment() {
             binding.recyclerView.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN
                     && !binding.refreshLayout.isRefreshing) {
-
-                        viewModel.updateWithUpdatingChecking(
+                    viewModel.updateWithUpdatingChecking(
                         triggeredByUser = true,
                         checkPermissions = true
                     )
@@ -285,13 +284,13 @@ class HomeFragment : MainModuleFragment() {
         binding.recyclerView.setOnTouchListener(null)
 
         val listAnimationEnabled = SettingsManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .isListAnimationEnabled
         val itemAnimationEnabled = SettingsManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .isItemAnimationEnabled
         adapter!!.update(
-            (requireActivity() as GeoActivity),
+            activity,
             binding.recyclerView,
             weatherView,
             location,
@@ -316,7 +315,7 @@ class HomeFragment : MainModuleFragment() {
 
     private fun ensureResourceProvider() {
         val iconProvider = SettingsManager
-            .getInstance(requireContext())
+            .getInstance(activity)
             .iconProvider
         if (resourceProvider == null
             || resourceProvider!!.packageName != iconProvider) {
@@ -325,24 +324,26 @@ class HomeFragment : MainModuleFragment() {
     }
 
     private fun updatePreviewSubviews() {
-        val location = viewModel.getValidLocation(
-            previewOffset.value!!
-        )
+        val provider = resourceProvider ?: return
+        if (viewModel.validLocationList.value?.locationList.isNullOrEmpty()) {
+            return
+        }
+        val location = viewModel.getValidLocation(previewOffset.value)
         val daylight = location.isDaylight
 
-        binding.toolbar.title = location.getCityName(requireContext())
+        binding.toolbar.title = location.getCityName(activity)
         WeatherViewController.setWeatherCode(
             weatherView,
             location.weather,
             daylight,
-            resourceProvider!!
+            provider
         )
         binding.refreshLayout.setColorSchemeColors(
             ThemeManager
-                .getInstance(requireContext())
+                .getInstance(activity)
                 .weatherThemeDelegate
                 .getThemeColors(
-                    requireContext(),
+                    activity,
                     WeatherViewController.getWeatherKind(location.weather),
                     daylight
                 )[0]
@@ -351,22 +352,20 @@ class HomeFragment : MainModuleFragment() {
 
     private fun setRefreshing(b: Boolean) {
         binding.refreshLayout.post {
-            if (isFragmentViewCreated) {
+            if (!released) {
                 binding.refreshLayout.isRefreshing = b
             }
         }
     }
 
-    // interface.
-
-    private fun setCallback(callback: Callback?) {
-        this.callback = callback
+    private fun setPreviewOffset(value: Int) {
+        if (previewOffset.value != value) {
+            previewOffset.value = value
+        }
     }
 
-    // on touch listener.
-
     @SuppressLint("ClickableViewAccessibility")
-    private val indicatorStateListener = OnTouchListener { _, event ->
+    private val indicatorStateListener = View.OnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_MOVE ->
                 binding.indicator.setDisplayState(true)
@@ -376,33 +375,29 @@ class HomeFragment : MainModuleFragment() {
         false
     }
 
-    // on swipe listener (swipe switch layout).
+    private val switchListener: SwipeSwitchLayout.OnSwitchListener =
+        object : SwipeSwitchLayout.OnSwitchListener {
 
-    private val switchListener: OnSwitchListener = object : OnSwitchListener {
+            override fun onSwiped(swipeDirection: Int, progress: Float) {
+                binding.indicator.setDisplayState(progress != 0f)
 
-        override fun onSwiped(swipeDirection: Int, progress: Float) {
-            binding.indicator.setDisplayState(progress != 0f)
+                if (progress >= 1) {
+                    setPreviewOffset(
+                        if (swipeDirection == SwipeSwitchLayout.SWIPE_DIRECTION_LEFT) 1 else -1
+                    )
+                } else {
+                    setPreviewOffset(0)
+                }
+            }
 
-            if (progress >= 1) {
-                previewOffset.setValue(
+            override fun onSwitched(swipeDirection: Int) {
+                binding.indicator.setDisplayState(false)
+                viewModel.offsetLocation(
                     if (swipeDirection == SwipeSwitchLayout.SWIPE_DIRECTION_LEFT) 1 else -1
                 )
-            } else {
-                previewOffset.setValue(0)
+                setPreviewOffset(0)
             }
         }
-
-        override fun onSwitched(swipeDirection: Int) {
-            binding.indicator.setDisplayState(false)
-
-            viewModel.offsetLocation(
-                if (swipeDirection == SwipeSwitchLayout.SWIPE_DIRECTION_LEFT) 1 else -1
-            )
-            previewOffset.setValue(0)
-        }
-    }
-
-    // on scroll changed listener.
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {
 
@@ -414,7 +409,7 @@ class HomeFragment : MainModuleFragment() {
 
         fun postReset(recyclerView: RecyclerView) {
             recyclerView.post {
-                if (!isFragmentViewCreated) {
+                if (released) {
                     return@post
                 }
                 mTopChanged = null
@@ -437,11 +432,8 @@ class HomeFragment : MainModuleFragment() {
             mLastAppBarTranslationY = binding.appBar.translationY
             weatherView.onScroll(mScrollY)
 
-            if (adapter != null) {
-                adapter!!.onScroll()
-            }
+            adapter?.onScroll()
 
-            // set translation y of toolbar.
             if (adapter != null && mFirstCardMarginTop > 0) {
                 if (mFirstCardMarginTop >= binding.appBar.measuredHeight
                     + adapter!!.currentTemperatureTextHeight) {
@@ -460,7 +452,7 @@ class HomeFragment : MainModuleFragment() {
                                             - adapter!!.currentTemperatureTextHeight
                                             - mScrollY
                                             - binding.appBar.measuredHeight
-                            ).toFloat()
+                                    ).toFloat()
                         }
                     }
                 } else {
@@ -468,7 +460,6 @@ class HomeFragment : MainModuleFragment() {
                 }
             }
 
-            // set system bar style.
             if (mFirstCardMarginTop <= 0) {
                 mTopChanged = true
                 topOverlap = false
@@ -476,8 +467,10 @@ class HomeFragment : MainModuleFragment() {
                 mTopChanged = (binding.appBar.translationY != 0f) != (mLastAppBarTranslationY != 0f)
                 topOverlap = binding.appBar.translationY != 0f
             }
-            if (mTopChanged!!) {
-                checkToSetSystemBarStyle()
+            if (mTopChanged == true) {
+                EventBus.instance
+                    .with(ModifyMainSystemBarMessage::class.java)
+                    .postValue(ModifyMainSystemBarMessage())
             }
         }
     }

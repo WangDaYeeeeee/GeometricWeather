@@ -32,10 +32,10 @@ import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
 import wangdaye.com.geometricweather.common.utils.helpers.ShortcutsHelper
 import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper
+import wangdaye.com.geometricweather.main.compose.HomeHost
 import wangdaye.com.geometricweather.main.compose.MainScreen
 import wangdaye.com.geometricweather.main.compose.WIDE_LAYOUT_MIN_DP
 import wangdaye.com.geometricweather.main.dialogs.LocationHelpDialog
-import wangdaye.com.geometricweather.main.fragments.HomeFragment
 import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
@@ -45,11 +45,11 @@ import wangdaye.com.geometricweather.settings.SettingsChangedMessage
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
 @AndroidEntryPoint
-class MainActivity : GeoActivity(),
-    HomeFragment.Callback {
+class MainActivity : GeoActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
     private var managementVisible by mutableStateOf(false)
+    var homeHost: HomeHost? = null
 
     companion object {
         const val ACTION_MAIN = "com.wangdaye.geometricweather.Main"
@@ -177,6 +177,9 @@ class MainActivity : GeoActivity(),
                     onSelectProvider = {
                         IntentHelper.startSelectProviderActivity(this)
                     },
+                    onSettingsIconClicked = {
+                        IntentHelper.startSettingsActivity(this)
+                    },
                 )
             }
         }
@@ -191,7 +194,7 @@ class MainActivity : GeoActivity(),
         EventBus.instance.with(SettingsChangedMessage::class.java).observe(this) {
             viewModel.init()
 
-            findHomeFragment()?.updateViews()
+            homeHost?.updateViews()
 
             viewModel.validLocationList.value?.locationList?.let {
                 AsyncHelper.runOnIO {
@@ -237,7 +240,7 @@ class MainActivity : GeoActivity(),
     override val snackbarContainer: SnackbarContainer?
         get() {
             if (!managementVisible || isWideLayout) {
-                return findHomeFragment()?.snackbarContainer ?: super.snackbarContainer
+                return homeHost?.snackbarContainer ?: super.snackbarContainer
             }
             return super.snackbarContainer
         }
@@ -388,7 +391,7 @@ class MainActivity : GeoActivity(),
 
     private fun updateSystemBarStyle() {
         if (isWideLayout || !managementVisible) {
-            findHomeFragment()?.setSystemBarStyle()
+            homeHost?.setSystemBarStyle()
             return
         }
         DisplayUtils.setSystemBarStyle(
@@ -418,9 +421,6 @@ class MainActivity : GeoActivity(),
         updateSystemBarStyle()
     }
 
-    private fun findHomeFragment(): HomeFragment? =
-        wangdaye.com.geometricweather.main.compose.findHomeFragment(this)
-
     private fun refreshBackgroundViews(resetBackground: Boolean, locationList: List<Location>?) {
         if (resetBackground) {
             AsyncHelper.delayRunOnIO({
@@ -442,13 +442,5 @@ class MainActivity : GeoActivity(),
                 }
             }
         }
-    }
-
-    override fun onManageIconClicked() {
-        setManagementFragmentVisibility(!managementVisible)
-    }
-
-    override fun onSettingsIconClicked() {
-        IntentHelper.startSettingsActivity(this)
     }
 }

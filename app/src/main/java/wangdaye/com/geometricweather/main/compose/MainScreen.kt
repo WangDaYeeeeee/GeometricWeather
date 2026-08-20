@@ -34,6 +34,7 @@ fun MainScreen(
     onManagementVisibleChange: (Boolean) -> Unit,
     onSearchBarClick: () -> Unit,
     onSelectProvider: () -> Unit,
+    onSettingsIconClicked: () -> Unit,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -75,8 +76,11 @@ fun MainScreen(
                         .fillMaxHeight(),
                 )
             }
-            HomeFragmentHost(
+            HomeScreen(
+                viewModel = viewModel,
                 weatherAnimating = true,
+                onManageIconClicked = { onManagementVisibleChange(!managementVisible) },
+                onSettingsIconClicked = onSettingsIconClicked,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
@@ -84,8 +88,11 @@ fun MainScreen(
         }
     } else {
         Box(modifier = Modifier.fillMaxSize()) {
-            HomeFragmentHost(
+            HomeScreen(
+                viewModel = viewModel,
                 weatherAnimating = !managementVisible,
+                onManageIconClicked = { onManagementVisibleChange(!managementVisible) },
+                onSettingsIconClicked = onSettingsIconClicked,
                 modifier = Modifier.fillMaxSize(),
             )
             AnimatedVisibility(
