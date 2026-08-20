@@ -11,40 +11,40 @@ class AccuHourlyResult(
     @JvmField val WeatherIcon: Int = 0,
     @JvmField val IconPhrase: String? = null,
     @JvmField val IsDaylight: Boolean = false,
-    @JvmField val Temperature: Temperature? = null,
-    @JvmField val RealFeelTemperature: RealFeelTemperature? = null,
-    @JvmField val RealFeelTemperatureShade: RealFeelTemperatureShade? = null,
-    @JvmField val WetBulbTemperature: WetBulbTemperature? = null,
+    @JvmField val Temperature: TemperatureBean? = null,
+    @JvmField val RealFeelTemperature: RealFeelTemperatureBean? = null,
+    @JvmField val RealFeelTemperatureShade: RealFeelTemperatureShadeBean? = null,
+    @JvmField val WetBulbTemperature: WetBulbTemperatureBean? = null,
     @JvmField val PrecipitationProbability: Int = 0,
     @JvmField val ThunderstormProbability: Int = 0,
     @JvmField val RainProbability: Int = 0,
     @JvmField val SnowProbability: Int = 0,
     @JvmField val IceProbability: Int = 0,
-    @JvmField val Wind: Wind? = null,
-    @JvmField val WindGust: WindGust? = null,
+    @JvmField val Wind: WindBean? = null,
+    @JvmField val WindGust: WindGustBean? = null,
     @JvmField val UVIndex: Int = 0,
     @JvmField val UVIndexText: String? = null,
-    @JvmField val TotalLiquid: TotalLiquid? = null,
-    @JvmField val Rain: Rain? = null,
-    @JvmField val Snow: Snow? = null,
-    @JvmField val Ice: Ice? = null,
+    @JvmField val TotalLiquid: TotalLiquidBean? = null,
+    @JvmField val Rain: RainBean? = null,
+    @JvmField val Snow: SnowBean? = null,
+    @JvmField val Ice: IceBean? = null,
     @JvmField val MobileLink: String? = null,
     @JvmField val Link: String? = null
 ) {
     @Serializable
-    class Wind(
-        @JvmField val Speed: Speed? = null,
-        @JvmField val Direction: Direction? = null
+    class WindBean(
+        @JvmField val Speed: SpeedBean? = null,
+        @JvmField val Direction: DirectionBean? = null
     ) {
         @Serializable
-        class Speed(
+        class SpeedBean(
             @JvmField val Value: Double = 0.0,
             @JvmField val Unit: String? = null,
             @JvmField val UnitType: Int = 0
         )
 
         @Serializable
-        class Direction(
+        class DirectionBean(
             @JvmField val Degrees: Int = 0,
             @JvmField val Localized: String? = null,
             @JvmField val English: String? = null
@@ -52,19 +52,19 @@ class AccuHourlyResult(
     }
 
     @Serializable
-    class WindGust(
-        @JvmField val Speed: Speed? = null,
-        @JvmField val Direction: Direction? = null
+    class WindGustBean(
+        @JvmField val Speed: SpeedBean? = null,
+        @JvmField val Direction: DirectionBean? = null
     ) {
         @Serializable
-        class Speed(
+        class SpeedBean(
             @JvmField val Value: Double = 0.0,
             @JvmField val Unit: String? = null,
             @JvmField val UnitType: Int = 0
         )
 
         @Serializable
-        class Direction(
+        class DirectionBean(
             @JvmField val Degrees: Int = 0,
             @JvmField val Localized: String? = null,
             @JvmField val English: String? = null
@@ -72,56 +72,56 @@ class AccuHourlyResult(
     }
 
     @Serializable
-    class Temperature(
+    class TemperatureBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class RealFeelTemperature(
+    class RealFeelTemperatureBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class RealFeelTemperatureShade(
+    class RealFeelTemperatureShadeBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class WetBulbTemperature(
+    class WetBulbTemperatureBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class TotalLiquid(
+    class TotalLiquidBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class Rain(
+    class RainBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class Snow(
+    class SnowBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0
     )
 
     @Serializable
-    class Ice(
+    class IceBean(
         @JvmField val Value: Double = 0.0,
         @JvmField val Unit: String? = null,
         @JvmField val UnitType: Int = 0

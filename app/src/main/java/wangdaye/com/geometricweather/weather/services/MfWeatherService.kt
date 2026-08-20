@@ -153,7 +153,7 @@ class MfWeatherService @Inject constructor(
                     )
                 }
                 val locationList = ArrayList<Location>()
-                if (mfForecastV2Result.properties.insee != null) {
+                if (mfForecastV2Result.properties?.insee != null) {
                     locationList.add(MfResultConverter.convert(null, mfForecastV2Result))
                 }
                 callback.requestLocationSuccess(

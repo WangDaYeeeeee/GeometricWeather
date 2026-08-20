@@ -8,27 +8,27 @@ import java.util.Date
 class AccuAlertResult(
     @JvmField val CountryCode: String? = null,
     @JvmField val AlertID: Int = 0,
-    @JvmField val Description: Description? = null,
+    @JvmField val Description: DescriptionBean? = null,
     @JvmField val Category: String? = null,
     @JvmField val Priority: Int = 0,
     @JvmField val Type: String? = null,
     @JvmField val TypeID: String? = null,
     @JvmField val Level: String? = null,
-    @JvmField val Color: Color? = null,
+    @JvmField val Color: ColorBean? = null,
     @JvmField val Source: String? = null,
     @JvmField val SourceId: Int = 0,
     @JvmField val MobileLink: String? = null,
     @JvmField val Link: String? = null,
-    @JvmField val Area: List<Area>? = null
+    @JvmField val Area: List<AreaBean>? = null
 ) {
     @Serializable
-    class Description(
+    class DescriptionBean(
         @JvmField val Localized: String? = null,
         @JvmField val English: String? = null
     )
 
     @Serializable
-    class Color(
+    class ColorBean(
         @JvmField val Name: String? = null,
         @JvmField val Red: Int = 0,
         @JvmField val Green: Int = 0,
@@ -37,19 +37,19 @@ class AccuAlertResult(
     )
 
     @Serializable
-    class Area(
+    class AreaBean(
         @JvmField val Name: String? = null,
         @JvmField val StartTime: Date? = null,
         @JvmField val EpochStartTime: Long = 0,
         @JvmField val EndTime: Date? = null,
         @JvmField val EpochEndTime: Long = 0,
-        @JvmField val LastAction: LastAction? = null,
+        @JvmField val LastAction: LastActionBean? = null,
         @JvmField val Text: String? = null,
         @JvmField val LanguageCode: String? = null,
         @JvmField val Summary: String? = null
     ) {
         @Serializable
-        class LastAction(
+        class LastActionBean(
             @JvmField val Localized: String? = null,
             @JvmField val English: String? = null
         )

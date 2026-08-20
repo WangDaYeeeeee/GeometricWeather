@@ -24,9 +24,10 @@ class BaiduIPLocationService @Inject constructor(
                         SettingsManager.getInstance(context).providerBaiduIpLocationAk,
                         "gcj02"
                     )
+                    val point = baidu.content!!.point!!
                     Result(
-                        baidu.content.point.y.toFloat(),
-                        baidu.content.point.x.toFloat()
+                        point.y!!.toFloat(),
+                        point.x!!.toFloat()
                     )
                 }
                 callback.onCompleted(result)

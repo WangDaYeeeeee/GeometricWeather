@@ -12,31 +12,31 @@ class AccuLocationResult(
     @JvmField val LocalizedName: String? = null,
     @JvmField val EnglishName: String? = null,
     @JvmField val PrimaryPostalCode: String? = null,
-    @JvmField val Region: Region? = null,
-    @JvmField val Country: Country? = null,
-    @JvmField val AdministrativeArea: AdministrativeArea? = null,
-    @JvmField val TimeZone: TimeZone? = null,
-    @JvmField val GeoPosition: GeoPosition? = null,
+    @JvmField val Region: RegionBean? = null,
+    @JvmField val Country: CountryBean? = null,
+    @JvmField val AdministrativeArea: AdministrativeAreaBean? = null,
+    @JvmField val TimeZone: TimeZoneBean? = null,
+    @JvmField val GeoPosition: GeoPositionBean? = null,
     @JvmField val IsAlias: Boolean = false,
     @JvmField val SupplementalAdminAreas: List<JsonElement>? = null,
     @JvmField val DataSets: List<String>? = null
 ) {
     @Serializable
-    class Region(
+    class RegionBean(
         @JvmField val ID: String? = null,
         @JvmField val LocalizedName: String? = null,
         @JvmField val EnglishName: String? = null
     )
 
     @Serializable
-    class Country(
+    class CountryBean(
         @JvmField val ID: String? = null,
         @JvmField val LocalizedName: String? = null,
         @JvmField val EnglishName: String? = null
     )
 
     @Serializable
-    class AdministrativeArea(
+    class AdministrativeAreaBean(
         @JvmField val ID: String? = null,
         @JvmField val LocalizedName: String? = null,
         @JvmField val EnglishName: String? = null,
@@ -47,7 +47,7 @@ class AccuLocationResult(
     )
 
     @Serializable
-    class TimeZone(
+    class TimeZoneBean(
         @JvmField val Code: String? = null,
         @JvmField val Name: String? = null,
         @JvmField val GmtOffset: Double = 0.0,
@@ -56,25 +56,25 @@ class AccuLocationResult(
     )
 
     @Serializable
-    class GeoPosition(
+    class GeoPositionBean(
         @JvmField val Latitude: Double = 0.0,
         @JvmField val Longitude: Double = 0.0,
-        @JvmField val Elevation: Elevation? = null
+        @JvmField val Elevation: ElevationBean? = null
     ) {
         @Serializable
-        class Elevation(
-            @JvmField val Metric: Metric? = null,
-            @JvmField val Imperial: Imperial? = null
+        class ElevationBean(
+            @JvmField val Metric: MetricBean? = null,
+            @JvmField val Imperial: ImperialBean? = null
         ) {
             @Serializable
-            class Metric(
+            class MetricBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Imperial(
+            class ImperialBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0

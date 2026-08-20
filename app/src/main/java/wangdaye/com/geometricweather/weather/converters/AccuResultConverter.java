@@ -201,7 +201,7 @@ public class AccuResultConverter {
     private static List<Daily> getDailyList(Context context, AccuDailyResult dailyResult) {
         List<Daily> dailyList = new ArrayList<>(dailyResult.DailyForecasts.size());
 
-        for (AccuDailyResult.DailyForecasts forecasts : dailyResult.DailyForecasts) {
+        for (AccuDailyResult.DailyForecastsBean forecasts : dailyResult.DailyForecasts) {
             dailyList.add(
                     new Daily(
                             forecasts.Date,
@@ -313,8 +313,8 @@ public class AccuResultConverter {
     }
 
     private static AirQuality getDailyAirQuality(Context context,
-                                                 List<AccuDailyResult.DailyForecasts.AirAndPollen> list) {
-        AccuDailyResult.DailyForecasts.AirAndPollen aqi = getAirAndPollen(list, "AirQuality");
+                                                 List<AccuDailyResult.DailyForecastsBean.AirAndPollenBean> list) {
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean aqi = getAirAndPollen(list, "AirQuality");
         Integer index = aqi == null ? null : aqi.Value;
         if (index != null && index == 0) {
             index = null;
@@ -331,11 +331,11 @@ public class AccuResultConverter {
         );
     }
 
-    private static Pollen getDailyPollen(List<AccuDailyResult.DailyForecasts.AirAndPollen> list) {
-        AccuDailyResult.DailyForecasts.AirAndPollen grass = getAirAndPollen(list, "Grass");
-        AccuDailyResult.DailyForecasts.AirAndPollen mold = getAirAndPollen(list, "Mold");
-        AccuDailyResult.DailyForecasts.AirAndPollen ragweed = getAirAndPollen(list, "Ragweed");
-        AccuDailyResult.DailyForecasts.AirAndPollen tree = getAirAndPollen(list, "Tree");
+    private static Pollen getDailyPollen(List<AccuDailyResult.DailyForecastsBean.AirAndPollenBean> list) {
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean grass = getAirAndPollen(list, "Grass");
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean mold = getAirAndPollen(list, "Mold");
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean ragweed = getAirAndPollen(list, "Ragweed");
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean tree = getAirAndPollen(list, "Tree");
         return new Pollen(
                 grass == null ? null : grass.Value,
                 grass == null ? null : grass.CategoryValue,
@@ -352,8 +352,8 @@ public class AccuResultConverter {
         );
     }
 
-    private static UV getDailyUV(List<AccuDailyResult.DailyForecasts.AirAndPollen> list) {
-        AccuDailyResult.DailyForecasts.AirAndPollen uv = getAirAndPollen(list, "UVIndex");
+    private static UV getDailyUV(List<AccuDailyResult.DailyForecastsBean.AirAndPollenBean> list) {
+        AccuDailyResult.DailyForecastsBean.AirAndPollenBean uv = getAirAndPollen(list, "UVIndex");
         return new UV(
                 uv == null ? null : uv.Value,
                 uv == null ? null : uv.Category,
@@ -362,9 +362,9 @@ public class AccuResultConverter {
     }
 
     @Nullable
-    private static AccuDailyResult.DailyForecasts.AirAndPollen getAirAndPollen(
-            List<AccuDailyResult.DailyForecasts.AirAndPollen> list, String name) {
-        for (AccuDailyResult.DailyForecasts.AirAndPollen item : list) {
+    private static AccuDailyResult.DailyForecastsBean.AirAndPollenBean getAirAndPollen(
+            List<AccuDailyResult.DailyForecastsBean.AirAndPollenBean> list, String name) {
+        for (AccuDailyResult.DailyForecastsBean.AirAndPollenBean item : list) {
             if (item.Name.equals(name)) {
                 return item;
             }

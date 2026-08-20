@@ -6,11 +6,11 @@ import java.util.Date
 
 @Serializable
 class AccuDailyResult(
-    @JvmField val Headline: Headline? = null,
-    @JvmField val DailyForecasts: List<DailyForecasts>? = null
+    @JvmField val Headline: HeadlineBean? = null,
+    @JvmField val DailyForecasts: List<DailyForecastsBean>? = null
 ) {
     @Serializable
-    class Headline(
+    class HeadlineBean(
         @JvmField val EffectiveDate: Date? = null,
         @JvmField val EffectiveEpochDate: Long = 0,
         @JvmField val Severity: Int = 0,
@@ -23,25 +23,25 @@ class AccuDailyResult(
     )
 
     @Serializable
-    class DailyForecasts(
+    class DailyForecastsBean(
         @JvmField val Date: Date? = null,
         @JvmField val EpochDate: Long = 0,
-        @JvmField val Sun: Sun? = null,
-        @JvmField val Moon: Moon? = null,
-        @JvmField val Temperature: Temperature? = null,
-        @JvmField val RealFeelTemperature: RealFeelTemperature? = null,
-        @JvmField val RealFeelTemperatureShade: RealFeelTemperatureShade? = null,
+        @JvmField val Sun: SunBean? = null,
+        @JvmField val Moon: MoonBean? = null,
+        @JvmField val Temperature: TemperatureBean? = null,
+        @JvmField val RealFeelTemperature: RealFeelTemperatureBean? = null,
+        @JvmField val RealFeelTemperatureShade: RealFeelTemperatureShadeBean? = null,
         @JvmField val HoursOfSun: Double = 0.0,
-        @JvmField val DegreeDaySummary: DegreeDaySummary? = null,
-        @JvmField val Day: Day? = null,
-        @JvmField val Night: Night? = null,
+        @JvmField val DegreeDaySummary: DegreeDaySummaryBean? = null,
+        @JvmField val Day: DayBean? = null,
+        @JvmField val Night: NightBean? = null,
         @JvmField val MobileLink: String? = null,
         @JvmField val Link: String? = null,
-        @JvmField val AirAndPollen: List<AirAndPollen>? = null,
+        @JvmField val AirAndPollen: List<AirAndPollenBean>? = null,
         @JvmField val Sources: List<String>? = null
     ) {
         @Serializable
-        class Sun(
+        class SunBean(
             @JvmField val Rise: Date? = null,
             @JvmField val EpochRise: Long = 0,
             @JvmField val Set: Date? = null,
@@ -49,7 +49,7 @@ class AccuDailyResult(
         )
 
         @Serializable
-        class Moon(
+        class MoonBean(
             @JvmField val Rise: Date? = null,
             @JvmField val EpochRise: Long = 0,
             @JvmField val Set: Date? = null,
@@ -59,19 +59,19 @@ class AccuDailyResult(
         )
 
         @Serializable
-        class Temperature(
-            @JvmField val Minimum: Minimum? = null,
-            @JvmField val Maximum: Maximum? = null
+        class TemperatureBean(
+            @JvmField val Minimum: MinimumBean? = null,
+            @JvmField val Maximum: MaximumBean? = null
         ) {
             @Serializable
-            class Minimum(
+            class MinimumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Maximum(
+            class MaximumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -79,19 +79,19 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class RealFeelTemperature(
-            @JvmField val Minimum: Minimum? = null,
-            @JvmField val Maximum: Maximum? = null
+        class RealFeelTemperatureBean(
+            @JvmField val Minimum: MinimumBean? = null,
+            @JvmField val Maximum: MaximumBean? = null
         ) {
             @Serializable
-            class Minimum(
+            class MinimumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Maximum(
+            class MaximumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -99,19 +99,19 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class RealFeelTemperatureShade(
-            @JvmField val Minimum: Minimum? = null,
-            @JvmField val Maximum: Maximum? = null
+        class RealFeelTemperatureShadeBean(
+            @JvmField val Minimum: MinimumBean? = null,
+            @JvmField val Maximum: MaximumBean? = null
         ) {
             @Serializable
-            class Minimum(
+            class MinimumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Maximum(
+            class MaximumBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -119,19 +119,19 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class DegreeDaySummary(
-            @JvmField val Heating: Heating? = null,
-            @JvmField val Cooling: Cooling? = null
+        class DegreeDaySummaryBean(
+            @JvmField val Heating: HeatingBean? = null,
+            @JvmField val Cooling: CoolingBean? = null
         ) {
             @Serializable
-            class Heating(
+            class HeatingBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Cooling(
+            class CoolingBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -139,10 +139,10 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class Day(
+        class DayBean(
             @JvmField val Icon: Int = 0,
             @JvmField val IconPhrase: String? = null,
-            @JvmField val LocalSource: LocalSource? = null,
+            @JvmField val LocalSource: LocalSourceBean? = null,
             @JvmField val ShortPhrase: String? = null,
             @JvmField val LongPhrase: String? = null,
             @JvmField val PrecipitationProbability: Int = 0,
@@ -150,12 +150,12 @@ class AccuDailyResult(
             @JvmField val RainProbability: Int = 0,
             @JvmField val SnowProbability: Int = 0,
             @JvmField val IceProbability: Int = 0,
-            @JvmField val Wind: Wind? = null,
-            @JvmField val WindGust: WindGust? = null,
-            @JvmField val TotalLiquid: TotalLiquid? = null,
-            @JvmField val Rain: Rain? = null,
-            @JvmField val Snow: Snow? = null,
-            @JvmField val Ice: Ice? = null,
+            @JvmField val Wind: WindBean? = null,
+            @JvmField val WindGust: WindGustBean? = null,
+            @JvmField val TotalLiquid: TotalLiquidBean? = null,
+            @JvmField val Rain: RainBean? = null,
+            @JvmField val Snow: SnowBean? = null,
+            @JvmField val Ice: IceBean? = null,
             @JvmField val HoursOfPrecipitation: Double = 0.0,
             @JvmField val HoursOfRain: Double = 0.0,
             @JvmField val HoursOfSnow: Double = 0.0,
@@ -163,26 +163,26 @@ class AccuDailyResult(
             @JvmField val CloudCover: Int = 0
         ) {
             @Serializable
-            class LocalSource(
+            class LocalSourceBean(
                 @JvmField val Id: Int = 0,
                 @JvmField val Name: String? = null,
                 @JvmField val WeatherCode: String? = null
             )
 
             @Serializable
-            class Wind(
-                @JvmField val Speed: Speed? = null,
-                @JvmField val Direction: Direction? = null
+            class WindBean(
+                @JvmField val Speed: SpeedBean? = null,
+                @JvmField val Direction: DirectionBean? = null
             ) {
                 @Serializable
-                class Speed(
+                class SpeedBean(
                     @JvmField val Value: Double = 0.0,
                     @JvmField val Unit: String? = null,
                     @JvmField val UnitType: Int = 0
                 )
 
                 @Serializable
-                class Direction(
+                class DirectionBean(
                     @JvmField val Degrees: Int = 0,
                     @JvmField val Localized: String? = null,
                     @JvmField val English: String? = null
@@ -190,19 +190,19 @@ class AccuDailyResult(
             }
 
             @Serializable
-            class WindGust(
-                @JvmField val Speed: Speed? = null,
-                @JvmField val Direction: Direction? = null
+            class WindGustBean(
+                @JvmField val Speed: SpeedBean? = null,
+                @JvmField val Direction: DirectionBean? = null
             ) {
                 @Serializable
-                class Speed(
+                class SpeedBean(
                     @JvmField val Value: Double = 0.0,
                     @JvmField val Unit: String? = null,
                     @JvmField val UnitType: Int = 0
                 )
 
                 @Serializable
-                class Direction(
+                class DirectionBean(
                     @JvmField val Degrees: Int = 0,
                     @JvmField val Localized: String? = null,
                     @JvmField val English: String? = null
@@ -210,28 +210,28 @@ class AccuDailyResult(
             }
 
             @Serializable
-            class TotalLiquid(
+            class TotalLiquidBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Rain(
+            class RainBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Snow(
+            class SnowBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Ice(
+            class IceBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -239,10 +239,10 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class Night(
+        class NightBean(
             @JvmField val Icon: Int = 0,
             @JvmField val IconPhrase: String? = null,
-            @JvmField val LocalSource: LocalSource? = null,
+            @JvmField val LocalSource: LocalSourceBean? = null,
             @JvmField val ShortPhrase: String? = null,
             @JvmField val LongPhrase: String? = null,
             @JvmField val PrecipitationProbability: Int = 0,
@@ -250,12 +250,12 @@ class AccuDailyResult(
             @JvmField val RainProbability: Int = 0,
             @JvmField val SnowProbability: Int = 0,
             @JvmField val IceProbability: Int = 0,
-            @JvmField val Wind: Wind? = null,
-            @JvmField val WindGust: WindGust? = null,
-            @JvmField val TotalLiquid: TotalLiquid? = null,
-            @JvmField val Rain: Rain? = null,
-            @JvmField val Snow: Snow? = null,
-            @JvmField val Ice: Ice? = null,
+            @JvmField val Wind: WindBean? = null,
+            @JvmField val WindGust: WindGustBean? = null,
+            @JvmField val TotalLiquid: TotalLiquidBean? = null,
+            @JvmField val Rain: RainBean? = null,
+            @JvmField val Snow: SnowBean? = null,
+            @JvmField val Ice: IceBean? = null,
             @JvmField val HoursOfPrecipitation: Double = 0.0,
             @JvmField val HoursOfRain: Double = 0.0,
             @JvmField val HoursOfSnow: Double = 0.0,
@@ -263,26 +263,26 @@ class AccuDailyResult(
             @JvmField val CloudCover: Int = 0
         ) {
             @Serializable
-            class LocalSource(
+            class LocalSourceBean(
                 @JvmField val Id: Int = 0,
                 @JvmField val Name: String? = null,
                 @JvmField val WeatherCode: String? = null
             )
 
             @Serializable
-            class Wind(
-                @JvmField val Speed: Speed? = null,
-                @JvmField val Direction: Direction? = null
+            class WindBean(
+                @JvmField val Speed: SpeedBean? = null,
+                @JvmField val Direction: DirectionBean? = null
             ) {
                 @Serializable
-                class Speed(
+                class SpeedBean(
                     @JvmField val Value: Double = 0.0,
                     @JvmField val Unit: String? = null,
                     @JvmField val UnitType: Int = 0
                 )
 
                 @Serializable
-                class Direction(
+                class DirectionBean(
                     @JvmField val Degrees: Int = 0,
                     @JvmField val Localized: String? = null,
                     @JvmField val English: String? = null
@@ -290,19 +290,19 @@ class AccuDailyResult(
             }
 
             @Serializable
-            class WindGust(
-                @JvmField val Speed: Speed? = null,
-                @JvmField val Direction: Direction? = null
+            class WindGustBean(
+                @JvmField val Speed: SpeedBean? = null,
+                @JvmField val Direction: DirectionBean? = null
             ) {
                 @Serializable
-                class Speed(
+                class SpeedBean(
                     @JvmField val Value: Double = 0.0,
                     @JvmField val Unit: String? = null,
                     @JvmField val UnitType: Int = 0
                 )
 
                 @Serializable
-                class Direction(
+                class DirectionBean(
                     @JvmField val Degrees: Int = 0,
                     @JvmField val Localized: String? = null,
                     @JvmField val English: String? = null
@@ -310,28 +310,28 @@ class AccuDailyResult(
             }
 
             @Serializable
-            class TotalLiquid(
+            class TotalLiquidBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Rain(
+            class RainBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Snow(
+            class SnowBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
             )
 
             @Serializable
-            class Ice(
+            class IceBean(
                 @JvmField val Value: Double = 0.0,
                 @JvmField val Unit: String? = null,
                 @JvmField val UnitType: Int = 0
@@ -339,7 +339,7 @@ class AccuDailyResult(
         }
 
         @Serializable
-        class AirAndPollen(
+        class AirAndPollenBean(
             @JvmField val Name: String? = null,
             @JvmField val Value: Int = 0,
             @JvmField val Category: String? = null,

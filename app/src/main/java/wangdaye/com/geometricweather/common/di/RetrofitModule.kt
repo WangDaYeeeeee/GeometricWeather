@@ -46,7 +46,7 @@ object RetrofitModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
-            if (GeometricWeather.getInstance().debugMode) {
+            if (GeometricWeather.instance.debugMode) {
                 HttpLoggingInterceptor.Level.BODY
             } else {
                 HttpLoggingInterceptor.Level.NONE
