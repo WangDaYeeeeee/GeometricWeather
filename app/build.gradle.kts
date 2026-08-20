@@ -200,10 +200,6 @@ dependencies {
     add("pubImplementation", libs.gms.location)
     add("gplayImplementation", libs.gms.location)
 
-    implementation(libs.glide)
-    ksp(libs.glide.ksp)
-    implementation(libs.glide.okhttp3)
-
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
