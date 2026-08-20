@@ -67,14 +67,15 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 ### 阶段 6：UI 全面 Compose 化
 - [x] 主界面壳层：MainActivity `setContent` + 城市管理列表 Compose（宽屏分栏 / 窄屏覆盖层）
-- [ ] 主界面天气首页卡片与背景仍为 `HomeFragment`（`AndroidView` 托管 XML + Material weather View，避免回归天气动画）
+- [x] 主界面天气首页：Compose `HomeScreen` 通过 `AndroidView` 托管 `fragment_home` + Material weather `WeatherView`、`MainAdapter` / `MainLayoutManager`、`SwipeSwitchLayout`（非 Fragment）
 - [x] 搜索页面 → Compose（`SearchActivity` `setContent` + `search/compose/`；结果列表、IME 搜索、天气源筛选底栏；仍返回 `RESULT_OK` + `KEY_LOCATION`）
-- [ ] 每日/每小时趋势、设置剩余 XML、关于等页面 → Compose（设置/关于已有 Compose 屏幕）
+- [x] 每日详情 → Compose（`DailyWeatherActivity` `setContent` + `daily/compose/` HorizontalPager；趋势图卡片仍为 Home 内 View）
+- [ ] 每小时趋势（Home 卡片内）、设置剩余 XML、关于等页面 → Compose（设置/关于已有 Compose 屏幕）
 - [ ] 统一 Navigation Compose 路由（本阶段仅主界面内 BackHandler，无全应用 NavHost）
 - [ ] 清理 XML 布局及 View 系控件（保留 Widget/RemoteViews）
 - [ ] 迁移 View 系自定义控件 (trend chart 等) 至 Compose Canvas
 
-本切片未改 AppWidget / Live wallpaper。Home 仍走 `HomeFragmentHost`：天气动画 View、`MainAdapter` / `MainLayoutManager`、`SwipeSwitchLayout` 与趋势图未拆，避免冻结或丢失 Material weather 背景。Search 的 `activity_search.xml` 与 `search/ui/` RecyclerView 适配器仍保留但主路径不再 inflate。剩余 XML 主要包括 `fragment_home` 卡片、趋势图、Alert/Daily、widget 配置等约三百余布局。
+本切片未改 AppWidget / Live wallpaper。Home 天气动画仍为真实 `WeatherView`（`AndroidView` 嵌入 CoordinatorLayout 底层），卡片列表仍走 `MainAdapter` RecyclerView，城市横滑仍走 `SwipeSwitchLayout`。已移除 `HomeFragment` / `compose_home_host.xml`。Search 的 `activity_search.xml` 与 `search/ui/` RecyclerView 适配器仍保留但主路径不再 inflate。Daily 的 item XML / holder 仍保留供 overview 图标等自定义 View inflate，主路径不再使用 `activity_weather_daily` ViewPager。剩余 XML 主要包括 Home 卡片、趋势图、Alert、widget 配置、设置排序页等。设置 leftover：`CardDisplayManageActivity`、`DailyTrendDisplayManageActivity`、`HourlyTrendDisplayManageActivity`、`PreviewIconActivity`。
 
 ### 阶段 7：Java → Kotlin 全量迁移
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
