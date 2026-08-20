@@ -13,7 +13,7 @@
 | 注解处理 | kapt | KSP |
 | 数据库 | Room (KSP) | Room (KSP) |
 | 异步 | Kotlin Coroutines + Flow (StateFlow) | Kotlin Coroutines + Flow (StateFlow) |
-| 序列化 | Gson | kotlinx.serialization |
+| 序列化 | kotlinx.serialization | kotlinx.serialization |
 | 图片加载 | Glide | Coil |
 | UI | XML View 系统 (约 397 个布局) | Jetpack Compose + Material 3 |
 | 语言 | Java (345 文件) + Kotlin (97 文件) | 全 Kotlin |
@@ -47,13 +47,13 @@
 - [x] WorkManager Worker 协程化
 - [x] 清理 `common/rxjava` 及 RxLifecycle 相关代码
 
-EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that is not part of the weather/location request stack. Gson converters stay until Phase 4.
+EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that is not part of the weather/location request stack.
 
 ### 阶段 4：序列化迁移 Gson → kotlinx.serialization
-- [ ] 启用 kotlinx.serialization 插件
-- [ ] 迁移 `weather/json/` 下全部 JSON 模型
-- [ ] 替换 converter-gson 为 kotlinx-serialization converter
-- [ ] 移除 Gson 依赖及 `common/retrofit` 中相关封装
+- [x] 启用 kotlinx.serialization 插件
+- [x] 迁移 `weather/json/` 下全部 JSON 模型
+- [x] 替换 converter-gson 为 kotlinx-serialization converter
+- [x] 移除 Gson 依赖及 `common/retrofit` 中相关封装
 
 ### 阶段 5：图片加载迁移 Glide → Coil
 - [ ] 添加 Coil 依赖
