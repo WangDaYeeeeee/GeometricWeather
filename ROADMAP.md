@@ -12,7 +12,7 @@
 | 依赖管理 | build.gradle 硬编码版本 | Version Catalog (`libs.versions.toml`) |
 | 注解处理 | kapt | KSP |
 | 数据库 | Room (KSP) | Room (KSP) |
-| 异步 | RxJava2 + LiveData | Kotlin Coroutines + Flow (StateFlow) |
+| 异步 | Kotlin Coroutines + Flow (StateFlow) | Kotlin Coroutines + Flow (StateFlow) |
 | 序列化 | Gson | kotlinx.serialization |
 | 图片加载 | Glide | Coil |
 | UI | XML View 系统 (约 397 个布局) | Jetpack Compose + Material 3 |
@@ -40,12 +40,14 @@
 用户库文件名仍为 `Geometric_Weather_db`。GreenDAO `schemaVersion` 62 对应 SQLite `user_version`；Room 版本为 63。升级时按列交集拷贝 `LOCATION_ENTITY` / `WEATHER_ENTITY` 等表（兼容 GreenDAO 主键 `ID` 或 `_id`），不删除地点与天气缓存。新安装直接由 Room 建表。
 
 ### 阶段 3：异步层迁移 RxJava2 → Coroutines + Flow
-- [ ] 添加 kotlinx-coroutines 依赖，移除 RxJava2
-- [ ] Repository 层：Observable/Flowable → suspend fun / Flow
-- [ ] ViewModel 层：LiveData → StateFlow / SharedFlow
-- [ ] Retrofit 适配器替换为协程支持
-- [ ] WorkManager Worker 协程化
-- [ ] 清理 `common/rxjava` 及 RxLifecycle 相关代码
+- [x] 添加 kotlinx-coroutines 依赖，移除 RxJava2
+- [x] Repository 层：Observable/Flowable → suspend fun / Flow
+- [x] ViewModel 层：LiveData → StateFlow / SharedFlow
+- [x] Retrofit 适配器替换为协程支持
+- [x] WorkManager Worker 协程化
+- [x] 清理 `common/rxjava` 及 RxLifecycle 相关代码
+
+EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that is not part of the weather/location request stack. Gson converters stay until Phase 4.
 
 ### 阶段 4：序列化迁移 Gson → kotlinx.serialization
 - [ ] 启用 kotlinx.serialization 插件
