@@ -7,4 +7,7 @@
     <item type="id" name="tag_icon_top" />
     <item type="id" name="tag_icon_bottom" />
 
+    <item type="id" name="searchBar" />
+    <item type="id" name="fab" />
+
 </resources>

@@ -220,7 +220,6 @@ dependencies {
 
     implementation(libs.circularprogressview)
     implementation(libs.colorpicker)
-    implementation(libs.bubbleseekbar)
     implementation(libs.adaptiveiconview)
     implementation(libs.materialscrollbar)
     implementation(libs.materialshetfab)
