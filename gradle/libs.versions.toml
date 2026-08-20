@@ -156,8 +156,6 @@ gms-location = { module = "com.google.android.gms:play-services-location", versi
 # Coil.
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Retrofit.
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
