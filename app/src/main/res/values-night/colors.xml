@@ -44,4 +44,8 @@
     <color name="md_theme_shadow">#000000</color>
     <color name="md_theme_primaryInverse">#205DAF</color>
 
+    <!-- Legacy color resource names still referenced by XML styles. -->
+    <color name="colorPrimary">@color/md_theme_primary</color>
+    <color name="colorAccent">@color/md_theme_primary</color>
+
 </resources>
