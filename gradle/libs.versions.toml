@@ -48,7 +48,6 @@ glide = "4.16.0"
 room = "2.6.1"
 
 # Serialization.
-gson = "2.11.0"
 kotlinx-serialization-json = "1.6.3"
 
 # Async.
@@ -161,7 +160,7 @@ glide-okhttp3 = { module = "com.github.bumptech.glide:okhttp3-integration", vers
 
 # Retrofit.
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
@@ -171,7 +170,6 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 # Serialization.
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 # Coroutines.
@@ -231,7 +229,7 @@ hilt = [
 ]
 retrofit = [
     "retrofit",
-    "retrofit-converter-gson",
+    "retrofit-converter-kotlinx-serialization",
 ]
 testing = [
     "junit",
