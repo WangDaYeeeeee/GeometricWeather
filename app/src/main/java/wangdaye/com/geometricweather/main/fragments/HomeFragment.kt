@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.GeoActivity
@@ -190,22 +191,23 @@ class HomeFragment : MainModuleFragment() {
         binding.recyclerView.addOnScrollListener(OnScrollListener().also { scrollListener = it })
         binding.recyclerView.setOnTouchListener(indicatorStateListener)
 
-        viewModel.currentLocation.observe(viewLifecycleOwner) {
-            updateViews(it.location)
+        viewModel.currentLocation.asLiveData().observe(viewLifecycleOwner) {
+            it?.let { locationHolder -> updateViews(locationHolder.location) }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { setRefreshing(it) }
+        viewModel.loading.asLiveData().observe(viewLifecycleOwner) { setRefreshing(it) }
 
-        viewModel.indicator.observe(viewLifecycleOwner) {
-            binding.switchLayout.isEnabled = it.total > 1
+        viewModel.indicator.asLiveData().observe(viewLifecycleOwner) {
+            val data = it ?: return@observe
+            binding.switchLayout.isEnabled = data.total > 1
 
-            if (binding.switchLayout.totalCount != it.total
-                || binding.switchLayout.position != it.index) {
-                binding.switchLayout.setData(it.index, it.total)
+            if (binding.switchLayout.totalCount != data.total
+                || binding.switchLayout.position != data.index) {
+                binding.switchLayout.setData(data.index, data.total)
                 binding.indicator.setSwitchView(binding.switchLayout)
             }
 
-            binding.indicator.visibility = if (it.total > 1) View.VISIBLE else View.GONE
+            binding.indicator.visibility = if (data.total > 1) View.VISIBLE else View.GONE
         }
 
         previewOffset.observe(viewLifecycleOwner) {

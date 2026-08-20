@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import androidx.core.graphics.ColorUtils
 import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -166,9 +167,10 @@ open class ManagementFragment : MainModuleFragment(), TouchReactor {
         )
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        viewModel.totalLocationList.observe(viewLifecycleOwner) {
-            adapter.update(it.locationList, it.selectedId)
-            setCurrentLocationButtonEnabled(it.locationList)
+        viewModel.totalLocationList.asLiveData().observe(viewLifecycleOwner) {
+            val data = it ?: return@observe
+            adapter.update(data.locationList, data.selectedId)
+            setCurrentLocationButtonEnabled(data.locationList)
         }
     }
 

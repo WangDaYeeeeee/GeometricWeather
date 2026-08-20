@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import wangdaye.com.geometricweather.R
@@ -280,20 +281,21 @@ class MainActivity : GeoActivity(),
             }
         }
 
-        viewModel.validLocationList.observe(this) {
+        viewModel.validLocationList.asLiveData().observe(this) { list ->
+            val data = list ?: return@observe
             // update notification immediately.
             AsyncHelper.runOnIO {
                 NotificationHelper.updateNotificationIfNecessary(
                     this,
-                    it.locationList
+                    data.locationList
                 )
             }
             refreshBackgroundViews(
                 resetBackground = false,
-                locationList = it.locationList,
+                locationList = data.locationList,
             )
         }
-        viewModel.permissionsRequest.observe(this) {
+        viewModel.permissionsRequest.asLiveData().observe(this) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
                 || it == null
                 || it.permissionList.isEmpty()
@@ -333,7 +335,7 @@ class MainActivity : GeoActivity(),
                 permissionsResultLauncher.launch(it.permissionList.toTypedArray())
             }
         }
-        viewModel.mainMessage.observe(this) {
+        viewModel.mainMessage.asLiveData().observe(this) {
             it?. let { msg ->
                 when (msg) {
                     MainMessage.LOCATION_FAILED -> {
