@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import wangdaye.com.geometricweather.GeometricWeather.Companion.instance
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.CardDisplay
@@ -18,7 +19,6 @@ import wangdaye.com.geometricweather.common.basic.models.options.appearance.Dail
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.HourlyTrendDisplay
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.Language
 import wangdaye.com.geometricweather.common.basic.models.weather.Temperature
-import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
 import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.settings.dialogs.ProvidersPreviewerDialog
@@ -31,6 +31,7 @@ import wangdaye.com.geometricweather.theme.resource.ResourcesProviderFactory
 @Composable
 fun AppearanceSettingsScreen(
     context: Context,
+    navController: NavHostController,
     cardDisplayList: List<CardDisplay>,
     dailyTrendDisplayList: List<DailyTrendDisplay>,
     hourlyTrendDisplayList: List<HourlyTrendDisplay>,
@@ -72,9 +73,7 @@ fun AppearanceSettingsScreen(
                 title = stringResource(it),
                 summary = CardDisplay.getSummary(context, cardDisplayList),
             ) {
-                (context as? Activity)?.let { a ->
-                    IntentHelper.startCardDisplayManageActivity(a)
-                }
+                navController.navigate(SettingsScreenRouter.CardDisplay.route)
             }
         }
         clickablePreferenceItem(
@@ -84,9 +83,7 @@ fun AppearanceSettingsScreen(
                 title = stringResource(it),
                 summary = DailyTrendDisplay.getSummary(context, dailyTrendDisplayList),
             ) {
-                (context as? Activity)?.let { a ->
-                    IntentHelper.startDailyTrendDisplayManageActivity(a)
-                }
+                navController.navigate(SettingsScreenRouter.DailyTrendDisplay.route)
             }
         }
         clickablePreferenceItem(
@@ -96,9 +93,7 @@ fun AppearanceSettingsScreen(
                 title = stringResource(it),
                 summary = HourlyTrendDisplay.getSummary(context, hourlyTrendDisplayList),
             ) {
-                (context as? Activity)?.let { a ->
-                    IntentHelper.startHourlyTrendDisplayManageActivityForResult(a)
-                }
+                navController.navigate(SettingsScreenRouter.HourlyTrendDisplay.route)
             }
         }
         checkboxPreferenceItem(R.string.settings_title_trend_horizontal_line_switch) { id ->

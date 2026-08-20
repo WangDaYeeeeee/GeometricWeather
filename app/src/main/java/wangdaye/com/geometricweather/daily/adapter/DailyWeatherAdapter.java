@@ -1,13 +1,6 @@
 package wangdaye.com.geometricweather.daily.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +17,6 @@ import wangdaye.com.geometricweather.common.basic.models.weather.Precipitation;
 import wangdaye.com.geometricweather.common.basic.models.weather.PrecipitationDuration;
 import wangdaye.com.geometricweather.common.basic.models.weather.PrecipitationProbability;
 import wangdaye.com.geometricweather.common.basic.models.weather.Temperature;
-import wangdaye.com.geometricweather.daily.adapter.holder.AirQualityHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.AstroHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.LargeTitleHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.LineHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.MarginHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.OverviewHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.PollenHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.TitleHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.UVHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.ValueHolder;
-import wangdaye.com.geometricweather.daily.adapter.holder.WindHolder;
 import wangdaye.com.geometricweather.daily.adapter.model.DailyAirQuality;
 import wangdaye.com.geometricweather.daily.adapter.model.DailyAstro;
 import wangdaye.com.geometricweather.daily.adapter.model.DailyPollen;
@@ -46,42 +28,13 @@ import wangdaye.com.geometricweather.daily.adapter.model.Margin;
 import wangdaye.com.geometricweather.daily.adapter.model.Overview;
 import wangdaye.com.geometricweather.daily.adapter.model.Title;
 import wangdaye.com.geometricweather.daily.adapter.model.Value;
-import wangdaye.com.geometricweather.databinding.ItemWeatherDailyPollenBinding;
 import wangdaye.com.geometricweather.settings.SettingsManager;
 
-public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
-
-    private final List<ViewModel> mModelList;
-    private final int mSpanCount;
+/** Builds Compose daily-detail models. RecyclerView holders were removed after Phase 6. */
+public class DailyWeatherAdapter {
 
     public interface ViewModel {
         int getCode();
-    }
-
-    public static abstract class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        public abstract void onBindView(ViewModel model, int position);
-    }
-
-    public GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
-        @Override
-        public int getSpanSize(int position) {
-            int viewType = getItemViewType(position);
-            if (Value.isCode(viewType)) {
-                return 1;
-            } else {
-                return mSpanCount;
-            }
-        }
-    };
-
-    public DailyWeatherAdapter(Context context, TimeZone timeZone, Daily daily, int spanCount) {
-        mModelList = buildModelList(context, timeZone, daily);
-        mSpanCount = spanCount;
     }
 
     public static List<ViewModel> buildModelList(Context context, TimeZone timeZone, Daily daily) {
@@ -120,54 +73,6 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
         ));
         modelList.add(new Margin());
         return modelList;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (LargeTitle.isCode(viewType)) {
-            return new LargeTitleHolder(parent);
-        } else if (Overview.isCode(viewType)) {
-            return new OverviewHolder(parent);
-        } else if (Line.isCode(viewType)) {
-            return new LineHolder(parent);
-        } else if (Margin.isCode(viewType)) {
-            return new MarginHolder(parent);
-        } else if (Value.isCode(viewType)) {
-            return new ValueHolder(parent);
-        } else if (Title.isCode(viewType)) {
-            return new TitleHolder(parent);
-        } else if (DailyAirQuality.isCode(viewType)) {
-            return new AirQualityHolder(parent);
-        } else if (DailyAstro.isCode(viewType)) {
-            return new AstroHolder(parent);
-        } else if (DailyPollen.isCode(viewType)) {
-            return new PollenHolder(
-                    ItemWeatherDailyPollenBinding.inflate(
-                            LayoutInflater.from(parent.getContext())
-                    )
-            );
-        } else if (DailyUV.isCode(viewType)) {
-            return new UVHolder(parent);
-        } else if (DailyWind.isCode(viewType)) {
-            return new WindHolder(parent);
-        }
-        throw new RuntimeException("Invalid viewType.");
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.onBindView(mModelList.get(position), position);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mModelList.get(position).getCode();
-    }
-
-    @Override
-    public int getItemCount() {
-        return mModelList.size();
     }
 
     private static List<ViewModel> getHalfDayOptionalModelList(Context context, HalfDay halfDay) {

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.ui.widgets.Material3CardListItem
-import wangdaye.com.geometricweather.search.ui.adapter.location.LocationModel
+import wangdaye.com.geometricweather.search.LocationModel
 
 @Composable
 fun SearchResultCard(

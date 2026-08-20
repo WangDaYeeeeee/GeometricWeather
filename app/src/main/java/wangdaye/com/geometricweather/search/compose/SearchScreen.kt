@@ -60,7 +60,7 @@ import wangdaye.com.geometricweather.common.basic.models.options.provider.Weathe
 import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper
 import wangdaye.com.geometricweather.search.LoadableLocationList
 import wangdaye.com.geometricweather.search.SearchActivityViewModel
-import wangdaye.com.geometricweather.search.ui.adapter.location.LocationModel
+import wangdaye.com.geometricweather.search.LocationModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

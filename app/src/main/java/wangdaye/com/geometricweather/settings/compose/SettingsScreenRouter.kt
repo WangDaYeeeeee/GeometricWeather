@@ -1,9 +1,15 @@
 package wangdaye.com.geometricweather.settings.compose
 
+import wangdaye.com.geometricweather.navigation.InAppRoute
+
 sealed class SettingsScreenRouter(val route: String) {
-    object Root : SettingsScreenRouter("wangdaye.com.geometricweather.settings.root")
-    object Appearance : SettingsScreenRouter("wangdaye.com.geometricweather.settings.appearance")
-    object ServiceProvider : SettingsScreenRouter("wangdaye.com.geometricweather.settings.providers")
-    object ServiceProviderAdvanced : SettingsScreenRouter("wangdaye.com.geometricweather.settings.advanced")
-    object Unit : SettingsScreenRouter("wangdaye.com.geometricweather.settings.unit")
+    object Root : SettingsScreenRouter(InAppRoute.SETTINGS_ROOT)
+    object Appearance : SettingsScreenRouter(InAppRoute.SETTINGS_APPEARANCE)
+    object ServiceProvider : SettingsScreenRouter(InAppRoute.SETTINGS_PROVIDERS)
+    object ServiceProviderAdvanced : SettingsScreenRouter(InAppRoute.SETTINGS_ADVANCED)
+    object Unit : SettingsScreenRouter(InAppRoute.SETTINGS_UNIT)
+    object CardDisplay : SettingsScreenRouter(InAppRoute.CARD_DISPLAY)
+    object DailyTrendDisplay : SettingsScreenRouter(InAppRoute.DAILY_TREND_DISPLAY)
+    object HourlyTrendDisplay : SettingsScreenRouter(InAppRoute.HOURLY_TREND_DISPLAY)
+    object PreviewIcon : SettingsScreenRouter(InAppRoute.PREVIEW_ICON)
 }

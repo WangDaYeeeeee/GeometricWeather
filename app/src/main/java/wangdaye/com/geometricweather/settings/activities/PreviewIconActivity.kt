@@ -1,4 +1,4 @@
-package wangdaye.com.geometricweather.daily
+package wangdaye.com.geometricweather.settings.activities
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,33 +7,30 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.common.basic.GeoActivity
-import wangdaye.com.geometricweather.daily.compose.DailyWeatherRoute
 import wangdaye.com.geometricweather.navigation.InAppRoute
+import wangdaye.com.geometricweather.settings.compose.PreviewIconRoute
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
-class DailyWeatherActivity : GeoActivity() {
+class PreviewIconActivity : GeoActivity() {
 
     companion object {
-        const val KEY_FORMATTED_LOCATION_ID = "FORMATTED_LOCATION_ID"
-        const val KEY_CURRENT_DAILY_INDEX = "CURRENT_DAILY_INDEX"
+        const val KEY_ICON_PREVIEW_ACTIVITY_PACKAGE_NAME =
+            "ICON_PREVIEW_ACTIVITY_PACKAGE_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val formattedId = intent.getStringExtra(KEY_FORMATTED_LOCATION_ID)
-        val initialIndex = intent.getIntExtra(KEY_CURRENT_DAILY_INDEX, 0)
+        val packageName = intent.getStringExtra(KEY_ICON_PREVIEW_ACTIVITY_PACKAGE_NAME)
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = InAppRoute.DAILY_WEATHER,
+                    startDestination = InAppRoute.PREVIEW_ICON,
                 ) {
-                    composable(InAppRoute.DAILY_WEATHER) {
-                        DailyWeatherRoute(
-                            formattedId = formattedId,
-                            initialIndex = initialIndex,
-                            onMissingData = { finish() },
+                    composable(InAppRoute.PREVIEW_ICON) {
+                        PreviewIconRoute(
+                            packageName = packageName,
                             onBack = { finish() },
                         )
                     }

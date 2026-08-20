@@ -88,37 +88,13 @@ class SettingsActivity : GeoActivity() {
 
     @Composable
     private fun ContentView() {
-        val scrollBehavior = generateCollapsedScrollBehavior()
-
-        Material3Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                FitStatusBarTopAppBar(
-                    title = stringResource(R.string.action_settings),
-                    onBackPressed = { finish() },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                IntentHelper.startAboutActivity(this@SettingsActivity)
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Info,
-                                contentDescription = stringResource(R.string.action_about),
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            )
-                        }
-                    },
-                    scrollBehavior = scrollBehavior,
-                )
-            },
-        ) { paddings ->
-            val navController = rememberNavController()
-            NavHost(
-                navController = navController,
-                startDestination = SettingsScreenRouter.Root.route
-            ) {
-                composable(SettingsScreenRouter.Root.route) {
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = SettingsScreenRouter.Root.route
+        ) {
+            composable(SettingsScreenRouter.Root.route) {
+                SettingsListScaffold(showAbout = true) { paddings ->
                     RootSettingsView(
                         context = this@SettingsActivity,
                         navController = navController,
@@ -142,36 +118,97 @@ class SettingsActivity : GeoActivity() {
                         }
                     )
                 }
-                composable(SettingsScreenRouter.Appearance.route) {
+            }
+            composable(SettingsScreenRouter.Appearance.route) {
+                SettingsListScaffold(showAbout = false) { paddings ->
                     AppearanceSettingsScreen(
                         context = this@SettingsActivity,
+                        navController = navController,
                         cardDisplayList = remember { cardDisplayState }.value,
                         dailyTrendDisplayList = remember { dailyTrendDisplayState }.value,
                         hourlyTrendDisplayList = remember { hourlyTrendDisplayState }.value,
                         paddingValues = paddings,
                     )
                 }
-                composable(SettingsScreenRouter.ServiceProvider.route) {
+            }
+            composable(SettingsScreenRouter.ServiceProvider.route) {
+                SettingsListScaffold(showAbout = false) { paddings ->
                     ServiceProviderSettingsScreen(
                         context = this@SettingsActivity,
                         navController = navController,
                         paddingValues = paddings,
                     )
                 }
-                composable(SettingsScreenRouter.ServiceProviderAdvanced.route) {
+            }
+            composable(SettingsScreenRouter.ServiceProviderAdvanced.route) {
+                SettingsListScaffold(showAbout = false) { paddings ->
                     SettingsProviderAdvancedSettingsScreen(
                         context = this@SettingsActivity,
                         paddingValues = paddings,
                     )
                 }
-                composable(SettingsScreenRouter.Unit.route) {
+            }
+            composable(SettingsScreenRouter.Unit.route) {
+                SettingsListScaffold(showAbout = false) { paddings ->
                     UnitSettingsScreen(
                         context = this@SettingsActivity,
                         paddingValues = paddings,
                     )
                 }
             }
+            composable(SettingsScreenRouter.CardDisplay.route) {
+                CardDisplayManageRoute(
+                    onBack = { navController.popBackStack() },
+                    onMutated = { setResult(RESULT_OK) },
+                )
+            }
+            composable(SettingsScreenRouter.DailyTrendDisplay.route) {
+                DailyTrendDisplayManageRoute(
+                    onBack = { navController.popBackStack() },
+                    onMutated = { setResult(RESULT_OK) },
+                )
+            }
+            composable(SettingsScreenRouter.HourlyTrendDisplay.route) {
+                HourlyTrendDisplayManageRoute(
+                    onBack = { navController.popBackStack() },
+                    onMutated = { setResult(RESULT_OK) },
+                )
+            }
         }
+    }
+
+    @Composable
+    private fun SettingsListScaffold(
+        showAbout: Boolean,
+        content: @Composable (androidx.compose.foundation.layout.PaddingValues) -> Unit,
+    ) {
+        val scrollBehavior = generateCollapsedScrollBehavior()
+        Material3Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                FitStatusBarTopAppBar(
+                    title = stringResource(R.string.action_settings),
+                    onBackPressed = { finish() },
+                    actions = {
+                        if (showAbout) {
+                            IconButton(
+                                onClick = {
+                                    IntentHelper.startAboutActivity(this@SettingsActivity)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(R.string.action_about),
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                )
+                            }
+                        }
+                    },
+                    scrollBehavior = scrollBehavior,
+                )
+            },
+            content = content,
+        )
     }
 
     @Preview

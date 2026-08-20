@@ -1,4 +1,4 @@
-package wangdaye.com.geometricweather.daily
+package wangdaye.com.geometricweather.settings.activities
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,34 +7,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.common.basic.GeoActivity
-import wangdaye.com.geometricweather.daily.compose.DailyWeatherRoute
 import wangdaye.com.geometricweather.navigation.InAppRoute
+import wangdaye.com.geometricweather.settings.compose.HourlyTrendDisplayManageRoute
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
-class DailyWeatherActivity : GeoActivity() {
-
-    companion object {
-        const val KEY_FORMATTED_LOCATION_ID = "FORMATTED_LOCATION_ID"
-        const val KEY_CURRENT_DAILY_INDEX = "CURRENT_DAILY_INDEX"
-    }
+class HourlyTrendDisplayManageActivity : GeoActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val formattedId = intent.getStringExtra(KEY_FORMATTED_LOCATION_ID)
-        val initialIndex = intent.getIntExtra(KEY_CURRENT_DAILY_INDEX, 0)
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = InAppRoute.DAILY_WEATHER,
+                    startDestination = InAppRoute.HOURLY_TREND_DISPLAY,
                 ) {
-                    composable(InAppRoute.DAILY_WEATHER) {
-                        DailyWeatherRoute(
-                            formattedId = formattedId,
-                            initialIndex = initialIndex,
-                            onMissingData = { finish() },
+                    composable(InAppRoute.HOURLY_TREND_DISPLAY) {
+                        HourlyTrendDisplayManageRoute(
                             onBack = { finish() },
+                            onMutated = { setResult(RESULT_OK) },
                         )
                     }
                 }

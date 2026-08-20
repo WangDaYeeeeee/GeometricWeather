@@ -6,10 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.search.compose.SearchScreen
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
@@ -33,11 +37,19 @@ class SearchActivity : GeoActivity() {
 
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
-                SearchScreen(
-                    viewModel = viewModel,
-                    existingFormattedIds = existingFormattedIds,
-                    onClose = { location -> finishSelf(location) },
-                )
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = InAppRoute.SEARCH,
+                ) {
+                    composable(InAppRoute.SEARCH) {
+                        SearchScreen(
+                            viewModel = viewModel,
+                            existingFormattedIds = existingFormattedIds,
+                            onClose = { location -> finishSelf(location) },
+                        )
+                    }
+                }
             }
         }
     }

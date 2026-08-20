@@ -18,6 +18,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
@@ -30,6 +33,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.insets.FitStatusBarTopApp
 import wangdaye.com.geometricweather.common.ui.widgets.insets.bottomInsetItem
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.theme.compose.DayNightTheme
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 import java.text.DateFormat
@@ -45,7 +49,15 @@ class AlertActivity : GeoActivity() {
 
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
-                ContentView()
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = InAppRoute.ALERT,
+                ) {
+                    composable(InAppRoute.ALERT) {
+                        ContentView()
+                    }
+                }
             }
         }
     }

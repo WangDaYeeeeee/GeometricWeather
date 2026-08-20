@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.background.polling.PollingManager
 import wangdaye.com.geometricweather.common.basic.GeoActivity
@@ -35,6 +38,7 @@ import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper
 import wangdaye.com.geometricweather.main.compose.HomeHost
 import wangdaye.com.geometricweather.main.compose.MainScreen
 import wangdaye.com.geometricweather.main.compose.WIDE_LAYOUT_MIN_DP
+import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.main.dialogs.LocationHelpDialog
 import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
@@ -163,24 +167,32 @@ class MainActivity : GeoActivity() {
                 LaunchedEffect(managementVisible, isWideLayout) {
                     updateSystemBarStyle()
                 }
-                MainScreen(
-                    viewModel = viewModel,
-                    managementVisible = managementVisible,
-                    onManagementVisibleChange = { visible ->
-                        setManagementFragmentVisibility(visible)
-                    },
-                    onSearchBarClick = {
-                        searchActivityResultLauncher.launch(
-                            Intent(this, SearchActivity::class.java)
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = InAppRoute.HOME,
+                ) {
+                    composable(InAppRoute.HOME) {
+                        MainScreen(
+                            viewModel = viewModel,
+                            managementVisible = managementVisible,
+                            onManagementVisibleChange = { visible ->
+                                setManagementFragmentVisibility(visible)
+                            },
+                            onSearchBarClick = {
+                                searchActivityResultLauncher.launch(
+                                    Intent(this@MainActivity, SearchActivity::class.java)
+                                )
+                            },
+                            onSelectProvider = {
+                                IntentHelper.startSelectProviderActivity(this@MainActivity)
+                            },
+                            onSettingsIconClicked = {
+                                IntentHelper.startSettingsActivity(this@MainActivity)
+                            },
                         )
-                    },
-                    onSelectProvider = {
-                        IntentHelper.startSelectProviderActivity(this)
-                    },
-                    onSettingsIconClicked = {
-                        IntentHelper.startSettingsActivity(this)
-                    },
-                )
+                    }
+                }
             }
         }
 

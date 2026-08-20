@@ -24,6 +24,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.BuildConfig
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.GeoActivity
@@ -34,6 +37,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.getCardListItemMarginDp
 import wangdaye.com.geometricweather.common.ui.widgets.insets.FitStatusBarTopAppBar
 import wangdaye.com.geometricweather.common.ui.widgets.insets.bottomInsetItem
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
+import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.settings.utils.DonateHelper
 import wangdaye.com.geometricweather.theme.compose.DayNightTheme
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
@@ -277,7 +281,15 @@ class AboutActivity : GeoActivity() {
 
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
-                ContentView()
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = InAppRoute.ABOUT,
+                ) {
+                    composable(InAppRoute.ABOUT) {
+                        ContentView()
+                    }
+                }
             }
         }
     }

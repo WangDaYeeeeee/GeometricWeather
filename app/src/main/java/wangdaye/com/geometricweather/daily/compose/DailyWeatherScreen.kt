@@ -1,10 +1,8 @@
 package wangdaye.com.geometricweather.daily.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-
-import android.view.LayoutInflater
-import android.widget.TextView
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -343,22 +341,40 @@ private fun OverviewItem(model: Overview) {
     val unit = SettingsManager.getInstance(context).temperatureUnit
     val text = model.halfDay.weatherText + ", " +
             model.halfDay.temperature.getTemperature(context, unit)
-    AndroidView(
-        modifier = Modifier.fillMaxWidth(),
-        factory = { ctx ->
-            LayoutInflater.from(ctx).inflate(R.layout.item_weather_daily_overview, null, false)
-        },
-        update = { view ->
-            val icon = view.findViewById<AnimatableIconView>(R.id.item_weather_daily_overview_icon)
-            val title = view.findViewById<TextView>(R.id.item_weather_daily_overview_text)
-            icon.setAnimatableIcon(
-                provider.getWeatherIcons(model.halfDay.weatherCode, model.isDaytime),
-                provider.getWeatherAnimators(model.halfDay.weatherCode, model.isDaytime)
-            )
-            title.text = text
-            view.setOnClickListener { icon.startAnimators() }
-        }
-    )
+    val iconSize = dimensionResource(R.dimen.little_weather_icon_container_size)
+    var iconView by remember { mutableStateOf<AnimatableIconView?>(null) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { iconView?.startAnimators() },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        AndroidView(
+            modifier = Modifier.size(iconSize),
+            factory = { ctx ->
+                AnimatableIconView(ctx).apply {
+                    val m = ctx.resources.getDimensionPixelSize(R.dimen.normal_margin)
+                    setPadding(m, m, m, m)
+                    iconView = this
+                }
+            },
+            update = { view ->
+                iconView = view
+                view.setAnimatableIcon(
+                    provider.getWeatherIcons(model.halfDay.weatherCode, model.isDaytime),
+                    provider.getWeatherAnimators(model.halfDay.weatherCode, model.isDaytime)
+                )
+            }
+        )
+        Text(
+            text = text,
+            color = DayNightTheme.colors.titleColor,
+            fontWeight = FontWeight.Bold,
+            fontSize = dimensionResource(R.dimen.title_text_size).value.sp,
+            modifier = Modifier.padding(end = dimensionResource(R.dimen.normal_margin)),
+        )
+    }
 }
 
 @Composable

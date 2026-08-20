@@ -15,7 +15,7 @@
 | 异步 | Kotlin Coroutines + Flow (StateFlow) | Kotlin Coroutines + Flow (StateFlow) |
 | 序列化 | kotlinx.serialization | kotlinx.serialization |
 | 图片加载 | Glide | Coil |
-| UI | XML View 系统 (约 397 个布局) | Jetpack Compose + Material 3 |
+| UI | Jetpack Compose（in-app）+ Widget/RemoteViews XML | Jetpack Compose + Material 3（Widget 除外） |
 | 语言 | Java (345 文件) + Kotlin (97 文件) | 全 Kotlin |
 | 模块化 | 单模块 app | 多模块 (core/data/domain/presentation/feature) |
 | 测试 | JUnit4 + PowerMock + Robolectric | JUnit5 + Compose UI Test |
@@ -69,13 +69,15 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 主界面壳层：MainActivity `setContent` + 城市管理列表 Compose（宽屏分栏 / 窄屏覆盖层）
 - [x] 主界面天气首页：Compose `HomeScreen` 通过 `AndroidView` 托管 `fragment_home` + Material weather `WeatherView`、`MainAdapter` / `MainLayoutManager`、`SwipeSwitchLayout`（非 Fragment）
 - [x] 搜索页面 → Compose（`SearchActivity` `setContent` + `search/compose/`；结果列表、IME 搜索、天气源筛选底栏；仍返回 `RESULT_OK` + `KEY_LOCATION`）
-- [x] 每日详情 → Compose（`DailyWeatherActivity` `setContent` + `daily/compose/` HorizontalPager；趋势图卡片仍为 Home 内 View）
-- [ ] 每小时趋势（Home 卡片内）、设置剩余 XML、关于等页面 → Compose（设置/关于已有 Compose 屏幕）
-- [ ] 统一 Navigation Compose 路由（本阶段仅主界面内 BackHandler，无全应用 NavHost）
-- [ ] 清理 XML 布局及 View 系控件（保留 Widget/RemoteViews）
-- [ ] 迁移 View 系自定义控件 (trend chart 等) 至 Compose Canvas
+- [x] 每日详情 → Compose（`DailyWeatherActivity` `setContent` + `daily/compose/` HorizontalPager）
+- [x] 设置 leftover → Compose（卡片/日趋势/小时趋势排序、`PreviewIconActivity`；设置/关于/数据源已有 Compose）
+- [x] Navigation Compose：各 in-app Activity 内 `NavHost`（`InAppRoute`）；设置栈内 appearance leftover 为嵌套路由。跨功能仍走 Intent（保留 MainActivity `ACTION_*` 与搜索 `KEY_LOCATION`）
+- [x] 清理已无 inflate 的 in-app XML / 适配器 / `HomeFragment` / `ManagementFragment` / `search/ui`
+- [x] 日详情页已离开 XML；Home 内日/小时趋势图仍为自定义 View（`item_trend_*` + trend adapters），未改写 Compose Canvas
 
-本切片未改 AppWidget / Live wallpaper。Home 天气动画仍为真实 `WeatherView`（`AndroidView` 嵌入 CoordinatorLayout 底层），卡片列表仍走 `MainAdapter` RecyclerView，城市横滑仍走 `SwipeSwitchLayout`。已移除 `HomeFragment` / `compose_home_host.xml`。Search 的 `activity_search.xml` 与 `search/ui/` RecyclerView 适配器仍保留但主路径不再 inflate。Daily 的 item XML / holder 仍保留供 overview 图标等自定义 View inflate，主路径不再使用 `activity_weather_daily` ViewPager。剩余 XML 主要包括 Home 卡片、趋势图、Alert、widget 配置、设置排序页等。设置 leftover：`CardDisplayManageActivity`、`DailyTrendDisplayManageActivity`、`HourlyTrendDisplayManageActivity`、`PreviewIconActivity`。
+**Honest leftovers (in-app, not widgets):** Home 天气动画必须保持真实 `WeatherView`（`AndroidView`）。Home 卡片/header/趋势 RecyclerView 仍走 `MainAdapter`（与 `WeatherView` scroll、SwipeSwitch、动画高度强耦合）。日/小时趋势图为 View canvas（`Polyline`/`Histogram` 等），**不是** Compose Canvas。日详情 overview 天气图标仍为 `AnimatableIconView`（`AndroidView`）。Alert / Allergen / About / Search / Settings / Daily 主路径已是 Compose。
+
+**Out of scope (unchanged):** AppWidget / RemoteViews / `remoteviews/config/*` / live wallpaper 布局与代码。
 
 ### 阶段 7：Java → Kotlin 全量迁移
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
