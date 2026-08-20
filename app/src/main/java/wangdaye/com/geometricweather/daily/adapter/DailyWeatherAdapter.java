@@ -80,44 +80,46 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
     };
 
     public DailyWeatherAdapter(Context context, TimeZone timeZone, Daily daily, int spanCount) {
-        // model list.
-        mModelList = new ArrayList<>();
+        mModelList = buildModelList(context, timeZone, daily);
+        mSpanCount = spanCount;
+    }
 
-        mModelList.add(new LargeTitle(context.getString(R.string.daytime)));
-        mModelList.add(new Overview(daily.day(), true));
-        mModelList.add(new DailyWind(daily.day().getWind()));
-        mModelList.addAll(getHalfDayOptionalModelList(context, daily.day()));
+    public static List<ViewModel> buildModelList(Context context, TimeZone timeZone, Daily daily) {
+        List<ViewModel> modelList = new ArrayList<>();
 
-        mModelList.add(new Line());
-        mModelList.add(new LargeTitle(context.getString(R.string.nighttime)));
-        mModelList.add(new Overview(daily.night(), false));
-        mModelList.add(new DailyWind(daily.night().getWind()));
-        mModelList.addAll(getHalfDayOptionalModelList(context, daily.night()));
+        modelList.add(new LargeTitle(context.getString(R.string.daytime)));
+        modelList.add(new Overview(daily.day(), true));
+        modelList.add(new DailyWind(daily.day().getWind()));
+        modelList.addAll(getHalfDayOptionalModelList(context, daily.day()));
 
-        mModelList.add(new Line());
-        mModelList.add(new LargeTitle(context.getString(R.string.life_details)));
-        mModelList.add(new DailyAstro(timeZone, daily.sun(), daily.moon(), daily.getMoonPhase()));
+        modelList.add(new Line());
+        modelList.add(new LargeTitle(context.getString(R.string.nighttime)));
+        modelList.add(new Overview(daily.night(), false));
+        modelList.add(new DailyWind(daily.night().getWind()));
+        modelList.addAll(getHalfDayOptionalModelList(context, daily.night()));
+
+        modelList.add(new Line());
+        modelList.add(new LargeTitle(context.getString(R.string.life_details)));
+        modelList.add(new DailyAstro(timeZone, daily.sun(), daily.moon(), daily.getMoonPhase()));
         if (daily.getAirQuality().isValid()) {
-            mModelList.add(new Title(R.drawable.weather_haze_mini_xml, context.getString(R.string.air_quality)));
-            mModelList.add(new DailyAirQuality(daily.getAirQuality()));
+            modelList.add(new Title(R.drawable.weather_haze_mini_xml, context.getString(R.string.air_quality)));
+            modelList.add(new DailyAirQuality(daily.getAirQuality()));
         }
         if (daily.getPollen().isValid()) {
-            mModelList.add(new Title(R.drawable.ic_flower, context.getString(R.string.allergen)));
-            mModelList.add(new DailyPollen(daily.getPollen()));
+            modelList.add(new Title(R.drawable.ic_flower, context.getString(R.string.allergen)));
+            modelList.add(new DailyPollen(daily.getPollen()));
         }
         if (daily.getUV().isValid()) {
-            mModelList.add(new Title(R.drawable.ic_uv, context.getString(R.string.uv_index)));
-            mModelList.add(new DailyUV(daily.getUV()));
+            modelList.add(new Title(R.drawable.ic_uv, context.getString(R.string.uv_index)));
+            modelList.add(new DailyUV(daily.getUV()));
         }
-        mModelList.add(new Line());
-        mModelList.add(new Value(
+        modelList.add(new Line());
+        modelList.add(new Value(
                 context.getString(R.string.hours_of_sun),
                 DurationUnit.H.getValueText(context, daily.getHoursOfSun())
         ));
-        mModelList.add(new Margin());
-
-        // span count.
-        mSpanCount = spanCount;
+        modelList.add(new Margin());
+        return modelList;
     }
 
     @NonNull
@@ -168,7 +170,7 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
         return mModelList.size();
     }
 
-    private List<ViewModel> getHalfDayOptionalModelList(Context context, HalfDay halfDay) {
+    private static List<ViewModel> getHalfDayOptionalModelList(Context context, HalfDay halfDay) {
         List<ViewModel> list = new ArrayList<>();
         // temperature.
         Temperature temperature = halfDay.getTemperature();
