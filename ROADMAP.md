@@ -55,6 +55,8 @@ EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that 
 - [x] 替换 converter-gson 为 kotlinx-serialization converter
 - [x] 移除 Gson 依赖及 `common/retrofit` 中相关封装
 
+Date fields use `GsonCompatibleDateSerializer` matching Gson `setDateFormat("yyyy-MM-dd'T'HH:mm:ss")` (trailing offsets such as `+08:00` are ignored). Nested Accu types whose JSON property names matched their Java class names were renamed `*Bean` because Kotlin cannot declare both in the same class.
+
 ### 阶段 5：图片加载迁移 Glide → Coil
 - [ ] 添加 Coil 依赖
 - [ ] Compose 侧 Image 组件 → Coil AsyncImage
