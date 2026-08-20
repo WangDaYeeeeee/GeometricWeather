@@ -5,129 +5,83 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import wangdaye.com.geometricweather.db.entities.ChineseCityEntityDao;
+import wangdaye.com.geometricweather.db.GeometricWeatherDatabase;
 import wangdaye.com.geometricweather.db.entities.ChineseCityEntity;
-import wangdaye.com.geometricweather.db.entities.DaoSession;
 
 public class ChineseCityEntityController extends AbsEntityController {
 
-    // insert.
-
-    public static void insertChineseCityEntityList(@NonNull DaoSession session,
+    public static void insertChineseCityEntityList(@NonNull GeometricWeatherDatabase database,
                                                    @NonNull List<ChineseCityEntity> entityList) {
-        if (entityList.size() != 0) {
-            session.getChineseCityEntityDao().insertInTx(entityList);
+        if (!entityList.isEmpty()) {
+            database.chineseCityDao().insertChineseCityEntityList(entityList);
         }
     }
 
-    // delete.
-
-    public static void deleteChineseCityEntityList(@NonNull DaoSession session) {
-        session.getChineseCityEntityDao().deleteAll();
+    public static void deleteChineseCityEntityList(@NonNull GeometricWeatherDatabase database) {
+        database.chineseCityDao().deleteChineseCityEntityList();
     }
 
-    // select.
-
     @Nullable
-    public static ChineseCityEntity selectChineseCityEntity(@NonNull DaoSession session,
+    public static ChineseCityEntity selectChineseCityEntity(@NonNull GeometricWeatherDatabase database,
                                                             @NonNull String name) {
         if (TextUtils.isEmpty(name)) {
             return null;
         }
-
-        ChineseCityEntityDao dao = session.getChineseCityEntityDao();
-
-        QueryBuilder<ChineseCityEntity> builder = dao.queryBuilder();
-        builder.whereOr(
-                ChineseCityEntityDao.Properties.District.eq(name),
-                ChineseCityEntityDao.Properties.City.eq(name)
-        );
-
-        List<ChineseCityEntity> entityList = builder.list();
-        if (entityList == null || entityList.size() <= 0) {
-            return null;
-        } else {
-            return entityList.get(0);
-        }
+        return database.chineseCityDao().selectChineseCityEntity(name);
     }
 
     @Nullable
-    public static ChineseCityEntity selectChineseCityEntity(@NonNull DaoSession session,
+    public static ChineseCityEntity selectChineseCityEntity(@NonNull GeometricWeatherDatabase database,
                                                             @NonNull String province,
                                                             @NonNull String city,
                                                             @NonNull String district) {
-        ChineseCityEntityDao dao = session.getChineseCityEntityDao();
-
-        List<WhereCondition> conditionList = new ArrayList<>();
-        conditionList.add(
-                dao.queryBuilder().and(
-                        ChineseCityEntityDao.Properties.District.eq(district),
-                        ChineseCityEntityDao.Properties.City.eq(city)
-                )
-        );
-        conditionList.add(
-                dao.queryBuilder().and(
-                        ChineseCityEntityDao.Properties.District.eq(district),
-                        ChineseCityEntityDao.Properties.Province.eq(province)
-                )
-        );
-        conditionList.add(
-                dao.queryBuilder().and(
-                        ChineseCityEntityDao.Properties.City.eq(city),
-                        ChineseCityEntityDao.Properties.Province.eq(province)
-                )
-        );
-        conditionList.add(ChineseCityEntityDao.Properties.City.eq(city));
-        conditionList.add(
-                dao.queryBuilder().and(
-                        ChineseCityEntityDao.Properties.District.eq(city),
-                        ChineseCityEntityDao.Properties.Province.eq(province)
-                )
-        );
-        conditionList.add(
-                dao.queryBuilder().and(
-                        ChineseCityEntityDao.Properties.District.eq(city),
-                        ChineseCityEntityDao.Properties.City.eq(province)
-                )
-        );
-        conditionList.add(ChineseCityEntityDao.Properties.District.eq(city));
-        conditionList.add(ChineseCityEntityDao.Properties.City.eq(district));
-
-        List<ChineseCityEntity> entityList;
-        for (WhereCondition c : conditionList) {
-            try {
-                entityList = dao.queryBuilder().where(c).list();
-            } catch (Exception e) {
-                entityList = null;
-            }
-            if (entityList != null && entityList.size() > 0) {
-                return entityList.get(0);
-            }
+        ChineseCityEntity entity = database.chineseCityDao().selectByDistrictAndCity(district, city);
+        if (entity != null) {
+            return entity;
         }
-
-        return null;
+        entity = database.chineseCityDao().selectByDistrictAndProvince(district, province);
+        if (entity != null) {
+            return entity;
+        }
+        entity = database.chineseCityDao().selectByCityAndProvince(city, province);
+        if (entity != null) {
+            return entity;
+        }
+        entity = database.chineseCityDao().selectByCity(city);
+        if (entity != null) {
+            return entity;
+        }
+        entity = database.chineseCityDao().selectByDistrictAndProvince(city, province);
+        if (entity != null) {
+            return entity;
+        }
+        entity = database.chineseCityDao().selectByDistrictAndCity(city, province);
+        if (entity != null) {
+            return entity;
+        }
+        entity = database.chineseCityDao().selectByDistrict(city);
+        if (entity != null) {
+            return entity;
+        }
+        return database.chineseCityDao().selectByCity(district);
     }
 
     @Nullable
-    public static ChineseCityEntity selectChineseCityEntity(@NonNull DaoSession session,
+    public static ChineseCityEntity selectChineseCityEntity(@NonNull GeometricWeatherDatabase database,
                                                             float latitude,
                                                             float longitude) {
         List<ChineseCityEntity> entityList = getNonNullList(
-                session.getChineseCityEntityDao()
-                        .queryBuilder()
-                        .list()
+                database.chineseCityDao().selectChineseCityEntityList()
         );
 
         int minIndex = -1;
         double minDistance = Double.MAX_VALUE;
-        for (int i = 0; i < entityList.size(); i ++) {
-            double distance = Math.pow(latitude - Double.parseDouble(entityList.get(i).latitude), 2)
+        for (int i = 0; i < entityList.size(); i++) {
+            double distance = Math.pow(
+                    latitude - Double.parseDouble(entityList.get(i).latitude), 2)
                     + Math.pow(longitude - Double.parseDouble(entityList.get(i).longitude), 2);
             if (distance < minDistance) {
                 minIndex = i;
@@ -142,25 +96,16 @@ public class ChineseCityEntityController extends AbsEntityController {
     }
 
     @NonNull
-    public static List<ChineseCityEntity> selectChineseCityEntityList(@NonNull DaoSession session,
-                                                                      @NonNull String name) {
+    public static List<ChineseCityEntity> selectChineseCityEntityList(
+            @NonNull GeometricWeatherDatabase database,
+            @NonNull String name) {
         if (TextUtils.isEmpty(name)) {
             return new ArrayList<>();
         }
-
-        ChineseCityEntityDao dao = session.getChineseCityEntityDao();
-
-        QueryBuilder<ChineseCityEntity> builder = dao.queryBuilder();
-        builder.whereOr(
-                ChineseCityEntityDao.Properties.District.like("%" + name + "%"),
-                ChineseCityEntityDao.Properties.City.like("%" + name + "%"),
-                ChineseCityEntityDao.Properties.Province.like("%" + name + "%")
-        );
-
-        return getNonNullList(builder.list());
+        return getNonNullList(database.chineseCityDao().selectChineseCityEntityList(name));
     }
 
-    public static int countChineseCityEntity(@NonNull DaoSession session) {
-        return (int) session.getChineseCityEntityDao().count();
+    public static int countChineseCityEntity(@NonNull GeometricWeatherDatabase database) {
+        return database.chineseCityDao().countChineseCityEntity();
     }
 }

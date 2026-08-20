@@ -150,25 +150,9 @@
   public *;
 }
 
-### greenDAO 2
--keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
-public static java.lang.String TABLENAME;
-}
--keep class **$Properties
+# Room
+-dontwarn androidx.room.paging.**
 
-### greenDAO 3
--keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
-public static java.lang.String TABLENAME;
-}
--keep class **$Properties
-
--keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
-    public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
-    public static void createTable(org.greenrobot.greendao.database.Database, boolean);
-}
-
-# If you do not use SQLCipher:
--dontwarn org.greenrobot.greendao.database.**
 # If you do not use RxJava:
 -dontwarn rx.**
 

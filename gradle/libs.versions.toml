@@ -5,7 +5,6 @@ kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
 kotlin-compiler-extension = "1.5.14"
 hilt = "2.51.1"
-greendao = "3.3.1"
 compose-bom = "2024.06.00"
 
 # Lifecycle.
@@ -46,8 +45,7 @@ okhttp = "4.12.0"
 glide = "4.16.0"
 
 # Database.
-greendao-lib = "3.3.0"
-greendao-upgrade = "v2.2.1"
+room = "2.6.1"
 
 # Serialization.
 gson = "2.11.0"
@@ -172,8 +170,9 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
 # Database.
-greendao = { module = "org.greenrobot:greendao", version.ref = "greendao-lib" }
-greendao-upgrade-helper = { module = "io.github.yuweiguocn:GreenDaoUpgradeHelper", version.ref = "greendao-upgrade" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 # Serialization.
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -208,7 +207,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-greendao = { id = "org.greenrobot.greendao", version.ref = "greendao" }
 
 [bundles]
 compose = [

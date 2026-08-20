@@ -1,19 +1,25 @@
 package wangdaye.com.geometricweather.db.converters;
 
-import org.greenrobot.greendao.converter.PropertyConverter;
+import androidx.room.TypeConverter;
 
 import wangdaye.com.geometricweather.common.basic.models.weather.WeatherCode;
 
-public class WeatherCodeConverter implements PropertyConverter<WeatherCode, String> {
+public class WeatherCodeConverter {
 
-    @Override
+    @TypeConverter
     public WeatherCode convertToEntityProperty(String databaseValue) {
+        if (databaseValue == null) {
+            return null;
+        }
         // use get instance method but not getValue method.
         return WeatherCode.getInstance(databaseValue);
     }
 
-    @Override
+    @TypeConverter
     public String convertToDatabaseValue(WeatherCode entityProperty) {
+        if (entityProperty == null) {
+            return null;
+        }
         return entityProperty.getId();
     }
 }

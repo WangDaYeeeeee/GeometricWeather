@@ -1,119 +1,52 @@
 package wangdaye.com.geometricweather.db.entities;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.Index;
 import java.util.Date;
-import org.greenrobot.greendao.annotation.Generated;
-
-import wangdaye.com.geometricweather.common.basic.models.weather.Alert;
 
 /**
- * Alert entity.
- *
- * {@link Alert}
- * */
-@Entity
+ * Alert entity matching GreenDAO schema 62.
+ */
+@Entity(tableName = "ALERT_ENTITY",
+        indices = {@Index(value = {"CITY_ID", "WEATHER_SOURCE"})})
 public class AlertEntity {
 
-    @Id public Long id;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "ID")
+    public Long id;
+
+    @ColumnInfo(name = "CITY_ID")
     public String cityId;
+
+    @ColumnInfo(name = "WEATHER_SOURCE")
     public String weatherSource;
-    
+
+    @ColumnInfo(name = "ALERT_ID")
     public long alertId;
+
+    @ColumnInfo(name = "DATE")
     public Date date;
+
+    @ColumnInfo(name = "TIME")
     public long time;
 
+    @ColumnInfo(name = "DESCRIPTION")
     public String description;
+
+    @ColumnInfo(name = "CONTENT")
     public String content;
 
+    @ColumnInfo(name = "TYPE")
     public String type;
+
+    @ColumnInfo(name = "PRIORITY")
     public int priority;
+
+    @ColumnInfo(name = "COLOR")
     public int color;
-    @Generated(hash = 1514490199)
-    public AlertEntity(Long id, String cityId, String weatherSource, long alertId,
-            Date date, long time, String description, String content, String type,
-            int priority, int color) {
-        this.id = id;
-        this.cityId = cityId;
-        this.weatherSource = weatherSource;
-        this.alertId = alertId;
-        this.date = date;
-        this.time = time;
-        this.description = description;
-        this.content = content;
-        this.type = type;
-        this.priority = priority;
-        this.color = color;
-    }
-    @Generated(hash = 307089144)
+
     public AlertEntity() {
     }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getCityId() {
-        return this.cityId;
-    }
-    public void setCityId(String cityId) {
-        this.cityId = cityId;
-    }
-    public String getWeatherSource() {
-        return this.weatherSource;
-    }
-    public void setWeatherSource(String weatherSource) {
-        this.weatherSource = weatherSource;
-    }
-    public long getAlertId() {
-        return this.alertId;
-    }
-    public void setAlertId(long alertId) {
-        this.alertId = alertId;
-    }
-    public Date getDate() {
-        return this.date;
-    }
-    public void setDate(Date date) {
-        this.date = date;
-    }
-    public long getTime() {
-        return this.time;
-    }
-    public void setTime(long time) {
-        this.time = time;
-    }
-    public String getDescription() {
-        return this.description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getContent() {
-        return this.content;
-    }
-    public void setContent(String content) {
-        this.content = content;
-    }
-    public String getType() {
-        return this.type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    public int getPriority() {
-        return this.priority;
-    }
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-    public int getColor() {
-        return this.color;
-    }
-    public void setColor(int color) {
-        this.color = color;
-    }
-
 }

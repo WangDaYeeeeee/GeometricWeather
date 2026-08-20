@@ -12,7 +12,13 @@ import wangdaye.com.geometricweather.common.basic.models.weather.Temperature;
 import wangdaye.com.geometricweather.common.basic.models.weather.UV;
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather;
 import wangdaye.com.geometricweather.common.basic.models.weather.Wind;
+import java.util.List;
+
+import wangdaye.com.geometricweather.db.entities.AlertEntity;
+import wangdaye.com.geometricweather.db.entities.DailyEntity;
 import wangdaye.com.geometricweather.db.entities.HistoryEntity;
+import wangdaye.com.geometricweather.db.entities.HourlyEntity;
+import wangdaye.com.geometricweather.db.entities.MinutelyEntity;
 import wangdaye.com.geometricweather.db.entities.WeatherEntity;
 import wangdaye.com.geometricweather.db.converters.WeatherSourceConverter;
 
@@ -86,7 +92,11 @@ public class WeatherEntityGenerator {
     }
 
     public static Weather generate(@Nullable WeatherEntity weatherEntity,
-                                   @Nullable HistoryEntity historyEntity) {
+                                   @Nullable HistoryEntity historyEntity,
+                                   @Nullable List<DailyEntity> dailyEntityList,
+                                   @Nullable List<HourlyEntity> hourlyEntityList,
+                                   @Nullable List<MinutelyEntity> minutelyEntityList,
+                                   @Nullable List<AlertEntity> alertEntityList) {
         if (weatherEntity == null) {
             return null;
         }
@@ -152,10 +162,14 @@ public class WeatherEntityGenerator {
                         weatherEntity.hourlyForecast
                 ),
                 HistoryEntityGenerator.generate(historyEntity),
-                DailyEntityGenerator.generate(weatherEntity.getDailyEntityList()),
-                HourlyEntityGenerator.generateModuleList(weatherEntity.getHourlyEntityList()),
-                MinutelyEntityGenerator.generate(weatherEntity.getMinutelyEntityList()),
-                AlertEntityGenerator.generate(weatherEntity.getAlertEntityList())
+                DailyEntityGenerator.generate(
+                        dailyEntityList == null ? java.util.Collections.emptyList() : dailyEntityList),
+                HourlyEntityGenerator.generateModuleList(
+                        hourlyEntityList == null ? java.util.Collections.emptyList() : hourlyEntityList),
+                MinutelyEntityGenerator.generate(
+                        minutelyEntityList == null ? java.util.Collections.emptyList() : minutelyEntityList),
+                AlertEntityGenerator.generate(
+                        alertEntityList == null ? java.util.Collections.emptyList() : alertEntityList)
         );
     }
 }

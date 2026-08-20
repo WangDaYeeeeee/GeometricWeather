@@ -1,1103 +1,306 @@
 package wangdaye.com.geometricweather.db.entities;
 
-import org.greenrobot.greendao.annotation.Convert;
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.Index;
 import java.util.Date;
-
-import wangdaye.com.geometricweather.common.basic.models.weather.Daily;
 import wangdaye.com.geometricweather.common.basic.models.weather.WeatherCode;
 import wangdaye.com.geometricweather.common.basic.models.weather.WindDegree;
-import wangdaye.com.geometricweather.db.converters.WeatherCodeConverter;
-import wangdaye.com.geometricweather.db.converters.WindDegreeConverter;
-
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
- * Daily entity.
- *
- * {@link Daily}.
- * */
-@Entity
+ * Daily entity matching GreenDAO schema 62.
+ */
+@Entity(tableName = "DAILY_ENTITY",
+        indices = {@Index(value = {"CITY_ID", "WEATHER_SOURCE"})})
 public class DailyEntity {
 
-    @Id public Long id;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "ID")
+    public Long id;
+
+    @ColumnInfo(name = "CITY_ID")
     public String cityId;
+
+    @ColumnInfo(name = "WEATHER_SOURCE")
     public String weatherSource;
 
+    @ColumnInfo(name = "DATE")
     public Date date;
+
+    @ColumnInfo(name = "TIME")
     public long time;
 
-    // daytime.
+    @ColumnInfo(name = "DAYTIME_WEATHER_TEXT")
     public String daytimeWeatherText;
+
+    @ColumnInfo(name = "DAYTIME_WEATHER_PHASE")
     public String daytimeWeatherPhase;
-    @Convert(converter = WeatherCodeConverter.class, columnType = String.class)
+
+    @ColumnInfo(name = "DAYTIME_WEATHER_CODE")
     public WeatherCode daytimeWeatherCode;
 
+    @ColumnInfo(name = "DAYTIME_TEMPERATURE")
     public int daytimeTemperature;
+
+    @ColumnInfo(name = "DAYTIME_REAL_FEEL_TEMPERATURE")
     public Integer daytimeRealFeelTemperature;
+
+    @ColumnInfo(name = "DAYTIME_REAL_FEEL_SHADER_TEMPERATURE")
     public Integer daytimeRealFeelShaderTemperature;
+
+    @ColumnInfo(name = "DAYTIME_APPARENT_TEMPERATURE")
     public Integer daytimeApparentTemperature;
+
+    @ColumnInfo(name = "DAYTIME_WIND_CHILL_TEMPERATURE")
     public Integer daytimeWindChillTemperature;
+
+    @ColumnInfo(name = "DAYTIME_WET_BULB_TEMPERATURE")
     public Integer daytimeWetBulbTemperature;
+
+    @ColumnInfo(name = "DAYTIME_DEGREE_DAY_TEMPERATURE")
     public Integer daytimeDegreeDayTemperature;
 
+    @ColumnInfo(name = "DAYTIME_TOTAL_PRECIPITATION")
     public Float daytimeTotalPrecipitation;
+
+    @ColumnInfo(name = "DAYTIME_THUNDERSTORM_PRECIPITATION")
     public Float daytimeThunderstormPrecipitation;
+
+    @ColumnInfo(name = "DAYTIME_RAIN_PRECIPITATION")
     public Float daytimeRainPrecipitation;
+
+    @ColumnInfo(name = "DAYTIME_SNOW_PRECIPITATION")
     public Float daytimeSnowPrecipitation;
+
+    @ColumnInfo(name = "DAYTIME_ICE_PRECIPITATION")
     public Float daytimeIcePrecipitation;
 
+    @ColumnInfo(name = "DAYTIME_TOTAL_PRECIPITATION_PROBABILITY")
     public Float daytimeTotalPrecipitationProbability;
+
+    @ColumnInfo(name = "DAYTIME_THUNDERSTORM_PRECIPITATION_PROBABILITY")
     public Float daytimeThunderstormPrecipitationProbability;
+
+    @ColumnInfo(name = "DAYTIME_RAIN_PRECIPITATION_PROBABILITY")
     public Float daytimeRainPrecipitationProbability;
+
+    @ColumnInfo(name = "DAYTIME_SNOW_PRECIPITATION_PROBABILITY")
     public Float daytimeSnowPrecipitationProbability;
+
+    @ColumnInfo(name = "DAYTIME_ICE_PRECIPITATION_PROBABILITY")
     public Float daytimeIcePrecipitationProbability;
 
+    @ColumnInfo(name = "DAYTIME_TOTAL_PRECIPITATION_DURATION")
     public Float daytimeTotalPrecipitationDuration;
+
+    @ColumnInfo(name = "DAYTIME_THUNDERSTORM_PRECIPITATION_DURATION")
     public Float daytimeThunderstormPrecipitationDuration;
+
+    @ColumnInfo(name = "DAYTIME_RAIN_PRECIPITATION_DURATION")
     public Float daytimeRainPrecipitationDuration;
+
+    @ColumnInfo(name = "DAYTIME_SNOW_PRECIPITATION_DURATION")
     public Float daytimeSnowPrecipitationDuration;
+
+    @ColumnInfo(name = "DAYTIME_ICE_PRECIPITATION_DURATION")
     public Float daytimeIcePrecipitationDuration;
 
+    @ColumnInfo(name = "DAYTIME_WIND_DIRECTION")
     public String daytimeWindDirection;
-    @Convert(converter = WindDegreeConverter.class, columnType = Float.class)
+
+    @ColumnInfo(name = "DAYTIME_WIND_DEGREE")
     public WindDegree daytimeWindDegree;
+
+    @ColumnInfo(name = "DAYTIME_WIND_SPEED")
     public Float daytimeWindSpeed;
+
+    @ColumnInfo(name = "DAYTIME_WIND_LEVEL")
     public String daytimeWindLevel;
 
+    @ColumnInfo(name = "DAYTIME_CLOUD_COVER")
     public Integer daytimeCloudCover;
 
-    // nighttime.
+    @ColumnInfo(name = "NIGHTTIME_WEATHER_TEXT")
     public String nighttimeWeatherText;
+
+    @ColumnInfo(name = "NIGHTTIME_WEATHER_PHASE")
     public String nighttimeWeatherPhase;
-    @Convert(converter = WeatherCodeConverter.class, columnType = String.class)
+
+    @ColumnInfo(name = "NIGHTTIME_WEATHER_CODE")
     public WeatherCode nighttimeWeatherCode;
 
+    @ColumnInfo(name = "NIGHTTIME_TEMPERATURE")
     public int nighttimeTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_REAL_FEEL_TEMPERATURE")
     public Integer nighttimeRealFeelTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_REAL_FEEL_SHADER_TEMPERATURE")
     public Integer nighttimeRealFeelShaderTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_APPARENT_TEMPERATURE")
     public Integer nighttimeApparentTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_WIND_CHILL_TEMPERATURE")
     public Integer nighttimeWindChillTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_WET_BULB_TEMPERATURE")
     public Integer nighttimeWetBulbTemperature;
+
+    @ColumnInfo(name = "NIGHTTIME_DEGREE_DAY_TEMPERATURE")
     public Integer nighttimeDegreeDayTemperature;
 
+    @ColumnInfo(name = "NIGHTTIME_TOTAL_PRECIPITATION")
     public Float nighttimeTotalPrecipitation;
+
+    @ColumnInfo(name = "NIGHTTIME_THUNDERSTORM_PRECIPITATION")
     public Float nighttimeThunderstormPrecipitation;
+
+    @ColumnInfo(name = "NIGHTTIME_RAIN_PRECIPITATION")
     public Float nighttimeRainPrecipitation;
+
+    @ColumnInfo(name = "NIGHTTIME_SNOW_PRECIPITATION")
     public Float nighttimeSnowPrecipitation;
+
+    @ColumnInfo(name = "NIGHTTIME_ICE_PRECIPITATION")
     public Float nighttimeIcePrecipitation;
 
+    @ColumnInfo(name = "NIGHTTIME_TOTAL_PRECIPITATION_PROBABILITY")
     public Float nighttimeTotalPrecipitationProbability;
+
+    @ColumnInfo(name = "NIGHTTIME_THUNDERSTORM_PRECIPITATION_PROBABILITY")
     public Float nighttimeThunderstormPrecipitationProbability;
+
+    @ColumnInfo(name = "NIGHTTIME_RAIN_PRECIPITATION_PROBABILITY")
     public Float nighttimeRainPrecipitationProbability;
+
+    @ColumnInfo(name = "NIGHTTIME_SNOW_PRECIPITATION_PROBABILITY")
     public Float nighttimeSnowPrecipitationProbability;
+
+    @ColumnInfo(name = "NIGHTTIME_ICE_PRECIPITATION_PROBABILITY")
     public Float nighttimeIcePrecipitationProbability;
 
+    @ColumnInfo(name = "NIGHTTIME_TOTAL_PRECIPITATION_DURATION")
     public Float nighttimeTotalPrecipitationDuration;
+
+    @ColumnInfo(name = "NIGHTTIME_THUNDERSTORM_PRECIPITATION_DURATION")
     public Float nighttimeThunderstormPrecipitationDuration;
+
+    @ColumnInfo(name = "NIGHTTIME_RAIN_PRECIPITATION_DURATION")
     public Float nighttimeRainPrecipitationDuration;
+
+    @ColumnInfo(name = "NIGHTTIME_SNOW_PRECIPITATION_DURATION")
     public Float nighttimeSnowPrecipitationDuration;
+
+    @ColumnInfo(name = "NIGHTTIME_ICE_PRECIPITATION_DURATION")
     public Float nighttimeIcePrecipitationDuration;
 
+    @ColumnInfo(name = "NIGHTTIME_WIND_DIRECTION")
     public String nighttimeWindDirection;
-    @Convert(converter = WindDegreeConverter.class, columnType = Float.class)
+
+    @ColumnInfo(name = "NIGHTTIME_WIND_DEGREE")
     public WindDegree nighttimeWindDegree;
+
+    @ColumnInfo(name = "NIGHTTIME_WIND_SPEED")
     public Float nighttimeWindSpeed;
+
+    @ColumnInfo(name = "NIGHTTIME_WIND_LEVEL")
     public String nighttimeWindLevel;
 
+    @ColumnInfo(name = "NIGHTTIME_CLOUD_COVER")
     public Integer nighttimeCloudCover;
 
-    // sun.
+    @ColumnInfo(name = "SUN_RISE_DATE")
     public Date sunRiseDate;
+
+    @ColumnInfo(name = "SUN_SET_DATE")
     public Date sunSetDate;
 
-    // moon.
+    @ColumnInfo(name = "MOON_RISE_DATE")
     public Date moonRiseDate;
+
+    @ColumnInfo(name = "MOON_SET_DATE")
     public Date moonSetDate;
 
-    // moon phase.
+    @ColumnInfo(name = "MOON_PHASE_ANGLE")
     public Integer moonPhaseAngle;
+
+    @ColumnInfo(name = "MOON_PHASE_DESCRIPTION")
     public String moonPhaseDescription;
 
-    // aqi.
+    @ColumnInfo(name = "AQI_TEXT")
     public String aqiText;
+
+    @ColumnInfo(name = "AQI_INDEX")
     public Integer aqiIndex;
+
+    @ColumnInfo(name = "PM25")
     public Float pm25;
+
+    @ColumnInfo(name = "PM10")
     public Float pm10;
+
+    @ColumnInfo(name = "SO2")
     public Float so2;
+
+    @ColumnInfo(name = "NO2")
     public Float no2;
+
+    @ColumnInfo(name = "O3")
     public Float o3;
+
+    @ColumnInfo(name = "CO")
     public Float co;
 
-    // pollen.
+    @ColumnInfo(name = "GRASS_INDEX")
     public Integer grassIndex;
+
+    @ColumnInfo(name = "GRASS_LEVEL")
     public Integer grassLevel;
+
+    @ColumnInfo(name = "GRASS_DESCRIPTION")
     public String grassDescription;
+
+    @ColumnInfo(name = "MOLD_INDEX")
     public Integer moldIndex;
+
+    @ColumnInfo(name = "MOLD_LEVEL")
     public Integer moldLevel;
+
+    @ColumnInfo(name = "MOLD_DESCRIPTION")
     public String moldDescription;
+
+    @ColumnInfo(name = "RAGWEED_INDEX")
     public Integer ragweedIndex;
+
+    @ColumnInfo(name = "RAGWEED_LEVEL")
     public Integer ragweedLevel;
+
+    @ColumnInfo(name = "RAGWEED_DESCRIPTION")
     public String ragweedDescription;
+
+    @ColumnInfo(name = "TREE_INDEX")
     public Integer treeIndex;
+
+    @ColumnInfo(name = "TREE_LEVEL")
     public Integer treeLevel;
+
+    @ColumnInfo(name = "TREE_DESCRIPTION")
     public String treeDescription;
 
-    // uv.
+    @ColumnInfo(name = "UV_INDEX")
     public Integer uvIndex;
+
+    @ColumnInfo(name = "UV_LEVEL")
     public String uvLevel;
+
+    @ColumnInfo(name = "UV_DESCRIPTION")
     public String uvDescription;
 
+    @ColumnInfo(name = "HOURS_OF_SUN")
     public float hoursOfSun;
 
-    @Generated(hash = 1727023126)
-    public DailyEntity(Long id, String cityId, String weatherSource, Date date,
-            long time, String daytimeWeatherText, String daytimeWeatherPhase,
-            WeatherCode daytimeWeatherCode, int daytimeTemperature,
-            Integer daytimeRealFeelTemperature,
-            Integer daytimeRealFeelShaderTemperature,
-            Integer daytimeApparentTemperature, Integer daytimeWindChillTemperature,
-            Integer daytimeWetBulbTemperature, Integer daytimeDegreeDayTemperature,
-            Float daytimeTotalPrecipitation, Float daytimeThunderstormPrecipitation,
-            Float daytimeRainPrecipitation, Float daytimeSnowPrecipitation,
-            Float daytimeIcePrecipitation,
-            Float daytimeTotalPrecipitationProbability,
-            Float daytimeThunderstormPrecipitationProbability,
-            Float daytimeRainPrecipitationProbability,
-            Float daytimeSnowPrecipitationProbability,
-            Float daytimeIcePrecipitationProbability,
-            Float daytimeTotalPrecipitationDuration,
-            Float daytimeThunderstormPrecipitationDuration,
-            Float daytimeRainPrecipitationDuration,
-            Float daytimeSnowPrecipitationDuration,
-            Float daytimeIcePrecipitationDuration, String daytimeWindDirection,
-            WindDegree daytimeWindDegree, Float daytimeWindSpeed,
-            String daytimeWindLevel, Integer daytimeCloudCover,
-            String nighttimeWeatherText, String nighttimeWeatherPhase,
-            WeatherCode nighttimeWeatherCode, int nighttimeTemperature,
-            Integer nighttimeRealFeelTemperature,
-            Integer nighttimeRealFeelShaderTemperature,
-            Integer nighttimeApparentTemperature,
-            Integer nighttimeWindChillTemperature,
-            Integer nighttimeWetBulbTemperature,
-            Integer nighttimeDegreeDayTemperature,
-            Float nighttimeTotalPrecipitation,
-            Float nighttimeThunderstormPrecipitation,
-            Float nighttimeRainPrecipitation, Float nighttimeSnowPrecipitation,
-            Float nighttimeIcePrecipitation,
-            Float nighttimeTotalPrecipitationProbability,
-            Float nighttimeThunderstormPrecipitationProbability,
-            Float nighttimeRainPrecipitationProbability,
-            Float nighttimeSnowPrecipitationProbability,
-            Float nighttimeIcePrecipitationProbability,
-            Float nighttimeTotalPrecipitationDuration,
-            Float nighttimeThunderstormPrecipitationDuration,
-            Float nighttimeRainPrecipitationDuration,
-            Float nighttimeSnowPrecipitationDuration,
-            Float nighttimeIcePrecipitationDuration, String nighttimeWindDirection,
-            WindDegree nighttimeWindDegree, Float nighttimeWindSpeed,
-            String nighttimeWindLevel, Integer nighttimeCloudCover,
-            Date sunRiseDate, Date sunSetDate, Date moonRiseDate, Date moonSetDate,
-            Integer moonPhaseAngle, String moonPhaseDescription, String aqiText,
-            Integer aqiIndex, Float pm25, Float pm10, Float so2, Float no2,
-            Float o3, Float co, Integer grassIndex, Integer grassLevel,
-            String grassDescription, Integer moldIndex, Integer moldLevel,
-            String moldDescription, Integer ragweedIndex, Integer ragweedLevel,
-            String ragweedDescription, Integer treeIndex, Integer treeLevel,
-            String treeDescription, Integer uvIndex, String uvLevel,
-            String uvDescription, float hoursOfSun) {
-        this.id = id;
-        this.cityId = cityId;
-        this.weatherSource = weatherSource;
-        this.date = date;
-        this.time = time;
-        this.daytimeWeatherText = daytimeWeatherText;
-        this.daytimeWeatherPhase = daytimeWeatherPhase;
-        this.daytimeWeatherCode = daytimeWeatherCode;
-        this.daytimeTemperature = daytimeTemperature;
-        this.daytimeRealFeelTemperature = daytimeRealFeelTemperature;
-        this.daytimeRealFeelShaderTemperature = daytimeRealFeelShaderTemperature;
-        this.daytimeApparentTemperature = daytimeApparentTemperature;
-        this.daytimeWindChillTemperature = daytimeWindChillTemperature;
-        this.daytimeWetBulbTemperature = daytimeWetBulbTemperature;
-        this.daytimeDegreeDayTemperature = daytimeDegreeDayTemperature;
-        this.daytimeTotalPrecipitation = daytimeTotalPrecipitation;
-        this.daytimeThunderstormPrecipitation = daytimeThunderstormPrecipitation;
-        this.daytimeRainPrecipitation = daytimeRainPrecipitation;
-        this.daytimeSnowPrecipitation = daytimeSnowPrecipitation;
-        this.daytimeIcePrecipitation = daytimeIcePrecipitation;
-        this.daytimeTotalPrecipitationProbability = daytimeTotalPrecipitationProbability;
-        this.daytimeThunderstormPrecipitationProbability = daytimeThunderstormPrecipitationProbability;
-        this.daytimeRainPrecipitationProbability = daytimeRainPrecipitationProbability;
-        this.daytimeSnowPrecipitationProbability = daytimeSnowPrecipitationProbability;
-        this.daytimeIcePrecipitationProbability = daytimeIcePrecipitationProbability;
-        this.daytimeTotalPrecipitationDuration = daytimeTotalPrecipitationDuration;
-        this.daytimeThunderstormPrecipitationDuration = daytimeThunderstormPrecipitationDuration;
-        this.daytimeRainPrecipitationDuration = daytimeRainPrecipitationDuration;
-        this.daytimeSnowPrecipitationDuration = daytimeSnowPrecipitationDuration;
-        this.daytimeIcePrecipitationDuration = daytimeIcePrecipitationDuration;
-        this.daytimeWindDirection = daytimeWindDirection;
-        this.daytimeWindDegree = daytimeWindDegree;
-        this.daytimeWindSpeed = daytimeWindSpeed;
-        this.daytimeWindLevel = daytimeWindLevel;
-        this.daytimeCloudCover = daytimeCloudCover;
-        this.nighttimeWeatherText = nighttimeWeatherText;
-        this.nighttimeWeatherPhase = nighttimeWeatherPhase;
-        this.nighttimeWeatherCode = nighttimeWeatherCode;
-        this.nighttimeTemperature = nighttimeTemperature;
-        this.nighttimeRealFeelTemperature = nighttimeRealFeelTemperature;
-        this.nighttimeRealFeelShaderTemperature = nighttimeRealFeelShaderTemperature;
-        this.nighttimeApparentTemperature = nighttimeApparentTemperature;
-        this.nighttimeWindChillTemperature = nighttimeWindChillTemperature;
-        this.nighttimeWetBulbTemperature = nighttimeWetBulbTemperature;
-        this.nighttimeDegreeDayTemperature = nighttimeDegreeDayTemperature;
-        this.nighttimeTotalPrecipitation = nighttimeTotalPrecipitation;
-        this.nighttimeThunderstormPrecipitation = nighttimeThunderstormPrecipitation;
-        this.nighttimeRainPrecipitation = nighttimeRainPrecipitation;
-        this.nighttimeSnowPrecipitation = nighttimeSnowPrecipitation;
-        this.nighttimeIcePrecipitation = nighttimeIcePrecipitation;
-        this.nighttimeTotalPrecipitationProbability = nighttimeTotalPrecipitationProbability;
-        this.nighttimeThunderstormPrecipitationProbability = nighttimeThunderstormPrecipitationProbability;
-        this.nighttimeRainPrecipitationProbability = nighttimeRainPrecipitationProbability;
-        this.nighttimeSnowPrecipitationProbability = nighttimeSnowPrecipitationProbability;
-        this.nighttimeIcePrecipitationProbability = nighttimeIcePrecipitationProbability;
-        this.nighttimeTotalPrecipitationDuration = nighttimeTotalPrecipitationDuration;
-        this.nighttimeThunderstormPrecipitationDuration = nighttimeThunderstormPrecipitationDuration;
-        this.nighttimeRainPrecipitationDuration = nighttimeRainPrecipitationDuration;
-        this.nighttimeSnowPrecipitationDuration = nighttimeSnowPrecipitationDuration;
-        this.nighttimeIcePrecipitationDuration = nighttimeIcePrecipitationDuration;
-        this.nighttimeWindDirection = nighttimeWindDirection;
-        this.nighttimeWindDegree = nighttimeWindDegree;
-        this.nighttimeWindSpeed = nighttimeWindSpeed;
-        this.nighttimeWindLevel = nighttimeWindLevel;
-        this.nighttimeCloudCover = nighttimeCloudCover;
-        this.sunRiseDate = sunRiseDate;
-        this.sunSetDate = sunSetDate;
-        this.moonRiseDate = moonRiseDate;
-        this.moonSetDate = moonSetDate;
-        this.moonPhaseAngle = moonPhaseAngle;
-        this.moonPhaseDescription = moonPhaseDescription;
-        this.aqiText = aqiText;
-        this.aqiIndex = aqiIndex;
-        this.pm25 = pm25;
-        this.pm10 = pm10;
-        this.so2 = so2;
-        this.no2 = no2;
-        this.o3 = o3;
-        this.co = co;
-        this.grassIndex = grassIndex;
-        this.grassLevel = grassLevel;
-        this.grassDescription = grassDescription;
-        this.moldIndex = moldIndex;
-        this.moldLevel = moldLevel;
-        this.moldDescription = moldDescription;
-        this.ragweedIndex = ragweedIndex;
-        this.ragweedLevel = ragweedLevel;
-        this.ragweedDescription = ragweedDescription;
-        this.treeIndex = treeIndex;
-        this.treeLevel = treeLevel;
-        this.treeDescription = treeDescription;
-        this.uvIndex = uvIndex;
-        this.uvLevel = uvLevel;
-        this.uvDescription = uvDescription;
-        this.hoursOfSun = hoursOfSun;
-    }
-
-    @Generated(hash = 1809948821)
     public DailyEntity() {
     }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCityId() {
-        return this.cityId;
-    }
-
-    public void setCityId(String cityId) {
-        this.cityId = cityId;
-    }
-
-    public String getWeatherSource() {
-        return this.weatherSource;
-    }
-
-    public void setWeatherSource(String weatherSource) {
-        this.weatherSource = weatherSource;
-    }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public long getTime() {
-        return this.time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public String getDaytimeWeatherText() {
-        return this.daytimeWeatherText;
-    }
-
-    public void setDaytimeWeatherText(String daytimeWeatherText) {
-        this.daytimeWeatherText = daytimeWeatherText;
-    }
-
-    public String getDaytimeWeatherPhase() {
-        return this.daytimeWeatherPhase;
-    }
-
-    public void setDaytimeWeatherPhase(String daytimeWeatherPhase) {
-        this.daytimeWeatherPhase = daytimeWeatherPhase;
-    }
-
-    public WeatherCode getDaytimeWeatherCode() {
-        return this.daytimeWeatherCode;
-    }
-
-    public void setDaytimeWeatherCode(WeatherCode daytimeWeatherCode) {
-        this.daytimeWeatherCode = daytimeWeatherCode;
-    }
-
-    public int getDaytimeTemperature() {
-        return this.daytimeTemperature;
-    }
-
-    public void setDaytimeTemperature(int daytimeTemperature) {
-        this.daytimeTemperature = daytimeTemperature;
-    }
-
-    public Integer getDaytimeRealFeelTemperature() {
-        return this.daytimeRealFeelTemperature;
-    }
-
-    public void setDaytimeRealFeelTemperature(Integer daytimeRealFeelTemperature) {
-        this.daytimeRealFeelTemperature = daytimeRealFeelTemperature;
-    }
-
-    public Integer getDaytimeRealFeelShaderTemperature() {
-        return this.daytimeRealFeelShaderTemperature;
-    }
-
-    public void setDaytimeRealFeelShaderTemperature(
-            Integer daytimeRealFeelShaderTemperature) {
-        this.daytimeRealFeelShaderTemperature = daytimeRealFeelShaderTemperature;
-    }
-
-    public Integer getDaytimeApparentTemperature() {
-        return this.daytimeApparentTemperature;
-    }
-
-    public void setDaytimeApparentTemperature(Integer daytimeApparentTemperature) {
-        this.daytimeApparentTemperature = daytimeApparentTemperature;
-    }
-
-    public Integer getDaytimeWindChillTemperature() {
-        return this.daytimeWindChillTemperature;
-    }
-
-    public void setDaytimeWindChillTemperature(
-            Integer daytimeWindChillTemperature) {
-        this.daytimeWindChillTemperature = daytimeWindChillTemperature;
-    }
-
-    public Integer getDaytimeWetBulbTemperature() {
-        return this.daytimeWetBulbTemperature;
-    }
-
-    public void setDaytimeWetBulbTemperature(Integer daytimeWetBulbTemperature) {
-        this.daytimeWetBulbTemperature = daytimeWetBulbTemperature;
-    }
-
-    public Integer getDaytimeDegreeDayTemperature() {
-        return this.daytimeDegreeDayTemperature;
-    }
-
-    public void setDaytimeDegreeDayTemperature(
-            Integer daytimeDegreeDayTemperature) {
-        this.daytimeDegreeDayTemperature = daytimeDegreeDayTemperature;
-    }
-
-    public Float getDaytimeTotalPrecipitation() {
-        return this.daytimeTotalPrecipitation;
-    }
-
-    public void setDaytimeTotalPrecipitation(Float daytimeTotalPrecipitation) {
-        this.daytimeTotalPrecipitation = daytimeTotalPrecipitation;
-    }
-
-    public Float getDaytimeThunderstormPrecipitation() {
-        return this.daytimeThunderstormPrecipitation;
-    }
-
-    public void setDaytimeThunderstormPrecipitation(
-            Float daytimeThunderstormPrecipitation) {
-        this.daytimeThunderstormPrecipitation = daytimeThunderstormPrecipitation;
-    }
-
-    public Float getDaytimeRainPrecipitation() {
-        return this.daytimeRainPrecipitation;
-    }
-
-    public void setDaytimeRainPrecipitation(Float daytimeRainPrecipitation) {
-        this.daytimeRainPrecipitation = daytimeRainPrecipitation;
-    }
-
-    public Float getDaytimeSnowPrecipitation() {
-        return this.daytimeSnowPrecipitation;
-    }
-
-    public void setDaytimeSnowPrecipitation(Float daytimeSnowPrecipitation) {
-        this.daytimeSnowPrecipitation = daytimeSnowPrecipitation;
-    }
-
-    public Float getDaytimeIcePrecipitation() {
-        return this.daytimeIcePrecipitation;
-    }
-
-    public void setDaytimeIcePrecipitation(Float daytimeIcePrecipitation) {
-        this.daytimeIcePrecipitation = daytimeIcePrecipitation;
-    }
-
-    public Float getDaytimeTotalPrecipitationProbability() {
-        return this.daytimeTotalPrecipitationProbability;
-    }
-
-    public void setDaytimeTotalPrecipitationProbability(
-            Float daytimeTotalPrecipitationProbability) {
-        this.daytimeTotalPrecipitationProbability = daytimeTotalPrecipitationProbability;
-    }
-
-    public Float getDaytimeThunderstormPrecipitationProbability() {
-        return this.daytimeThunderstormPrecipitationProbability;
-    }
-
-    public void setDaytimeThunderstormPrecipitationProbability(
-            Float daytimeThunderstormPrecipitationProbability) {
-        this.daytimeThunderstormPrecipitationProbability = daytimeThunderstormPrecipitationProbability;
-    }
-
-    public Float getDaytimeRainPrecipitationProbability() {
-        return this.daytimeRainPrecipitationProbability;
-    }
-
-    public void setDaytimeRainPrecipitationProbability(
-            Float daytimeRainPrecipitationProbability) {
-        this.daytimeRainPrecipitationProbability = daytimeRainPrecipitationProbability;
-    }
-
-    public Float getDaytimeSnowPrecipitationProbability() {
-        return this.daytimeSnowPrecipitationProbability;
-    }
-
-    public void setDaytimeSnowPrecipitationProbability(
-            Float daytimeSnowPrecipitationProbability) {
-        this.daytimeSnowPrecipitationProbability = daytimeSnowPrecipitationProbability;
-    }
-
-    public Float getDaytimeIcePrecipitationProbability() {
-        return this.daytimeIcePrecipitationProbability;
-    }
-
-    public void setDaytimeIcePrecipitationProbability(
-            Float daytimeIcePrecipitationProbability) {
-        this.daytimeIcePrecipitationProbability = daytimeIcePrecipitationProbability;
-    }
-
-    public Float getDaytimeTotalPrecipitationDuration() {
-        return this.daytimeTotalPrecipitationDuration;
-    }
-
-    public void setDaytimeTotalPrecipitationDuration(
-            Float daytimeTotalPrecipitationDuration) {
-        this.daytimeTotalPrecipitationDuration = daytimeTotalPrecipitationDuration;
-    }
-
-    public Float getDaytimeThunderstormPrecipitationDuration() {
-        return this.daytimeThunderstormPrecipitationDuration;
-    }
-
-    public void setDaytimeThunderstormPrecipitationDuration(
-            Float daytimeThunderstormPrecipitationDuration) {
-        this.daytimeThunderstormPrecipitationDuration = daytimeThunderstormPrecipitationDuration;
-    }
-
-    public Float getDaytimeRainPrecipitationDuration() {
-        return this.daytimeRainPrecipitationDuration;
-    }
-
-    public void setDaytimeRainPrecipitationDuration(
-            Float daytimeRainPrecipitationDuration) {
-        this.daytimeRainPrecipitationDuration = daytimeRainPrecipitationDuration;
-    }
-
-    public Float getDaytimeSnowPrecipitationDuration() {
-        return this.daytimeSnowPrecipitationDuration;
-    }
-
-    public void setDaytimeSnowPrecipitationDuration(
-            Float daytimeSnowPrecipitationDuration) {
-        this.daytimeSnowPrecipitationDuration = daytimeSnowPrecipitationDuration;
-    }
-
-    public Float getDaytimeIcePrecipitationDuration() {
-        return this.daytimeIcePrecipitationDuration;
-    }
-
-    public void setDaytimeIcePrecipitationDuration(
-            Float daytimeIcePrecipitationDuration) {
-        this.daytimeIcePrecipitationDuration = daytimeIcePrecipitationDuration;
-    }
-
-    public String getDaytimeWindDirection() {
-        return this.daytimeWindDirection;
-    }
-
-    public void setDaytimeWindDirection(String daytimeWindDirection) {
-        this.daytimeWindDirection = daytimeWindDirection;
-    }
-
-    public WindDegree getDaytimeWindDegree() {
-        return this.daytimeWindDegree;
-    }
-
-    public void setDaytimeWindDegree(WindDegree daytimeWindDegree) {
-        this.daytimeWindDegree = daytimeWindDegree;
-    }
-
-    public Float getDaytimeWindSpeed() {
-        return this.daytimeWindSpeed;
-    }
-
-    public void setDaytimeWindSpeed(Float daytimeWindSpeed) {
-        this.daytimeWindSpeed = daytimeWindSpeed;
-    }
-
-    public String getDaytimeWindLevel() {
-        return this.daytimeWindLevel;
-    }
-
-    public void setDaytimeWindLevel(String daytimeWindLevel) {
-        this.daytimeWindLevel = daytimeWindLevel;
-    }
-
-    public Integer getDaytimeCloudCover() {
-        return this.daytimeCloudCover;
-    }
-
-    public void setDaytimeCloudCover(Integer daytimeCloudCover) {
-        this.daytimeCloudCover = daytimeCloudCover;
-    }
-
-    public String getNighttimeWeatherText() {
-        return this.nighttimeWeatherText;
-    }
-
-    public void setNighttimeWeatherText(String nighttimeWeatherText) {
-        this.nighttimeWeatherText = nighttimeWeatherText;
-    }
-
-    public String getNighttimeWeatherPhase() {
-        return this.nighttimeWeatherPhase;
-    }
-
-    public void setNighttimeWeatherPhase(String nighttimeWeatherPhase) {
-        this.nighttimeWeatherPhase = nighttimeWeatherPhase;
-    }
-
-    public WeatherCode getNighttimeWeatherCode() {
-        return this.nighttimeWeatherCode;
-    }
-
-    public void setNighttimeWeatherCode(WeatherCode nighttimeWeatherCode) {
-        this.nighttimeWeatherCode = nighttimeWeatherCode;
-    }
-
-    public int getNighttimeTemperature() {
-        return this.nighttimeTemperature;
-    }
-
-    public void setNighttimeTemperature(int nighttimeTemperature) {
-        this.nighttimeTemperature = nighttimeTemperature;
-    }
-
-    public Integer getNighttimeRealFeelTemperature() {
-        return this.nighttimeRealFeelTemperature;
-    }
-
-    public void setNighttimeRealFeelTemperature(
-            Integer nighttimeRealFeelTemperature) {
-        this.nighttimeRealFeelTemperature = nighttimeRealFeelTemperature;
-    }
-
-    public Integer getNighttimeRealFeelShaderTemperature() {
-        return this.nighttimeRealFeelShaderTemperature;
-    }
-
-    public void setNighttimeRealFeelShaderTemperature(
-            Integer nighttimeRealFeelShaderTemperature) {
-        this.nighttimeRealFeelShaderTemperature = nighttimeRealFeelShaderTemperature;
-    }
-
-    public Integer getNighttimeApparentTemperature() {
-        return this.nighttimeApparentTemperature;
-    }
-
-    public void setNighttimeApparentTemperature(
-            Integer nighttimeApparentTemperature) {
-        this.nighttimeApparentTemperature = nighttimeApparentTemperature;
-    }
-
-    public Integer getNighttimeWindChillTemperature() {
-        return this.nighttimeWindChillTemperature;
-    }
-
-    public void setNighttimeWindChillTemperature(
-            Integer nighttimeWindChillTemperature) {
-        this.nighttimeWindChillTemperature = nighttimeWindChillTemperature;
-    }
-
-    public Integer getNighttimeWetBulbTemperature() {
-        return this.nighttimeWetBulbTemperature;
-    }
-
-    public void setNighttimeWetBulbTemperature(
-            Integer nighttimeWetBulbTemperature) {
-        this.nighttimeWetBulbTemperature = nighttimeWetBulbTemperature;
-    }
-
-    public Integer getNighttimeDegreeDayTemperature() {
-        return this.nighttimeDegreeDayTemperature;
-    }
-
-    public void setNighttimeDegreeDayTemperature(
-            Integer nighttimeDegreeDayTemperature) {
-        this.nighttimeDegreeDayTemperature = nighttimeDegreeDayTemperature;
-    }
-
-    public Float getNighttimeTotalPrecipitation() {
-        return this.nighttimeTotalPrecipitation;
-    }
-
-    public void setNighttimeTotalPrecipitation(Float nighttimeTotalPrecipitation) {
-        this.nighttimeTotalPrecipitation = nighttimeTotalPrecipitation;
-    }
-
-    public Float getNighttimeThunderstormPrecipitation() {
-        return this.nighttimeThunderstormPrecipitation;
-    }
-
-    public void setNighttimeThunderstormPrecipitation(
-            Float nighttimeThunderstormPrecipitation) {
-        this.nighttimeThunderstormPrecipitation = nighttimeThunderstormPrecipitation;
-    }
-
-    public Float getNighttimeRainPrecipitation() {
-        return this.nighttimeRainPrecipitation;
-    }
-
-    public void setNighttimeRainPrecipitation(Float nighttimeRainPrecipitation) {
-        this.nighttimeRainPrecipitation = nighttimeRainPrecipitation;
-    }
-
-    public Float getNighttimeSnowPrecipitation() {
-        return this.nighttimeSnowPrecipitation;
-    }
-
-    public void setNighttimeSnowPrecipitation(Float nighttimeSnowPrecipitation) {
-        this.nighttimeSnowPrecipitation = nighttimeSnowPrecipitation;
-    }
-
-    public Float getNighttimeIcePrecipitation() {
-        return this.nighttimeIcePrecipitation;
-    }
-
-    public void setNighttimeIcePrecipitation(Float nighttimeIcePrecipitation) {
-        this.nighttimeIcePrecipitation = nighttimeIcePrecipitation;
-    }
-
-    public Float getNighttimeTotalPrecipitationProbability() {
-        return this.nighttimeTotalPrecipitationProbability;
-    }
-
-    public void setNighttimeTotalPrecipitationProbability(
-            Float nighttimeTotalPrecipitationProbability) {
-        this.nighttimeTotalPrecipitationProbability = nighttimeTotalPrecipitationProbability;
-    }
-
-    public Float getNighttimeThunderstormPrecipitationProbability() {
-        return this.nighttimeThunderstormPrecipitationProbability;
-    }
-
-    public void setNighttimeThunderstormPrecipitationProbability(
-            Float nighttimeThunderstormPrecipitationProbability) {
-        this.nighttimeThunderstormPrecipitationProbability = nighttimeThunderstormPrecipitationProbability;
-    }
-
-    public Float getNighttimeRainPrecipitationProbability() {
-        return this.nighttimeRainPrecipitationProbability;
-    }
-
-    public void setNighttimeRainPrecipitationProbability(
-            Float nighttimeRainPrecipitationProbability) {
-        this.nighttimeRainPrecipitationProbability = nighttimeRainPrecipitationProbability;
-    }
-
-    public Float getNighttimeSnowPrecipitationProbability() {
-        return this.nighttimeSnowPrecipitationProbability;
-    }
-
-    public void setNighttimeSnowPrecipitationProbability(
-            Float nighttimeSnowPrecipitationProbability) {
-        this.nighttimeSnowPrecipitationProbability = nighttimeSnowPrecipitationProbability;
-    }
-
-    public Float getNighttimeIcePrecipitationProbability() {
-        return this.nighttimeIcePrecipitationProbability;
-    }
-
-    public void setNighttimeIcePrecipitationProbability(
-            Float nighttimeIcePrecipitationProbability) {
-        this.nighttimeIcePrecipitationProbability = nighttimeIcePrecipitationProbability;
-    }
-
-    public Float getNighttimeTotalPrecipitationDuration() {
-        return this.nighttimeTotalPrecipitationDuration;
-    }
-
-    public void setNighttimeTotalPrecipitationDuration(
-            Float nighttimeTotalPrecipitationDuration) {
-        this.nighttimeTotalPrecipitationDuration = nighttimeTotalPrecipitationDuration;
-    }
-
-    public Float getNighttimeThunderstormPrecipitationDuration() {
-        return this.nighttimeThunderstormPrecipitationDuration;
-    }
-
-    public void setNighttimeThunderstormPrecipitationDuration(
-            Float nighttimeThunderstormPrecipitationDuration) {
-        this.nighttimeThunderstormPrecipitationDuration = nighttimeThunderstormPrecipitationDuration;
-    }
-
-    public Float getNighttimeRainPrecipitationDuration() {
-        return this.nighttimeRainPrecipitationDuration;
-    }
-
-    public void setNighttimeRainPrecipitationDuration(
-            Float nighttimeRainPrecipitationDuration) {
-        this.nighttimeRainPrecipitationDuration = nighttimeRainPrecipitationDuration;
-    }
-
-    public Float getNighttimeSnowPrecipitationDuration() {
-        return this.nighttimeSnowPrecipitationDuration;
-    }
-
-    public void setNighttimeSnowPrecipitationDuration(
-            Float nighttimeSnowPrecipitationDuration) {
-        this.nighttimeSnowPrecipitationDuration = nighttimeSnowPrecipitationDuration;
-    }
-
-    public Float getNighttimeIcePrecipitationDuration() {
-        return this.nighttimeIcePrecipitationDuration;
-    }
-
-    public void setNighttimeIcePrecipitationDuration(
-            Float nighttimeIcePrecipitationDuration) {
-        this.nighttimeIcePrecipitationDuration = nighttimeIcePrecipitationDuration;
-    }
-
-    public String getNighttimeWindDirection() {
-        return this.nighttimeWindDirection;
-    }
-
-    public void setNighttimeWindDirection(String nighttimeWindDirection) {
-        this.nighttimeWindDirection = nighttimeWindDirection;
-    }
-
-    public WindDegree getNighttimeWindDegree() {
-        return this.nighttimeWindDegree;
-    }
-
-    public void setNighttimeWindDegree(WindDegree nighttimeWindDegree) {
-        this.nighttimeWindDegree = nighttimeWindDegree;
-    }
-
-    public Float getNighttimeWindSpeed() {
-        return this.nighttimeWindSpeed;
-    }
-
-    public void setNighttimeWindSpeed(Float nighttimeWindSpeed) {
-        this.nighttimeWindSpeed = nighttimeWindSpeed;
-    }
-
-    public String getNighttimeWindLevel() {
-        return this.nighttimeWindLevel;
-    }
-
-    public void setNighttimeWindLevel(String nighttimeWindLevel) {
-        this.nighttimeWindLevel = nighttimeWindLevel;
-    }
-
-    public Integer getNighttimeCloudCover() {
-        return this.nighttimeCloudCover;
-    }
-
-    public void setNighttimeCloudCover(Integer nighttimeCloudCover) {
-        this.nighttimeCloudCover = nighttimeCloudCover;
-    }
-
-    public Date getSunRiseDate() {
-        return this.sunRiseDate;
-    }
-
-    public void setSunRiseDate(Date sunRiseDate) {
-        this.sunRiseDate = sunRiseDate;
-    }
-
-    public Date getSunSetDate() {
-        return this.sunSetDate;
-    }
-
-    public void setSunSetDate(Date sunSetDate) {
-        this.sunSetDate = sunSetDate;
-    }
-
-    public Date getMoonRiseDate() {
-        return this.moonRiseDate;
-    }
-
-    public void setMoonRiseDate(Date moonRiseDate) {
-        this.moonRiseDate = moonRiseDate;
-    }
-
-    public Date getMoonSetDate() {
-        return this.moonSetDate;
-    }
-
-    public void setMoonSetDate(Date moonSetDate) {
-        this.moonSetDate = moonSetDate;
-    }
-
-    public Integer getMoonPhaseAngle() {
-        return this.moonPhaseAngle;
-    }
-
-    public void setMoonPhaseAngle(Integer moonPhaseAngle) {
-        this.moonPhaseAngle = moonPhaseAngle;
-    }
-
-    public String getMoonPhaseDescription() {
-        return this.moonPhaseDescription;
-    }
-
-    public void setMoonPhaseDescription(String moonPhaseDescription) {
-        this.moonPhaseDescription = moonPhaseDescription;
-    }
-
-    public String getAqiText() {
-        return this.aqiText;
-    }
-
-    public void setAqiText(String aqiText) {
-        this.aqiText = aqiText;
-    }
-
-    public Integer getAqiIndex() {
-        return this.aqiIndex;
-    }
-
-    public void setAqiIndex(Integer aqiIndex) {
-        this.aqiIndex = aqiIndex;
-    }
-
-    public Float getPm25() {
-        return this.pm25;
-    }
-
-    public void setPm25(Float pm25) {
-        this.pm25 = pm25;
-    }
-
-    public Float getPm10() {
-        return this.pm10;
-    }
-
-    public void setPm10(Float pm10) {
-        this.pm10 = pm10;
-    }
-
-    public Float getSo2() {
-        return this.so2;
-    }
-
-    public void setSo2(Float so2) {
-        this.so2 = so2;
-    }
-
-    public Float getNo2() {
-        return this.no2;
-    }
-
-    public void setNo2(Float no2) {
-        this.no2 = no2;
-    }
-
-    public Float getO3() {
-        return this.o3;
-    }
-
-    public void setO3(Float o3) {
-        this.o3 = o3;
-    }
-
-    public Float getCo() {
-        return this.co;
-    }
-
-    public void setCo(Float co) {
-        this.co = co;
-    }
-
-    public Integer getGrassIndex() {
-        return this.grassIndex;
-    }
-
-    public void setGrassIndex(Integer grassIndex) {
-        this.grassIndex = grassIndex;
-    }
-
-    public Integer getGrassLevel() {
-        return this.grassLevel;
-    }
-
-    public void setGrassLevel(Integer grassLevel) {
-        this.grassLevel = grassLevel;
-    }
-
-    public String getGrassDescription() {
-        return this.grassDescription;
-    }
-
-    public void setGrassDescription(String grassDescription) {
-        this.grassDescription = grassDescription;
-    }
-
-    public Integer getMoldIndex() {
-        return this.moldIndex;
-    }
-
-    public void setMoldIndex(Integer moldIndex) {
-        this.moldIndex = moldIndex;
-    }
-
-    public Integer getMoldLevel() {
-        return this.moldLevel;
-    }
-
-    public void setMoldLevel(Integer moldLevel) {
-        this.moldLevel = moldLevel;
-    }
-
-    public String getMoldDescription() {
-        return this.moldDescription;
-    }
-
-    public void setMoldDescription(String moldDescription) {
-        this.moldDescription = moldDescription;
-    }
-
-    public Integer getRagweedIndex() {
-        return this.ragweedIndex;
-    }
-
-    public void setRagweedIndex(Integer ragweedIndex) {
-        this.ragweedIndex = ragweedIndex;
-    }
-
-    public Integer getRagweedLevel() {
-        return this.ragweedLevel;
-    }
-
-    public void setRagweedLevel(Integer ragweedLevel) {
-        this.ragweedLevel = ragweedLevel;
-    }
-
-    public String getRagweedDescription() {
-        return this.ragweedDescription;
-    }
-
-    public void setRagweedDescription(String ragweedDescription) {
-        this.ragweedDescription = ragweedDescription;
-    }
-
-    public Integer getTreeIndex() {
-        return this.treeIndex;
-    }
-
-    public void setTreeIndex(Integer treeIndex) {
-        this.treeIndex = treeIndex;
-    }
-
-    public Integer getTreeLevel() {
-        return this.treeLevel;
-    }
-
-    public void setTreeLevel(Integer treeLevel) {
-        this.treeLevel = treeLevel;
-    }
-
-    public String getTreeDescription() {
-        return this.treeDescription;
-    }
-
-    public void setTreeDescription(String treeDescription) {
-        this.treeDescription = treeDescription;
-    }
-
-    public Integer getUvIndex() {
-        return this.uvIndex;
-    }
-
-    public void setUvIndex(Integer uvIndex) {
-        this.uvIndex = uvIndex;
-    }
-
-    public String getUvLevel() {
-        return this.uvLevel;
-    }
-
-    public void setUvLevel(String uvLevel) {
-        this.uvLevel = uvLevel;
-    }
-
-    public String getUvDescription() {
-        return this.uvDescription;
-    }
-
-    public void setUvDescription(String uvDescription) {
-        this.uvDescription = uvDescription;
-    }
-
-    public float getHoursOfSun() {
-        return this.hoursOfSun;
-    }
-
-    public void setHoursOfSun(float hoursOfSun) {
-        this.hoursOfSun = hoursOfSun;
-    }
-
 }

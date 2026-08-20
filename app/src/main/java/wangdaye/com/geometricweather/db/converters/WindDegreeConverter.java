@@ -1,12 +1,12 @@
 package wangdaye.com.geometricweather.db.converters;
 
-import org.greenrobot.greendao.converter.PropertyConverter;
+import androidx.room.TypeConverter;
 
 import wangdaye.com.geometricweather.common.basic.models.weather.WindDegree;
 
-public class WindDegreeConverter implements PropertyConverter<WindDegree, Float> {
+public class WindDegreeConverter {
 
-    @Override
+    @TypeConverter
     public WindDegree convertToEntityProperty(Float databaseValue) {
         if (databaseValue == null) {
             return new WindDegree(-1, true);
@@ -15,9 +15,9 @@ public class WindDegreeConverter implements PropertyConverter<WindDegree, Float>
         }
     }
 
-    @Override
+    @TypeConverter
     public Float convertToDatabaseValue(WindDegree entityProperty) {
-        if (entityProperty.isNoDirection()) {
+        if (entityProperty == null || entityProperty.isNoDirection()) {
             return null;
         } else {
             return entityProperty.getDegree();

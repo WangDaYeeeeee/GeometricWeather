@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt.android) apply false
-    alias(libs.plugins.greendao) apply false
 }
 
 tasks.register<Delete>("clean") {

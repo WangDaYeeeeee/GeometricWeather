@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.greendao)
 }
 
 android {
@@ -129,6 +128,11 @@ android {
         )
     }
 
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
     }
@@ -159,11 +163,6 @@ android.applicationVariants.configureEach {
         (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
             .outputFileName = "GeometricWeather $variantVersionName.apk"
     }
-}
-
-greendao {
-    schemaVersion = 62
-    generateTests = false
 }
 
 dependencies {
@@ -211,8 +210,9 @@ dependencies {
     }
     implementation(libs.okhttp.logging)
 
-    implementation(libs.greendao)
-    implementation(libs.greendao.upgrade.helper)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)

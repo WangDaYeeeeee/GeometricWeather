@@ -5,40 +5,37 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import wangdaye.com.geometricweather.common.basic.models.options.provider.WeatherSource;
-import wangdaye.com.geometricweather.db.entities.DaoSession;
-import wangdaye.com.geometricweather.db.entities.MinutelyEntity;
-import wangdaye.com.geometricweather.db.entities.MinutelyEntityDao;
+import wangdaye.com.geometricweather.db.GeometricWeatherDatabase;
 import wangdaye.com.geometricweather.db.converters.WeatherSourceConverter;
+import wangdaye.com.geometricweather.db.entities.MinutelyEntity;
 
 public class MinutelyEntityController extends AbsEntityController {
 
-    // insert.
-
-    public static void insertMinutelyList(@NonNull DaoSession session,
+    public static void insertMinutelyList(@NonNull GeometricWeatherDatabase database,
                                           @NonNull List<MinutelyEntity> entityList) {
-        session.getMinutelyEntityDao().insertInTx(entityList);
+        if (!entityList.isEmpty()) {
+            database.minutelyDao().insertMinutelyList(entityList);
+        }
     }
 
-    // delete.
-
-    public static void deleteMinutelyEntityList(@NonNull DaoSession session,
-                                                @NonNull List<MinutelyEntity> entityList) {
-        session.getMinutelyEntityDao().deleteInTx(entityList);
+    public static void deleteMinutelyEntityList(@NonNull GeometricWeatherDatabase database,
+                                                @NonNull String cityId,
+                                                @NonNull WeatherSource source) {
+        database.minutelyDao().deleteMinutelyEntityList(
+                cityId,
+                new WeatherSourceConverter().convertToDatabaseValue(source)
+        );
     }
 
-    // select.
-
-    public static List<MinutelyEntity> selectMinutelyEntityList(@NonNull DaoSession session,
-                                                                @NonNull String cityId, @NonNull WeatherSource source) {
+    public static List<MinutelyEntity> selectMinutelyEntityList(
+            @NonNull GeometricWeatherDatabase database,
+            @NonNull String cityId,
+            @NonNull WeatherSource source) {
         return getNonNullList(
-                session.getMinutelyEntityDao()
-                        .queryBuilder()
-                        .where(
-                                MinutelyEntityDao.Properties.CityId.eq(cityId),
-                                MinutelyEntityDao.Properties.WeatherSource.eq(
-                                        new WeatherSourceConverter().convertToDatabaseValue(source)
-                                )
-                        ).list()
+                database.minutelyDao().selectMinutelyEntityList(
+                        cityId,
+                        new WeatherSourceConverter().convertToDatabaseValue(source)
+                )
         );
     }
 }

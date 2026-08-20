@@ -11,6 +11,7 @@ import wangdaye.com.geometricweather.common.basic.models.ChineseCity;
 import wangdaye.com.geometricweather.common.basic.models.Location;
 import wangdaye.com.geometricweather.common.basic.models.weather.History;
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather;
+import wangdaye.com.geometricweather.common.utils.FileUtils;
 import wangdaye.com.geometricweather.db.controllers.AlertEntityController;
 import wangdaye.com.geometricweather.db.controllers.ChineseCityEntityController;
 import wangdaye.com.geometricweather.db.controllers.DailyEntityController;
@@ -19,6 +20,10 @@ import wangdaye.com.geometricweather.db.controllers.HourlyEntityController;
 import wangdaye.com.geometricweather.db.controllers.LocationEntityController;
 import wangdaye.com.geometricweather.db.controllers.MinutelyEntityController;
 import wangdaye.com.geometricweather.db.controllers.WeatherEntityController;
+import wangdaye.com.geometricweather.db.entities.ChineseCityEntity;
+import wangdaye.com.geometricweather.db.entities.HistoryEntity;
+import wangdaye.com.geometricweather.db.entities.LocationEntity;
+import wangdaye.com.geometricweather.db.entities.WeatherEntity;
 import wangdaye.com.geometricweather.db.generators.AlertEntityGenerator;
 import wangdaye.com.geometricweather.db.generators.ChineseCityEntityGenerator;
 import wangdaye.com.geometricweather.db.generators.DailyEntityGenerator;
@@ -27,39 +32,30 @@ import wangdaye.com.geometricweather.db.generators.HourlyEntityGenerator;
 import wangdaye.com.geometricweather.db.generators.LocationEntityGenerator;
 import wangdaye.com.geometricweather.db.generators.MinutelyEntityGenerator;
 import wangdaye.com.geometricweather.db.generators.WeatherEntityGenerator;
-import wangdaye.com.geometricweather.db.entities.ChineseCityEntity;
-import wangdaye.com.geometricweather.db.entities.DaoMaster;
-import wangdaye.com.geometricweather.db.entities.DaoSession;
-import wangdaye.com.geometricweather.db.entities.HistoryEntity;
-import wangdaye.com.geometricweather.db.entities.LocationEntity;
-import wangdaye.com.geometricweather.db.entities.WeatherEntity;
-import wangdaye.com.geometricweather.common.utils.FileUtils;
 
 /**
- * Database helper
- * */
-
+ * Database helper.
+ */
 public class DatabaseHelper {
 
     private static volatile DatabaseHelper sInstance;
+
     public static DatabaseHelper getInstance(Context c) {
         if (sInstance == null) {
             synchronized (DatabaseHelper.class) {
-                sInstance = new DatabaseHelper(c);
+                if (sInstance == null) {
+                    sInstance = new DatabaseHelper(c);
+                }
             }
         }
         return sInstance;
     }
 
-    private final DaoSession mSession;
+    private final GeometricWeatherDatabase mDatabase;
     private final Object mWritingLock;
 
-    private final static String DATABASE_NAME = "Geometric_Weather_db";
-
     private DatabaseHelper(Context c) {
-        mSession = new DaoMaster(
-                new DatabaseOpenHelper(c, DATABASE_NAME, null).getWritableDatabase()
-        ).newSession();
+        mDatabase = GeometricWeatherDatabase.getInstance(c);
         mWritingLock = new Object();
     }
 
@@ -67,31 +63,28 @@ public class DatabaseHelper {
 
     public void writeLocation(@NonNull Location location) {
         LocationEntity entity = LocationEntityGenerator.generate(location);
-
-        mSession.callInTxNoException(() -> {
-            if (LocationEntityController.selectLocationEntity(mSession, location.getFormattedId()) == null) {
-                LocationEntityController.insertLocationEntity(mSession, entity);
+        mDatabase.runInTransaction(() -> {
+            if (LocationEntityController.selectLocationEntity(mDatabase, location.getFormattedId()) == null) {
+                LocationEntityController.insertLocationEntity(mDatabase, entity);
             } else {
-                LocationEntityController.updateLocationEntity(mSession, entity);
+                LocationEntityController.updateLocationEntity(mDatabase, entity);
             }
-            return true;
         });
     }
 
     public void writeLocationList(@NonNull List<Location> list) {
-        mSession.callInTxNoException(() -> {
-            LocationEntityController.deleteLocationEntityList(mSession);
+        mDatabase.runInTransaction(() -> {
+            LocationEntityController.deleteLocationEntityList(mDatabase);
             LocationEntityController.insertLocationEntityList(
-                    mSession,
+                    mDatabase,
                     LocationEntityGenerator.generateEntityList(list)
             );
-            return true;
         });
     }
 
     public void deleteLocation(@NonNull Location location) {
         LocationEntityController.deleteLocationEntity(
-                mSession, LocationEntityGenerator.generate(location));
+                mDatabase, LocationEntityGenerator.generate(location));
     }
 
     @Nullable
@@ -101,7 +94,7 @@ public class DatabaseHelper {
 
     @Nullable
     public Location readLocation(@NonNull String formattedId) {
-        LocationEntity entity = LocationEntityController.selectLocationEntity(mSession, formattedId);
+        LocationEntity entity = LocationEntityController.selectLocationEntity(mDatabase, formattedId);
         if (entity != null) {
             return LocationEntityGenerator.generate(entity);
         } else {
@@ -111,7 +104,7 @@ public class DatabaseHelper {
 
     @NonNull
     public List<Location> readLocationList() {
-        List<LocationEntity> entityList = LocationEntityController.selectLocationEntityList(mSession);
+        List<LocationEntity> entityList = LocationEntityController.selectLocationEntityList(mDatabase);
 
         if (entityList.size() == 0) {
             synchronized (mWritingLock) {
@@ -120,7 +113,7 @@ public class DatabaseHelper {
                             Location.buildLocal());
                     entityList.add(entity);
 
-                    LocationEntityController.insertLocationEntityList(mSession, entityList);
+                    LocationEntityController.insertLocationEntityList(mDatabase, entityList);
 
                     return LocationEntityGenerator.generateModuleList(entityList);
                 }
@@ -131,21 +124,21 @@ public class DatabaseHelper {
     }
 
     public int countLocation() {
-        return LocationEntityController.countLocationEntity(mSession);
+        return LocationEntityController.countLocationEntity(mDatabase);
     }
 
     // weather.
 
     public void writeWeather(@NonNull Location location, @NonNull Weather weather) {
-        mSession.callInTxNoException(() -> {
+        mDatabase.runInTransaction(() -> {
             deleteWeather(location);
 
             WeatherEntityController.insertWeatherEntity(
-                    mSession,
+                    mDatabase,
                     WeatherEntityGenerator.generate(location, weather)
             );
             DailyEntityController.insertDailyList(
-                    mSession,
+                    mDatabase,
                     DailyEntityGenerator.generate(
                             location.getCityId(),
                             location.getWeatherSource(),
@@ -153,7 +146,7 @@ public class DatabaseHelper {
                     )
             );
             HourlyEntityController.insertHourlyList(
-                    mSession,
+                    mDatabase,
                     HourlyEntityGenerator.generateEntityList(
                             location.getCityId(),
                             location.getWeatherSource(),
@@ -161,7 +154,7 @@ public class DatabaseHelper {
                     )
             );
             MinutelyEntityController.insertMinutelyList(
-                    mSession,
+                    mDatabase,
                     MinutelyEntityGenerator.generate(
                             location.getCityId(),
                             location.getWeatherSource(),
@@ -169,7 +162,7 @@ public class DatabaseHelper {
                     )
             );
             AlertEntityController.insertAlertList(
-                    mSession,
+                    mDatabase,
                     AlertEntityGenerator.generate(
                             location.getCityId(),
                             location.getWeatherSource(),
@@ -177,88 +170,82 @@ public class DatabaseHelper {
                     )
             );
             HistoryEntityController.insertHistoryEntity(
-                    mSession,
+                    mDatabase,
                     HistoryEntityGenerator.generate(
                             location.getCityId(), location.getWeatherSource(), weather
                     )
             );
             if (weather.getYesterday() != null) {
                 HistoryEntityController.insertHistoryEntity(
-                        mSession,
+                        mDatabase,
                         HistoryEntityGenerator.generate(
                                 location.getCityId(), location.getWeatherSource(), weather.getYesterday()
                         )
                 );
             }
-            return true;
         });
     }
 
     @Nullable
     public Weather readWeather(@NonNull Location location) {
         WeatherEntity weatherEntity = WeatherEntityController.selectWeatherEntity(
-                mSession,location.getCityId(), location.getWeatherSource());
+                mDatabase, location.getCityId(), location.getWeatherSource());
         if (weatherEntity == null) {
             return null;
         }
 
         HistoryEntity historyEntity = HistoryEntityController.selectYesterdayHistoryEntity(
-                mSession,location.getCityId(), location.getWeatherSource(),weatherEntity.publishDate);
+                mDatabase, location.getCityId(), location.getWeatherSource(), weatherEntity.publishDate);
 
-        return WeatherEntityGenerator.generate(weatherEntity, historyEntity);
+        return WeatherEntityGenerator.generate(
+                weatherEntity,
+                historyEntity,
+                DailyEntityController.selectDailyEntityList(
+                        mDatabase, location.getCityId(), location.getWeatherSource()),
+                HourlyEntityController.selectHourlyEntityList(
+                        mDatabase, location.getCityId(), location.getWeatherSource()),
+                MinutelyEntityController.selectMinutelyEntityList(
+                        mDatabase, location.getCityId(), location.getWeatherSource()),
+                AlertEntityController.selectLocationAlertEntity(
+                        mDatabase, location.getCityId(), location.getWeatherSource())
+        );
     }
 
     public void deleteWeather(@NonNull Location location) {
-        mSession.callInTxNoException(() -> {
+        mDatabase.runInTransaction(() -> {
             WeatherEntityController.deleteWeather(
-                    mSession,
+                    mDatabase,
                     WeatherEntityController.selectWeatherEntityList(
-                            mSession,
+                            mDatabase,
                             location.getCityId(),
                             location.getWeatherSource()
                     )
             );
             HistoryEntityController.deleteLocationHistoryEntity(
-                    mSession,
-                    HistoryEntityController.selectHistoryEntityList(
-                            mSession,
-                            location.getCityId(),
-                            location.getWeatherSource()
-                    )
+                    mDatabase,
+                    location.getCityId(),
+                    location.getWeatherSource()
             );
             DailyEntityController.deleteDailyEntityList(
-                    mSession,
-                    DailyEntityController.selectDailyEntityList(
-                            mSession,
-                            location.getCityId(),
-                            location.getWeatherSource()
-                    )
+                    mDatabase,
+                    location.getCityId(),
+                    location.getWeatherSource()
             );
             HourlyEntityController.deleteHourlyEntityList(
-                    mSession,
-                    HourlyEntityController.selectHourlyEntityList(
-                            mSession,
-                            location.getCityId(),
-                            location.getWeatherSource()
-                    )
+                    mDatabase,
+                    location.getCityId(),
+                    location.getWeatherSource()
             );
             MinutelyEntityController.deleteMinutelyEntityList(
-                    mSession,
-                    MinutelyEntityController.selectMinutelyEntityList(
-                            mSession,
-                            location.getCityId(),
-                            location.getWeatherSource()
-                    )
+                    mDatabase,
+                    location.getCityId(),
+                    location.getWeatherSource()
             );
             AlertEntityController.deleteAlertList(
-                    mSession,
-                    AlertEntityController.selectLocationAlertEntity(
-                            mSession,
-                            location.getCityId(),
-                            location.getWeatherSource()
-                    )
+                    mDatabase,
+                    location.getCityId(),
+                    location.getWeatherSource()
             );
-            return true;
         });
     }
 
@@ -267,7 +254,7 @@ public class DatabaseHelper {
     public History readHistory(@NonNull Location location, @NonNull Weather weather) {
         return HistoryEntityGenerator.generate(
                 HistoryEntityController.selectYesterdayHistoryEntity(
-                        mSession,
+                        mDatabase,
                         location.getCityId(),
                         location.getWeatherSource(),
                         weather.getBase().getPublishDate()
@@ -283,9 +270,9 @@ public class DatabaseHelper {
                 if (countChineseCity() < 3216) {
                     List<ChineseCity> list = FileUtils.readCityList(context);
 
-                    ChineseCityEntityController.deleteChineseCityEntityList(mSession);
+                    ChineseCityEntityController.deleteChineseCityEntityList(mDatabase);
                     ChineseCityEntityController.insertChineseCityEntityList(
-                            mSession, ChineseCityEntityGenerator.generateEntityList(list));
+                            mDatabase, ChineseCityEntityGenerator.generateEntityList(list));
                 }
             }
         }
@@ -293,7 +280,7 @@ public class DatabaseHelper {
 
     @Nullable
     public ChineseCity readChineseCity(@NonNull String name) {
-        ChineseCityEntity entity = ChineseCityEntityController.selectChineseCityEntity(mSession, name);
+        ChineseCityEntity entity = ChineseCityEntityController.selectChineseCityEntity(mDatabase, name);
         if (entity != null) {
             return ChineseCityEntityGenerator.generate(entity);
         } else {
@@ -306,7 +293,7 @@ public class DatabaseHelper {
                                        @NonNull String city,
                                        @NonNull String district) {
         ChineseCityEntity entity = ChineseCityEntityController.selectChineseCityEntity(
-                mSession, province, city, district);
+                mDatabase, province, city, district);
         if (entity != null) {
             return ChineseCityEntityGenerator.generate(entity);
         } else {
@@ -317,7 +304,7 @@ public class DatabaseHelper {
     @Nullable
     public ChineseCity readChineseCity(float latitude, float longitude) {
         ChineseCityEntity entity = ChineseCityEntityController.selectChineseCityEntity(
-                mSession, latitude, longitude);
+                mDatabase, latitude, longitude);
         if (entity != null) {
             return ChineseCityEntityGenerator.generate(entity);
         } else {
@@ -328,11 +315,10 @@ public class DatabaseHelper {
     @NonNull
     public List<ChineseCity> readChineseCityList(@NonNull String name) {
         return ChineseCityEntityGenerator.generateModuleList(
-                ChineseCityEntityController.selectChineseCityEntityList(mSession, name));
+                ChineseCityEntityController.selectChineseCityEntityList(mDatabase, name));
     }
 
     public int countChineseCity() {
-        return ChineseCityEntityController.countChineseCityEntity(mSession);
+        return ChineseCityEntityController.countChineseCityEntity(mDatabase);
     }
 }
-

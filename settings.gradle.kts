@@ -10,16 +10,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    plugins {
-        id("org.greenrobot.greendao") version "3.3.1"
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "org.greenrobot.greendao") {
-                useModule("org.greenrobot:greendao-gradle-plugin:${requested.version}")
-            }
-        }
-    }
 }
 
 dependencyResolutionManagement {

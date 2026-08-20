@@ -1,18 +1,24 @@
 package wangdaye.com.geometricweather.db.converters;
 
-import org.greenrobot.greendao.converter.PropertyConverter;
+import androidx.room.TypeConverter;
 
 import java.util.TimeZone;
 
-public class TimeZoneConverter implements PropertyConverter<TimeZone, String> {
+public class TimeZoneConverter {
 
-    @Override
+    @TypeConverter
     public TimeZone convertToEntityProperty(String databaseValue) {
+        if (databaseValue == null) {
+            return null;
+        }
         return TimeZone.getTimeZone(databaseValue);
     }
 
-    @Override
+    @TypeConverter
     public String convertToDatabaseValue(TimeZone entityProperty) {
+        if (entityProperty == null) {
+            return null;
+        }
         return entityProperty.getID();
     }
 }
