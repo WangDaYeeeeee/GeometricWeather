@@ -10,7 +10,6 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import wangdaye.com.geometricweather.GeometricWeather;
 import wangdaye.com.geometricweather.common.retrofit.TLSCompactHelper;
@@ -36,12 +35,6 @@ public class RetrofitModule {
         return GsonConverterFactory.create(
                 new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
         );
-    }
-
-    @Provides
-    @Singleton
-    public RxJava2CallAdapterFactory provideRxJava2CallAdapterFactory() {
-        return RxJava2CallAdapterFactory.create();
     }
 
     @Provides

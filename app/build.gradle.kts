@@ -217,10 +217,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.rxjava2)
-    implementation(libs.rxandroid)
-    implementation(libs.rxlifecycle)
-    implementation(libs.rxlifecycle.compact)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.circularprogressview)
     implementation(libs.colorpicker)
