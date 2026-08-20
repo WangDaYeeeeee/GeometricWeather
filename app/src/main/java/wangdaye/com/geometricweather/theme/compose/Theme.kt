@@ -1,7 +1,7 @@
 package wangdaye.com.geometricweather.theme.compose
 
 import android.os.Build
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
@@ -154,8 +154,5 @@ class GeometricWeatherDayNightColors(
 
 @Composable
 fun rememberThemeRipple(
-    bounded: Boolean = true
-) = rememberRipple(
-    color = MaterialTheme.colorScheme.primary,
-    bounded = bounded
-)
+    @Suppress("UNUSED_PARAMETER") bounded: Boolean = true
+) = LocalIndication.current

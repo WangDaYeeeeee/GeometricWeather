@@ -7,6 +7,12 @@
     <attr name="colorCaptionText" format="color|reference"/>
     <attr name="colorMainCardBackground" format="color|reference"/>
     <attr name="colorPrecipitationProbability" format="color|reference"/>
+    <!-- Material3 color attrs that may not be merged from library. -->
+    <attr name="colorSurface" format="color|reference"/>
+    <attr name="colorOnSurface" format="color|reference"/>
+    <attr name="colorSurfaceVariant" format="color|reference"/>
+    <attr name="colorOnSurfaceVariant" format="color|reference"/>
+    <attr name="colorOutline" format="color|reference"/>
 
     <!-- Ink page indicator. -->
     <declare-styleable name="InkPageIndicator">

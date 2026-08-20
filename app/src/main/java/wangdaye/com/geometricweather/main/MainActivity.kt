@@ -94,11 +94,12 @@ class MainActivity : GeoActivity(),
     private val searchActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK && result.data != null) {
+        val data = result.data
+        if (result.resultCode == RESULT_OK && data != null) {
             val location: Location? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                result.data.getParcelableExtra(SearchActivity.KEY_LOCATION, Location::class.java)
+                data.getParcelableExtra(SearchActivity.KEY_LOCATION, Location::class.java)
             } else {
-                result.data.getParcelableExtra(SearchActivity.KEY_LOCATION)
+                data.getParcelableExtra(SearchActivity.KEY_LOCATION)
             }
             if (location != null) {
                 viewModel.addLocation(location, null)

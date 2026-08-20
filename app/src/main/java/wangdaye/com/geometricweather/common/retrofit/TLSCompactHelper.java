@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,11 +14,12 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
-import okhttp3.internal.Util;
 
 /**
  * TLS compact service.
@@ -95,9 +97,15 @@ public class TLSCompactHelper {
             try {
                 SSLContext sc = SSLContext.getInstance("TLSv1.2");
                 sc.init(null, null, null);
+                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
+                        TrustManagerFactory.getDefaultAlgorithm()
+                );
+                trustManagerFactory.init((KeyStore) null);
+                X509TrustManager trustManager = (X509TrustManager) trustManagerFactory
+                        .getTrustManagers()[0];
                 builder.sslSocketFactory(
                         new Tls12SocketFactory(sc.getSocketFactory()),
-                        Util.platformTrustManager());
+                        trustManager);
 
                 ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                         .tlsVersions(TlsVersion.TLS_1_2)
