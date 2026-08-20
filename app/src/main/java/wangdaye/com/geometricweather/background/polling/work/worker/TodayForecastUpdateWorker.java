@@ -1,12 +1,10 @@
 package wangdaye.com.geometricweather.background.polling.work.worker;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.hilt.work.HiltWorker;
 import androidx.work.WorkerParameters;
-import androidx.work.impl.utils.futures.SettableFuture;
 
 import java.util.List;
 
@@ -40,11 +38,11 @@ public class TodayForecastUpdateWorker extends AsyncUpdateWorker {
     public void updateView(Context context, List<Location> locationList) {
     }
 
-    @SuppressLint("RestrictedApi")
+    @NonNull
     @Override
-    public void handleUpdateResult(SettableFuture<Result> future, boolean failed) {
-        future.set(failed ? Result.failure() : Result.success());
+    public Result handleUpdateResult(boolean failed) {
         PollingManager.resetTodayForecastBackgroundTask(
                 getApplicationContext(), false, true);
+        return failed ? Result.failure() : Result.success();
     }
 }
