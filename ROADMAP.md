@@ -25,7 +25,7 @@
 ### 阶段 1：构建系统现代化
 - [x] Groovy → Kotlin DSL (`build.gradle` → `build.gradle.kts`)
 - [x] 启用 Version Catalog (`gradle/libs.versions.toml`)
-- [x] `kapt` → `KSP` (Hilt、Glide；Room 随阶段 2 引入)
+- [x] `kapt` → `KSP` (Hilt；Room 随阶段 2 引入；Glide 已在阶段 5 移除)
 - [ ] 升级 Gradle Wrapper / AGP / Kotlin / Compose Compiler 至最新稳定版（当前仍对齐基线：Gradle 8.7 / AGP 8.4.1 / Kotlin 1.9.24，Kotlin 2.x 需单独处理 Compose Compiler 插件）
 - [x] 启用 kotlinx.serialization 插件
 - [x] 验证三种 flavor (pub / gplay / fdroid) 均可构建
@@ -58,10 +58,12 @@ EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that 
 Date fields use `GsonCompatibleDateSerializer` matching Gson `setDateFormat("yyyy-MM-dd'T'HH:mm:ss")` (trailing offsets such as `+08:00` are ignored). Nested Accu types whose JSON property names matched their Java class names were renamed `*Bean` because Kotlin cannot declare both in the same class.
 
 ### 阶段 5：图片加载迁移 Glide → Coil
-- [ ] 添加 Coil 依赖
-- [ ] Compose 侧 Image 组件 → Coil AsyncImage
-- [ ] View 侧 (Widget / RemoteViews) 视情况迁移或保留 Glide
-- [ ] 移除 Glide 依赖
+- [x] 添加 Coil 依赖
+- [x] Compose 侧 Image 组件 → Coil AsyncImage
+- [x] View 侧 (Widget / RemoteViews) 视情况迁移或保留 Glide
+- [x] 移除 Glide 依赖
+
+In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeChat donate) load local `@DrawableRes` via Coil `ImageRequest`. Compose screens still use `painterResource` for local assets (`AboutActivity`, `AllergenActivity`); `coil-compose` is on the classpath for future URL/`AsyncImage` use. AppWidget / RemoteViews / wallpaper already use `setImageViewResource` and resource-provider bitmaps, so Glide was not required there and is fully removed. Unused `R.string.glide` / `about_glide` credits remain in translations and are not referenced.
 
 ### 阶段 6：UI 全面 Compose 化
 - [ ] 主界面 (MainActivity + Home/Management Fragment) → Compose
