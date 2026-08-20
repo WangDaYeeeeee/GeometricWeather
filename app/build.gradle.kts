@@ -204,6 +204,9 @@ dependencies {
     ksp(libs.glide.ksp)
     implementation(libs.glide.okhttp3)
 
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+
     implementation(libs.bundles.retrofit)
     implementation(libs.okhttp) {
         version { strictly(libs.versions.okhttp.get()) }

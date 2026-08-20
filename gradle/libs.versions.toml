@@ -43,6 +43,7 @@ okhttp = "4.12.0"
 
 # Image.
 glide = "4.16.0"
+coil = "2.7.0"
 
 # Database.
 room = "2.6.1"
@@ -157,6 +158,10 @@ gms-location = { module = "com.google.android.gms:play-services-location", versi
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 glide-okhttp3 = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
+
+# Coil.
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Retrofit.
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
