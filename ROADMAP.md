@@ -11,7 +11,7 @@
 | 构建脚本 | Gradle Groovy DSL | Gradle Kotlin DSL |
 | 依赖管理 | build.gradle 硬编码版本 | Version Catalog (`libs.versions.toml`) |
 | 注解处理 | kapt | KSP |
-| 数据库 | GreenDAO | Room (KSP) |
+| 数据库 | Room (KSP) | Room (KSP) |
 | 异步 | RxJava2 + LiveData | Kotlin Coroutines + Flow (StateFlow) |
 | 序列化 | Gson | kotlinx.serialization |
 | 图片加载 | Glide | Coil |
@@ -31,11 +31,13 @@
 - [x] 验证三种 flavor (pub / gplay / fdroid) 均可构建
 
 ### 阶段 2：数据库迁移 GreenDAO → Room
-- [ ] 引入 Room + KSP 依赖
-- [ ] 定义 Room Entity（对齐现有 GreenDAO schema）
-- [ ] 编写 DAO 与 Database
-- [ ] 实现用户数据迁移方案
-- [ ] 替换 `db/controllers` 调用，移除 GreenDAO 依赖
+- [x] 引入 Room + KSP 依赖
+- [x] 定义 Room Entity（对齐现有 GreenDAO schema）
+- [x] 编写 DAO 与 Database
+- [x] 实现用户数据迁移方案
+- [x] 替换 `db/controllers` 调用，移除 GreenDAO 依赖
+
+用户库文件名仍为 `Geometric_Weather_db`。GreenDAO `schemaVersion` 62 对应 SQLite `user_version`；Room 版本为 63。升级时按列交集拷贝 `LOCATION_ENTITY` / `WEATHER_ENTITY` 等表（兼容 GreenDAO 主键 `ID` 或 `_id`），不删除地点与天气缓存。新安装直接由 Room 建表。
 
 ### 阶段 3：异步层迁移 RxJava2 → Coroutines + Flow
 - [ ] 添加 kotlinx-coroutines 依赖，移除 RxJava2
