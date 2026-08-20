@@ -8,12 +8,14 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -30,25 +32,24 @@ import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
 import wangdaye.com.geometricweather.common.utils.helpers.ShortcutsHelper
 import wangdaye.com.geometricweather.common.utils.helpers.SnackbarHelper
-import wangdaye.com.geometricweather.databinding.ActivityMainBinding
+import wangdaye.com.geometricweather.main.compose.MainScreen
+import wangdaye.com.geometricweather.main.compose.WIDE_LAYOUT_MIN_DP
 import wangdaye.com.geometricweather.main.dialogs.LocationHelpDialog
 import wangdaye.com.geometricweather.main.fragments.HomeFragment
-import wangdaye.com.geometricweather.main.fragments.ManagementFragment
 import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
-import wangdaye.com.geometricweather.main.fragments.PushedManagementFragment
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
 import wangdaye.com.geometricweather.remoteviews.WidgetHelper
 import wangdaye.com.geometricweather.search.SearchActivity
 import wangdaye.com.geometricweather.settings.SettingsChangedMessage
+import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
 @AndroidEntryPoint
 class MainActivity : GeoActivity(),
-    HomeFragment.Callback,
-    ManagementFragment.Callback {
+    HomeFragment.Callback {
 
-    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
+    private var managementVisible by mutableStateOf(false)
 
     companion object {
         const val ACTION_MAIN = "com.wangdaye.geometricweather.Main"
@@ -59,39 +60,17 @@ class MainActivity : GeoActivity(),
 
         const val ACTION_SHOW_DAILY_FORECAST = "com.wangdaye.geomtricweather.ACTION_SHOW_DAILY_FORECAST"
         const val KEY_DAILY_INDEX = "DAILY_INDEX"
-
-        private const val TAG_FRAGMENT_HOME = "fragment_main"
-        private const val TAG_FRAGMENT_MANAGEMENT = "fragment_management"
     }
 
     private val backgroundUpdateObserver: Observer<Location> = Observer { location ->
-        location?.let {
-            viewModel.updateLocationFromBackground(it)
+        viewModel.updateLocationFromBackground(location)
 
-            if (isActivityStarted
-                && it.formattedId == viewModel.currentLocation.value?.location?.formattedId) {
-                SnackbarHelper.showSnackbar(getString(R.string.feedback_updated_in_background))
-            }
+        if (isActivityStarted
+            && location.formattedId == viewModel.currentLocation.value?.location?.formattedId) {
+            SnackbarHelper.showSnackbar(getString(R.string.feedback_updated_in_background))
         }
     }
 
-    private val fragmentsLifecycleCallback = object : FragmentManager.FragmentLifecycleCallbacks() {
-
-        override fun onFragmentViewCreated(
-            fm: FragmentManager,
-            f: Fragment,
-            v: View,
-            savedInstanceState: Bundle?
-        ) {
-            updateSystemBarStyle()
-        }
-
-        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-            updateSystemBarStyle()
-        }
-    }
-
-    // Activity Result API for search activity.
     private val searchActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -109,7 +88,6 @@ class MainActivity : GeoActivity(),
         }
     }
 
-    // Activity Result API for permissions.
     private val permissionsResultLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -124,7 +102,6 @@ class MainActivity : GeoActivity(),
             !granted && isEssentialLocationPermission(permission)
         }
         if (deniedEssential != null) {
-            // if the user denied an essential location permission.
             if (request.target.isUsable || isLocationPermissionsGranted) {
                 viewModel.updateWithUpdatingChecking(
                     request.triggeredByUser,
@@ -136,7 +113,6 @@ class MainActivity : GeoActivity(),
             return@registerForActivityResult
         }
 
-        // check background location permissions.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
             && !viewModel.statementManager.isBackgroundLocationDeclared
             && ContextCompat.checkSelfPermission(
@@ -148,9 +124,7 @@ class MainActivity : GeoActivity(),
                 .setTitle(R.string.feedback_background_location_title)
                 .setMessage(R.string.feedback_background_location_summary)
                 .setPositiveButton(R.string.go_to_set) { _, _ ->
-                    // mark background location permission declared.
                     viewModel.statementManager.setBackgroundLocationDeclared(this)
-                    // request background location permission.
                     backgroundLocationPermissionLauncher.launch(
                         Manifest.permission.ACCESS_BACKGROUND_LOCATION
                     )
@@ -164,10 +138,9 @@ class MainActivity : GeoActivity(),
         )
     }
 
-    // Activity Result API for single permission (background location).
     private val backgroundLocationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { granted ->
+    ) {
         val request = viewModel.permissionsRequest.value
         if (request != null) {
             viewModel.updateWithUpdatingChecking(
@@ -179,15 +152,35 @@ class MainActivity : GeoActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        supportFragmentManager.registerFragmentLifecycleCallbacks(
-            fragmentsLifecycleCallback, false
-        )
-        setContentView(binding.root)
 
-        MainThemeColorProvider.bind(this)
+        managementVisible = isWideLayout
 
         initModel(savedInstanceState == null)
+        MainThemeColorProvider.bind(this)
+
+        setContent {
+            GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
+                LaunchedEffect(managementVisible, isWideLayout) {
+                    updateSystemBarStyle()
+                }
+                MainScreen(
+                    viewModel = viewModel,
+                    managementVisible = managementVisible,
+                    onManagementVisibleChange = { visible ->
+                        setManagementFragmentVisibility(visible)
+                    },
+                    onSearchBarClick = {
+                        searchActivityResultLauncher.launch(
+                            Intent(this, SearchActivity::class.java)
+                        )
+                    },
+                    onSelectProvider = {
+                        IntentHelper.startSelectProviderActivity(this)
+                    },
+                )
+            }
+        }
+
         initView()
 
         consumeIntentAction(intent)
@@ -200,7 +193,6 @@ class MainActivity : GeoActivity(),
 
             findHomeFragment()?.updateViews()
 
-            // update notification immediately.
             viewModel.validLocationList.value?.locationList?.let {
                 AsyncHelper.runOnIO {
                     NotificationHelper.updateNotificationIfNecessary(this, it)
@@ -223,6 +215,9 @@ class MainActivity : GeoActivity(),
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        if (isWideLayout && !managementVisible) {
+            managementVisible = true
+        }
         updateSystemBarStyle()
         updateDayNightColors()
     }
@@ -234,7 +229,6 @@ class MainActivity : GeoActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentsLifecycleCallback)
         EventBus.instance
             .with(Location::class.java)
             .removeObserver(backgroundUpdateObserver)
@@ -242,20 +236,11 @@ class MainActivity : GeoActivity(),
 
     override val snackbarContainer: SnackbarContainer?
         get() {
-            if (binding.drawerLayout != null) {
-                return super.snackbarContainer
+            if (!managementVisible || isWideLayout) {
+                return findHomeFragment()?.snackbarContainer ?: super.snackbarContainer
             }
-
-            val f = if (isManagementFragmentVisible) {
-                findManagementFragment()
-            } else {
-                findHomeFragment()
-            }
-
-            return f?.snackbarContainer ?: super.snackbarContainer
+            return super.snackbarContainer
         }
-
-    // init.
 
     private fun initModel(newActivity: Boolean) {
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
@@ -275,7 +260,7 @@ class MainActivity : GeoActivity(),
 
     @SuppressLint("ClickableViewAccessibility", "NonConstantResourceId")
     private fun initView() {
-        binding.root.post {
+        window.decorView.post {
             if (isActivityCreated) {
                 updateDayNightColors()
             }
@@ -283,7 +268,6 @@ class MainActivity : GeoActivity(),
 
         viewModel.validLocationList.asLiveData().observe(this) { list ->
             val data = list ?: return@observe
-            // update notification immediately.
             AsyncHelper.runOnIO {
                 NotificationHelper.updateNotificationIfNecessary(
                     this,
@@ -303,7 +287,6 @@ class MainActivity : GeoActivity(),
                 return@observe
             }
 
-            // only show dialog if we need request basic location permissions.
             var needShowDialog = false
             for (permission in it.permissionList) {
                 if (isLocationPermission(permission)) {
@@ -312,12 +295,10 @@ class MainActivity : GeoActivity(),
                 }
             }
             if (needShowDialog && !viewModel.statementManager.isLocationPermissionDeclared) {
-                // only show dialog once.
                 MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.feedback_location_permissions_title)
                     .setMessage(R.string.feedback_location_permissions_statement)
                     .setPositiveButton(R.string.next) { _, _ ->
-                        // mark declared.
                         viewModel.statementManager.setLocationPermissionDeclared(this)
 
                         val request = viewModel.permissionsRequest.value
@@ -382,7 +363,8 @@ class MainActivity : GeoActivity(),
     val isDaylight
         get() = viewModel.currentLocation.value?.daylight
 
-    // control.
+    private val isWideLayout: Boolean
+        get() = resources.configuration.screenWidthDp >= WIDE_LAYOUT_MIN_DP
 
     private fun consumeIntentAction(intent: Intent) {
         val action = intent.action
@@ -405,16 +387,18 @@ class MainActivity : GeoActivity(),
     }
 
     private fun updateSystemBarStyle() {
-        if (binding.drawerLayout != null) {
+        if (isWideLayout || !managementVisible) {
             findHomeFragment()?.setSystemBarStyle()
             return
         }
-
-        if (isOrWillManagementFragmentVisible) {
-            findManagementFragment()?.setSystemBarStyle()
-        } else {
-            findHomeFragment()?.setSystemBarStyle()
-        }
+        DisplayUtils.setSystemBarStyle(
+            this,
+            window,
+            false,
+            !DisplayUtils.isDarkMode(this),
+            true,
+            !DisplayUtils.isDarkMode(this)
+        )
     }
 
     private fun updateDayNightColors() {
@@ -426,67 +410,16 @@ class MainActivity : GeoActivity(),
         )
     }
 
-    private val isOrWillManagementFragmentVisible: Boolean
-        get() = binding.drawerLayout?.isUnfold
-            ?: findManagementFragment()?.let { !it.isRemoving }
-            ?: false
-
-    private val isManagementFragmentVisible: Boolean
-        get() = binding.drawerLayout?.isUnfold
-            ?: findManagementFragment()?.isVisible
-            ?: false
-
     fun setManagementFragmentVisibility(visible: Boolean) {
-        val drawerLayout = binding.drawerLayout
-        if (drawerLayout != null) {
-            drawerLayout.isUnfold = visible
+        if (managementVisible == visible) {
             return
         }
-        if (visible == isOrWillManagementFragmentVisible) {
-            return
-        }
-        if (!visible) {
-            supportFragmentManager.popBackStack()
-            return
-        }
-
-        val transaction = supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(
-                R.anim.fragment_manange_enter,
-                R.anim.fragment_main_exit,
-                R.anim.fragment_main_pop_enter,
-                R.anim.fragment_manange_pop_exit,
-            )
-            .add(
-                R.id.fragment,
-                PushedManagementFragment.getInstance(),
-                TAG_FRAGMENT_MANAGEMENT,
-            )
-            .addToBackStack(null)
-
-        findHomeFragment()?.let {
-            transaction.hide(it)
-        }
-
-        transaction.commit()
+        managementVisible = visible
+        updateSystemBarStyle()
     }
 
-    private fun findHomeFragment(): HomeFragment? {
-        return if (binding.drawerLayout == null) {
-            supportFragmentManager.findFragmentByTag(TAG_FRAGMENT_HOME) as HomeFragment?
-        } else {
-            supportFragmentManager.findFragmentById(R.id.fragment_home) as HomeFragment?
-        }
-    }
-
-    private fun findManagementFragment(): ManagementFragment? {
-        return if (binding.drawerLayout == null) {
-            supportFragmentManager.findFragmentByTag(TAG_FRAGMENT_MANAGEMENT) as ManagementFragment?
-        } else {
-            supportFragmentManager.findFragmentById(R.id.fragment_drawer) as ManagementFragment?
-        }
-    }
+    private fun findHomeFragment(): HomeFragment? =
+        wangdaye.com.geometricweather.main.compose.findHomeFragment(this)
 
     private fun refreshBackgroundViews(resetBackground: Boolean, locationList: List<Location>?) {
         if (resetBackground) {
@@ -511,25 +444,11 @@ class MainActivity : GeoActivity(),
         }
     }
 
-    // interface.
-
-    // main fragment callback.
-
     override fun onManageIconClicked() {
-        setManagementFragmentVisibility(!isOrWillManagementFragmentVisible)
+        setManagementFragmentVisibility(!managementVisible)
     }
 
     override fun onSettingsIconClicked() {
         IntentHelper.startSettingsActivity(this)
-    }
-
-    // management fragment callback.
-
-    override fun onSearchBarClicked(searchBar: View) {
-        IntentHelper.startSearchActivity(this, searchBar)
-    }
-
-    override fun onSelectProviderActivityStarted() {
-        IntentHelper.startSelectProviderActivity(this)
     }
 }

@@ -47,6 +47,7 @@ class HomeFragment : MainModuleFragment() {
 
     private val previewOffset = EqualtableLiveData(0)
     private var callback: Callback? = null
+    private var weatherDrawableOverride: Boolean? = null
 
     interface Callback {
         fun onManageIconClicked()
@@ -84,7 +85,7 @@ class HomeFragment : MainModuleFragment() {
 
     override fun onResume() {
         super.onResume()
-        weatherView.setDrawable(!isHidden)
+        applyWeatherDrawable()
     }
 
     override fun onPause() {
@@ -101,7 +102,19 @@ class HomeFragment : MainModuleFragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        weatherView.setDrawable(!hidden)
+        applyWeatherDrawable()
+    }
+
+    fun setWeatherDrawableEnabled(enabled: Boolean) {
+        weatherDrawableOverride = enabled
+        applyWeatherDrawable()
+    }
+
+    private fun applyWeatherDrawable() {
+        if (!::weatherView.isInitialized) {
+            return
+        }
+        weatherView.setDrawable(weatherDrawableOverride ?: !isHidden)
     }
 
     override fun setSystemBarStyle() {
