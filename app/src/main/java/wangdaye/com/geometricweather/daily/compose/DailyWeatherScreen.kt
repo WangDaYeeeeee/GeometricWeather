@@ -1,5 +1,7 @@
 package wangdaye.com.geometricweather.daily.compose
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.compose.foundation.background
@@ -52,7 +54,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.models.Location
-import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.options.unit.PollenUnit
 import wangdaye.com.geometricweather.common.basic.models.weather.Daily
 import wangdaye.com.geometricweather.db.DatabaseHelper
@@ -84,6 +85,7 @@ import java.util.TimeZone
 
 private const val SPAN_COUNT = 3
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DailyWeatherRoute(
     formattedId: String?,
@@ -131,7 +133,7 @@ fun DailyWeatherRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DailyWeatherScreen(
     dailyForecast: List<Daily>,
@@ -493,15 +495,15 @@ private fun AstroItem(model: DailyAstro) {
         val builder = StringBuilder(context.getString(R.string.sunrise_sunset))
         if (sun.isValid) {
             builder.append(", ")
-                .append(context.getString(R.string.content_des_sunrise).replace("$", sun.getRiseTime(context, timeZone)))
+                .append(context.getString(R.string.content_des_sunrise).replace("$", sun.getRiseTime(context, timeZone) ?: ""))
                 .append(", ")
-                .append(context.getString(R.string.content_des_sunset).replace("$", sun.getSetTime(context, timeZone)))
+                .append(context.getString(R.string.content_des_sunset).replace("$", sun.getSetTime(context, timeZone) ?: ""))
         }
         if (moon.isValid) {
             builder.append(", ")
-                .append(context.getString(R.string.content_des_moonrise).replace("$", moon.getRiseTime(context, timeZone)))
+                .append(context.getString(R.string.content_des_moonrise).replace("$", moon.getRiseTime(context, timeZone) ?: ""))
                 .append(", ")
-                .append(context.getString(R.string.content_des_moonset).replace("$", moon.getSetTime(context, timeZone)))
+                .append(context.getString(R.string.content_des_moonset).replace("$", moon.getSetTime(context, timeZone) ?: ""))
         }
         if (phase.isValid) {
             builder.append(", ").append(phase.getMoonPhase(context))
@@ -543,7 +545,7 @@ private fun AstroItem(model: DailyAstro) {
                     }
                 )
                 Text(
-                    text = phase.getMoonPhase(context),
+                    text = phase.getMoonPhase(context) ?: "",
                     color = DayNightTheme.colors.titleColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = dimensionResource(R.dimen.title_text_size).value.sp,
