@@ -75,14 +75,15 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 清理已无 inflate 的 in-app XML / 适配器 / `HomeFragment` / `ManagementFragment` / `search/ui`
 - [x] 日详情页已离开 XML；Home 内日/小时趋势图仍为自定义 View（`item_trend_*` + trend adapters），未改写 Compose Canvas
 
-**Honest leftovers (in-app, not widgets):** Home 天气动画必须保持真实 `WeatherView`（`AndroidView`）。Home 卡片/header/趋势 RecyclerView 仍走 `MainAdapter`（与 `WeatherView` scroll、SwipeSwitch、动画高度强耦合）。日/小时趋势图为 View canvas（`Polyline`/`Histogram` 等），**不是** Compose Canvas。日详情 overview 天气图标仍为 `AnimatableIconView`（`AndroidView`）。Alert / Allergen / About / Search / Settings / Daily 主路径已是 Compose。
+**Honest leftovers (in-app, not widgets):** Home 天气动画必须保持真实 `WeatherView`（`AndroidView`）。Home 卡片/header/趋势 RecyclerView 仍走 `MainAdapter`（与 `WeatherView` scroll、SwipeSwitch、动画高度强耦合）— **未转 Compose**，避免打断 WeatherView 滚动联动。日/小时趋势图为 View canvas（`Polyline`/`Histogram` 等），**不是** Compose Canvas（视觉对齐风险大，本轮跳过）。日详情 overview 天气图标仍为 `AnimatableIconView`（`AndroidView`）。Alert / Allergen / About / Search / Settings / Daily 主路径已是 Compose。
 
 **Out of scope (unchanged):** AppWidget / RemoteViews / `remoteviews/config/*` / live wallpaper 布局与代码。
 
 ### 阶段 7：Java → Kotlin 全量迁移
+- [x] 迁移 `common/basic/models/weather` 领域模型（保留 Java getter 名如 `getPM25()` / `getUV()` / `isDaylight()`）
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
 - [ ] 消除重复样板代码，采用 Kotlin 惯用法
-- [ ] 统一代码风格（ktlint）
+- [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）
