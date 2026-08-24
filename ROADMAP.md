@@ -90,7 +90,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 **Remaining first-party Java (~163 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):** remaining background polling services/workers, main adapters/holders (View RecyclerView, not Compose), common UI widgets/snackbar/insets, remoteviews presenters/config, theme resource providers, WeatherView implementors, wallpaper, pub-flavor Baidu/AMap location, unit tests. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration.
 
-`:app:compileFdroidDebugKotlin` / `:app:compileGplayDebugKotlin` verified after this slice. Assemble flavors re-checked before merge.
+`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` verified green after this slice.
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）
