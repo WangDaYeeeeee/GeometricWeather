@@ -220,7 +220,7 @@ class DatabaseHelper private constructor(c: Context) {
 
     // history.
 
-    fun readHistory(location: Location, weather: Weather): History {
+    fun readHistory(location: Location, weather: Weather): History? {
         return HistoryEntityGenerator.generate(
             HistoryEntityController.selectYesterdayHistoryEntity(
                 mDatabase,
