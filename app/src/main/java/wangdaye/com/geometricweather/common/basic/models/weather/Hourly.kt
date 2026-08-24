@@ -14,8 +14,7 @@ import java.util.TimeZone
 class Hourly(
     val date: Date,
     val time: Long,
-    @get:JvmName("isDaylight")
-    val daylight: Boolean,
+    val isDaylight: Boolean,
     val weatherText: String,
     val weatherCode: WeatherCode,
     val temperature: Temperature,

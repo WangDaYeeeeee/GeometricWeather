@@ -20,8 +20,10 @@ class UV(
     val isValidIndex: Boolean
         get() = index != null
 
-    @SuppressLint("DefaultLocale")
-    fun getUVDescription(): String {
+    @get:JvmName("getUVDescription")
+    val uvDescription: String
+        @SuppressLint("DefaultLocale")
+        get() {
         val builder = StringBuilder()
         if (index != null) {
             builder.append(String.format("%d", index))

@@ -8,22 +8,22 @@ import java.util.Date
 
 class Alert(
     val alertId: Long,
-    val date: Date?,
+    val date: Date,
     val time: Long,
-    val description: String?,
-    val content: String?,
-    val type: String?,
+    val description: String,
+    val content: String,
+    val type: String,
     val priority: Int,
     @ColorInt val color: Int
 ) : Parcelable, Serializable {
 
     constructor(parcel: Parcel) : this(
         alertId = parcel.readLong(),
-        date = parcel.readLong().let { tmpDate -> if (tmpDate == -1L) null else Date(tmpDate) },
+        date = parcel.readLong().let { tmpDate -> if (tmpDate == -1L) Date(0) else Date(tmpDate) },
         time = parcel.readLong(),
-        description = parcel.readString(),
-        content = parcel.readString(),
-        type = parcel.readString(),
+        description = parcel.readString() ?: "",
+        content = parcel.readString() ?: "",
+        type = parcel.readString() ?: "",
         priority = parcel.readInt(),
         color = parcel.readInt()
     )
@@ -32,7 +32,7 @@ class Alert(
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(alertId)
-        dest.writeLong(if (date != null) date.time else -1)
+        dest.writeLong(date.time)
         dest.writeLong(time)
         dest.writeString(description)
         dest.writeString(content)
@@ -56,7 +56,7 @@ class Alert(
                 if (typeSet.contains(alert.type)) {
                     alertList.removeAt(i)
                 } else {
-                    typeSet.add(alert.type!!)
+                    typeSet.add(alert.type)
                 }
             }
         }

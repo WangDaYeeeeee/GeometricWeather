@@ -81,9 +81,15 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 ### 阶段 7：Java → Kotlin 全量迁移
 - [x] 迁移 `common/basic/models/weather` 领域模型（保留 Java getter 名如 `getPM25()` / `getUV()` / `isDaylight()`）
+- [x] 迁移 Room `db/` converters、DAO、entities、controllers、`DatabaseHelper`（`db/generators` 仍为 Java）
+- [x] 迁移 Hilt modules（`UtilsModule` / `ApiModule`）、`WeatherServiceSet`、`SearchActivityRepository`、widget `AppWidgetProvider`、fdroid/gplay 空壳 location/Bugly stubs
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
 - [ ] 消除重复样板代码，采用 Kotlin 惯用法
 - [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
+
+**Remaining first-party Java (approx, excluding vendored `com.xw.repo.BubbleSeekBar*`):** `db/generators`, weather converters/services, main adapters/holders, common UI widgets, remoteviews presenters/config, theme WeatherView implementors, background polling, settings dialogs, wallpaper, pub-flavor Baidu/AMap location. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration.
+
+`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` last verified green on this branch.
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）

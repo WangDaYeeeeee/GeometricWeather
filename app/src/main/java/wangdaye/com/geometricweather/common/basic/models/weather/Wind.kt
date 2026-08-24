@@ -39,9 +39,9 @@ class Wind(
         }
     }
 
-    fun getShortWindDescription(): String {
-        return "$direction $level"
-    }
+    @get:JvmName("getShortWindDescription")
+    val shortWindDescription: String
+        get() = "$direction $level"
 
     fun getWindDescription(context: Context, unit: SpeedUnit): String {
         val builder = StringBuilder()

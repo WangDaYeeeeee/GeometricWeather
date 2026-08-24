@@ -7,8 +7,7 @@ import kotlin.math.pow
 class Minutely(
     val date: Date,
     val time: Long,
-    @get:JvmName("isDaylight")
-    val daylight: Boolean,
+    val isDaylight: Boolean,
     val weatherText: String,
     val weatherCode: WeatherCode,
     val minuteInterval: Int,
@@ -36,7 +35,9 @@ class Minutely(
         cloudCover
     )
 
-    fun getPrecipitationIntensity(): Double? {
+    val precipitationIntensity: Double?
+        @JvmName("getPrecipitationIntensity")
+        get() {
         if (dbz == null) {
             return null
         }

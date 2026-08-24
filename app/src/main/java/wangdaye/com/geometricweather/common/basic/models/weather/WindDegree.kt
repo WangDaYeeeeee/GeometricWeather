@@ -22,7 +22,7 @@ class WindDegree(
             "↗"
         } else if (247.5 < degree && degree <= 292.5) {
             "→"
-        } else if (292. < degree && degree <= 337.5) {
+        } else if (292.0 < degree && degree <= 337.5) {
             "↘"
         } else {
             "↓"

@@ -70,9 +70,8 @@ class Daily(
         }
     }
 
-    fun getLunar(): String {
-        return LunarHelper.getLunarDate(date)
-    }
+    val lunar: String
+        get() = LunarHelper.getLunarDate(date)
 
     fun isToday(timeZone: TimeZone): Boolean {
         val millis = System.currentTimeMillis()

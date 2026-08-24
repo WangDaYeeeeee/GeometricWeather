@@ -103,7 +103,7 @@ class WeatherHelper @Inject constructor(
     }
 
     fun cancel() {
-        for (s in serviceSet.all) {
+        for (s in serviceSet.getAll()) {
             s.cancel()
         }
         requestScope.cancelChildren()
