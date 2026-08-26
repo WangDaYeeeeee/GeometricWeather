@@ -87,11 +87,23 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 迁移 weather result converters（Accu/Caiyun/Mf/Owm）、`DailyWeatherAdapter`、`IntentHelper`/`DisplayUtils`/`LanguageUtils` 及 sibling helpers、polling `PollingManager`/`WorkerHelper`、settings dialogs
 - [x] 迁移 background polling leftovers（Hilt workers、`UpdateService`/`ForegroundUpdateService` 族、permanent observer、QS `TileService`）
 - [x] 迁移 main View 层 adapters/holders/dialogs/layouts/utils/trend adapters（仍为 RecyclerView，未改 Compose）
+- [x] 迁移 `common/` insets、snackbar、adapters、decorations、images、transitions、behaviors，以及大部分 widgets（SwipeSwitchLayout、AnimatableIconView、insets/trend 基类等）
+- [x] 迁移 `remoteviews/config` 各 widget 配置 Activity（基类 `AbstractWidgetConfigActivity` 仍为 Java）
+- [x] 迁移 `theme/resource` 工厂/helper/utils 与 `ResourceProvider` 抽象层、`WeatherView` 接口、`IntervalComputer`/`DelayRotateController`、`LiveWallpaperConfigManager`、大部分 `app/src/test` 单测
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
 - [ ] 消除重复样板代码，采用 Kotlin 惯用法
 - [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
 
-**Remaining first-party Java (115 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):** `common/` insets/snackbar/widgets/adapters/decorations/images/transitions/behaviors; `remoteviews/` presenters/config/`NotificationHelper`/`WidgetHelper`; `theme/resource/**` and `theme/weatherView/**` (WeatherView stays a real Android View); `wallpaper/**`; `settings/adapters/IconProviderAdapter.java`; unit tests under `app/src/test`. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration. Pub Baidu/AMap location services are Kotlin. Background polling and main Home RecyclerView adapters are Kotlin.
+**Remaining first-party Java (47 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):**
+- `common/ui/widgets`: `ArcProgress`, `NumberAnimTextView`, `InkPageIndicator`, `HorizontalViewPager2`, `astro/MoonPhaseView`, `astro/SunMoonView`, `trend/TrendRecyclerView`, `trend/chart/{DoubleHistogramView,PolylineAndHistogramView}`, `trend/item/{DailyTrendItemView,HourlyTrendItemView}`
+- `remoteviews/`: `AbstractWidgetConfigActivity`, `NotificationHelper`, `WidgetHelper`, all `presenters/**` IMPs, `trend/{TrendLinearLayout,WidgetItemView}`
+- `theme/resource/providers`: `DefaultResourceProvider`, `IconPackResourcesProvider`, `PixelResourcesProvider`, `ChronusResourceProvider`
+- `theme/weatherView`: `MaterialWeatherView` + all `implementor/*`
+- `wallpaper/MaterialLiveWallpaperService.java`
+- `settings/adapters/IconProviderAdapter.java`
+- `app/src/test/java/basic/MatchTest.java`
+
+Widgets/RemoteViews/wallpaper stay View-based (not Compose). WeatherView remains a real Android View. Pub Baidu/AMap, background polling, and main Home RecyclerView adapters remain Kotlin.
 
 `:app:assembleFdroidDebug` and `:app:assembleGplayDebug` verified green after this slice (JDK 21, jvmTarget 17).
 
