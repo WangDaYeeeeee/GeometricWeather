@@ -85,8 +85,9 @@ class AllergenViewHolder(
         pager.adapter = DailyPollenPagerAdapter(location)
         pager.currentItem = 0
 
-        callback = DailyPollenPageChangeCallback(activity, location)
-        pager.registerOnPageChangeCallback(callback)
+        val pageCallback = DailyPollenPageChangeCallback(activity, location)
+        callback = pageCallback
+        pager.registerOnPageChangeCallback(pageCallback)
 
         itemView.contentDescription = title.text
         itemView.setOnClickListener {
@@ -96,8 +97,9 @@ class AllergenViewHolder(
 
     override fun onRecycleView() {
         super.onRecycleView()
-        if (callback != null) {
-            pager.unregisterOnPageChangeCallback(callback)
+        val pageCallback = callback
+        if (pageCallback != null) {
+            pager.unregisterOnPageChangeCallback(pageCallback)
             callback = null
         }
     }

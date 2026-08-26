@@ -48,7 +48,7 @@ abstract class AbsHourlyTrendAdapter(
             )
 
             hourlyItem.setOnClickListener {
-                onItemClicked(activity, location, bindingAdapterPosition)
+                onItemClicked(activity, location, adapterPosition)
             }
         }
     }

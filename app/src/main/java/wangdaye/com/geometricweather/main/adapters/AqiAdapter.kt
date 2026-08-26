@@ -31,7 +31,7 @@ class AqiAdapter(
     private val itemList = ArrayList<AqiItem>()
     private val holderList = ArrayList<ViewHolder>()
 
-    private class AqiItem(
+    class AqiItem(
         @ColorInt val color: Int,
         val progress: Float,
         val max: Float,

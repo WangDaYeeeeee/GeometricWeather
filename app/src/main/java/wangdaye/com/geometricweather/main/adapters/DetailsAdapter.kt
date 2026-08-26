@@ -25,7 +25,7 @@ class DetailsAdapter(
     private val lightTheme = MainThemeColorProvider.isLightTheme(context, location)
     private val indexList = ArrayList<Index>()
 
-    private class Index(
+    class Index(
         @DrawableRes val iconId: Int,
         val title: String,
         val content: String,

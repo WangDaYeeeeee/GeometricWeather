@@ -153,15 +153,16 @@ class MainAdapter(
         }
     }
 
-    fun getCurrentTemperatureTextHeight(): Int {
-        if (headerCurrentTemperatureTextHeight <= 0 && itemCount > 0) {
-            val holder = host.findViewHolderForAdapterPosition(0) as AbstractMainViewHolder?
-            if (holder is HeaderViewHolder) {
-                headerCurrentTemperatureTextHeight = holder.currentTemperatureHeight
+    val currentTemperatureTextHeight: Int
+        get() {
+            if (headerCurrentTemperatureTextHeight <= 0 && itemCount > 0) {
+                val holder = host.findViewHolderForAdapterPosition(0) as AbstractMainViewHolder?
+                if (holder is HeaderViewHolder) {
+                    headerCurrentTemperatureTextHeight = holder.currentTemperatureHeight
+                }
             }
+            return headerCurrentTemperatureTextHeight
         }
-        return headerCurrentTemperatureTextHeight
-    }
 
     fun onScroll() {
         for (i in 0 until itemCount) {

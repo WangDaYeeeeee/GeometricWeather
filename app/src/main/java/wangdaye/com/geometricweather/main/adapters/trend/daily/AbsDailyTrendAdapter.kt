@@ -49,7 +49,7 @@ abstract class AbsDailyTrendAdapter(
                 MainThemeColorProvider.getColor(location, R.attr.colorBodyText)
             )
 
-            dailyItem.setOnClickListener { onItemClicked(activity, location, bindingAdapterPosition) }
+            dailyItem.setOnClickListener { onItemClicked(activity, location, adapterPosition) }
         }
     }
 
