@@ -12,7 +12,7 @@ class DailyAstro(
     var moonPhase: MoonPhase
 ) : DailyWeatherAdapter.ViewModel {
 
-    override fun getCode(): Int = 7
+    override val code: Int = 7
 
     companion object {
         @JvmStatic

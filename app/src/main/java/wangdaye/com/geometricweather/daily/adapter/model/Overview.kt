@@ -8,7 +8,7 @@ class Overview(
     var isDaytime: Boolean
 ) : DailyWeatherAdapter.ViewModel {
 
-    override fun getCode(): Int = 1
+    override val code: Int = 1
 
     companion object {
         @JvmStatic

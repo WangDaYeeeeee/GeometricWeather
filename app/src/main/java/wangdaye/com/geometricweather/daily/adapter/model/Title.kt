@@ -10,7 +10,7 @@ class Title(
 
     constructor(title: String) : this(null, title)
 
-    override fun getCode(): Int = 2
+    override val code: Int = 2
 
     companion object {
         @JvmStatic

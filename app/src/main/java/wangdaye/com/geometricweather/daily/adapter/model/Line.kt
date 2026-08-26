@@ -4,7 +4,7 @@ import wangdaye.com.geometricweather.daily.adapter.DailyWeatherAdapter
 
 class Line : DailyWeatherAdapter.ViewModel {
 
-    override fun getCode(): Int = -1
+    override val code: Int = -1
 
     companion object {
         @JvmStatic

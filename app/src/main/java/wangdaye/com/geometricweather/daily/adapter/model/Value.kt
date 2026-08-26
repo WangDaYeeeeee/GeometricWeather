@@ -7,7 +7,7 @@ class Value(
     var value: String
 ) : DailyWeatherAdapter.ViewModel {
 
-    override fun getCode(): Int = 3
+    override val code: Int = 3
 
     companion object {
         @JvmStatic

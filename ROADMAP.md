@@ -84,13 +84,14 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 迁移 Room `db/` converters、DAO、entities、controllers、`DatabaseHelper`、`db/generators`
 - [x] 迁移 Hilt modules（`UtilsModule` / `ApiModule`）、`WeatherServiceSet`、`SearchActivityRepository`、widget `AppWidgetProvider`、fdroid/gplay 空壳 location/Bugly stubs、部分 interceptor/receiver
 - [x] 迁移 `WeatherService`、`CommonConverter`、`LocationHelper`、location `ApiModule` / `LocationException`、TLS/Network/Object/Log helpers、pub 风味 Baidu/AMap `LocationService`、daily adapter ViewModel 数据类
+- [x] 迁移 weather result converters（Accu/Caiyun/Mf/Owm）、`DailyWeatherAdapter`、`IntentHelper`/`DisplayUtils`/`LanguageUtils` 及 sibling helpers、polling `PollingManager`/`WorkerHelper`、settings dialogs
 - [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
 - [ ] 消除重复样板代码，采用 Kotlin 惯用法
 - [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
 
-**Remaining first-party Java (~178 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):** weather result converters (`Accu`/`Caiyun`/`Mf`/`Owm`), `DailyWeatherAdapter`, main adapters/holders, common UI widgets, remoteviews presenters/config, theme WeatherView implementors, background polling, settings dialogs, wallpaper, helpers (`IntentHelper`/`DisplayUtils`/`LanguageUtils`), tests. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration. Pub Baidu/AMap location services are Kotlin.
+**Remaining first-party Java (~160 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):** remaining background polling services/workers, main adapters/holders (View RecyclerView, not Compose), common UI widgets/snackbar/insets, remoteviews presenters/config, theme resource providers, WeatherView implementors, wallpaper, unit tests. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration. Pub Baidu/AMap location services are Kotlin.
 
-`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` last verified green on this branch.
+`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` verified green after this slice.
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）
