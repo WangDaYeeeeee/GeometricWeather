@@ -1,11 +1,11 @@
-package wangdaye.com.geometricweather.background.interfaces;
+package wangdaye.com.geometricweather.background.interfaces
 
 /*
  * CMWeatherProviderService - CyanogenMod Weather Provider Service
- * 
+ *
  * This service has been disabled because the CyanogenMod SDK is no longer maintained
  * and the project (CyanogenMod) has been discontinued.
- * 
+ *
  * To re-enable, you would need to:
  * 1. Add the CyanogenMod SDK dependency to build.gradle
  * 2. Uncomment the service declaration in AndroidManifest.xml
