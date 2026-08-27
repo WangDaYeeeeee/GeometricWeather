@@ -134,8 +134,9 @@ class PollingUpdateHelper(
         override fun requestWeatherSuccess(requestLocation: Location) {
             val oldWeather = locationList[index].weather
 
-            if (requestLocation.weather != null
-                && (oldWeather == null || requestLocation.weather.base.timeStamp != oldWeather.base.timeStamp)) {
+            val newWeather = requestLocation.weather
+            if (newWeather != null
+                && (oldWeather == null || newWeather.base.timeStamp != oldWeather.base.timeStamp)) {
                 locationList[index] = requestLocation
 
                 EventBus.instance

@@ -159,7 +159,7 @@ private fun buildRemoteViews(
 
     views.setTextViewText(
         R.id.widget_material_you_forecast_weatherText,
-        location.weather.current.weatherText
+        weather.current.weatherText
     )
 
     if (weather.current.airQuality.isValid) {
@@ -171,7 +171,7 @@ private fun buildRemoteViews(
         views.setTextViewText(
             R.id.widget_material_you_forecast_aqiOrWind,
             context.getString(R.string.wind) + " - "
-                    + location.weather.current.wind.shortWindDescription
+                    + weather.current.wind.shortWindDescription
         )
     }
 

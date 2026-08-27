@@ -116,86 +116,86 @@ class AqiAdapter(
     init {
         if (location.weather?.current?.airQuality?.isValid == true) {
             val airQuality = location.weather!!.current.airQuality
-            if (airQuality.pm25 != null) {
+            airQuality.pm25?.let { pm25 ->
                 itemList.add(
                     AqiItem(
                         airQuality.getPm25Color(context),
-                        airQuality.pm25,
+                        pm25,
                         250f,
                         "PM2.5",
-                        AirQualityUnit.MUGPCUM.getValueText(context, airQuality.pm25),
+                        AirQualityUnit.MUGPCUM.getValueText(context, pm25),
                         context.getString(R.string.content_des_pm25) + ", " +
-                            AirQualityUnit.MUGPCUM.getValueVoice(context, airQuality.pm25),
+                            AirQualityUnit.MUGPCUM.getValueVoice(context, pm25),
                         executeAnimation
                     )
                 )
             }
-            if (airQuality.pm10 != null) {
+            airQuality.pm10?.let { pm10 ->
                 itemList.add(
                     AqiItem(
                         airQuality.getPm10Color(context),
-                        airQuality.pm10,
+                        pm10,
                         420f,
                         "PM10",
-                        AirQualityUnit.MUGPCUM.getValueText(context, airQuality.pm10),
+                        AirQualityUnit.MUGPCUM.getValueText(context, pm10),
                         context.getString(R.string.content_des_pm10) + ", " +
-                            AirQualityUnit.MUGPCUM.getValueVoice(context, airQuality.pm10),
+                            AirQualityUnit.MUGPCUM.getValueVoice(context, pm10),
                         executeAnimation
                     )
                 )
             }
-            if (airQuality.so2 != null) {
+            airQuality.so2?.let { so2 ->
                 itemList.add(
                     AqiItem(
                         airQuality.getSo2Color(context),
-                        airQuality.so2,
+                        so2,
                         1600f,
                         "SO₂",
-                        AirQualityUnit.MUGPCUM.getValueText(context, airQuality.so2),
+                        AirQualityUnit.MUGPCUM.getValueText(context, so2),
                         context.getString(R.string.content_des_so2) + ", " +
-                            AirQualityUnit.MUGPCUM.getValueVoice(context, airQuality.so2),
+                            AirQualityUnit.MUGPCUM.getValueVoice(context, so2),
                         executeAnimation
                     )
                 )
             }
-            if (airQuality.no2 != null) {
+            airQuality.no2?.let { no2 ->
                 itemList.add(
                     AqiItem(
                         airQuality.getNo2Color(context),
-                        airQuality.no2,
+                        no2,
                         565f,
                         "NO₂",
-                        AirQualityUnit.MUGPCUM.getValueText(context, airQuality.no2),
+                        AirQualityUnit.MUGPCUM.getValueText(context, no2),
                         context.getString(R.string.content_des_no2) + ", " +
-                            AirQualityUnit.MUGPCUM.getValueVoice(context, airQuality.no2),
+                            AirQualityUnit.MUGPCUM.getValueVoice(context, no2),
                         executeAnimation
                     )
                 )
             }
-            if (airQuality.o3 != null) {
+            airQuality.o3?.let { o3 ->
                 itemList.add(
                     AqiItem(
                         airQuality.getO3Color(context),
-                        airQuality.o3,
+                        o3,
                         800f,
                         "O₃",
-                        AirQualityUnit.MUGPCUM.getValueText(context, airQuality.o3),
+                        AirQualityUnit.MUGPCUM.getValueText(context, o3),
                         context.getString(R.string.content_des_o3) + ", " +
-                            AirQualityUnit.MUGPCUM.getValueVoice(context, airQuality.o3),
+                            AirQualityUnit.MUGPCUM.getValueVoice(context, o3),
                         executeAnimation
                     )
                 )
             }
-            if (airQuality.co != null) {
+            airQuality.co?.let { co ->
                 itemList.add(
                     AqiItem(
                         airQuality.getCOColor(context),
-                        airQuality.co,
+                        co,
                         90f,
                         "CO",
-                        AirQualityCOUnit.MGPCUM.getValueText(context, airQuality.co),
+                        AirQualityCOUnit.MGPCUM.getValueText(context, co),
                         context.getString(R.string.content_des_co) + ", " +
-                            AirQualityCOUnit.MGPCUM.getValueVoice(context, airQuality.co),
+                            AirQualityCOUnit.MGPCUM.getValueVoice(context, co),
                         executeAnimation
                     )
                 )
