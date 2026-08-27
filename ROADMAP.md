@@ -95,7 +95,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 **Remaining first-party Java (~33 files after SunImplementor/DelayRotateController, excluding vendored `com.xw.repo.BubbleSeekBar*`):** `HorizontalViewPager2.java`; `theme/resource/providers/{IconPack,Pixel,Chronus}`; `theme/weatherView/materialWeatherView/MaterialWeatherView.java` + remaining implementors (Cloud/Hail/Meteor/Rain/Snow/Wind); `remoteviews/` presenters, `NotificationHelper`, `WidgetHelper`, `AbstractWidgetConfigActivity`, trend helper views; `wallpaper/MaterialLiveWallpaperService.java`.
 
-`:app:assembleFdroidDebug` green (JDK 21, jvmTarget 17). `:app:testFdroidDebugUnitTest` green after PowerMock `--add-opens`. `:app:assembleGplayDebug` not yet re-run on this leftover slice.
+`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` green (JDK 21, jvmTarget 17). `:app:testFdroidDebugUnitTest` green after PowerMock `--add-opens`.
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）
