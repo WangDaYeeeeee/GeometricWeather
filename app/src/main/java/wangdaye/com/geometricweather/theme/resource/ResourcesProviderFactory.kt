@@ -15,29 +15,30 @@ object ResourcesProviderFactory {
     fun getNewInstance(): ResourceProvider {
         return getNewInstance(
             SettingsManager
-                .getInstance(GeometricWeather.getInstance())
+                .getInstance(GeometricWeather.instance)
                 .iconProvider
         )
     }
 
     @JvmStatic
     fun getNewInstance(packageName: String?): ResourceProvider {
-        val context: Context = GeometricWeather.getInstance()
+        val pkg = packageName ?: GeometricWeather.instance.packageName
+        val context: Context = GeometricWeather.instance
         val defaultProvider = DefaultResourceProvider()
 
-        if (DefaultResourceProvider.isDefaultIconProvider(packageName)) {
+        if (DefaultResourceProvider.isDefaultIconProvider(pkg)) {
             return defaultProvider
         }
-        if (PixelResourcesProvider.isPixelIconProvider(packageName)) {
+        if (PixelResourcesProvider.isPixelIconProvider(pkg)) {
             return PixelResourcesProvider(defaultProvider)
         }
-        if (IconPackResourcesProvider.isIconPackIconProvider(context, packageName)) {
-            return IconPackResourcesProvider(context, packageName, defaultProvider)
+        if (IconPackResourcesProvider.isIconPackIconProvider(context, pkg)) {
+            return IconPackResourcesProvider(context, pkg, defaultProvider)
         }
-        if (ChronusResourceProvider.isChronusIconProvider(context, packageName)) {
-            return ChronusResourceProvider(context, packageName, defaultProvider)
+        if (ChronusResourceProvider.isChronusIconProvider(context, pkg)) {
+            return ChronusResourceProvider(context, pkg, defaultProvider)
         }
-        return IconPackResourcesProvider(context, packageName, defaultProvider)
+        return IconPackResourcesProvider(context, pkg, defaultProvider)
     }
 
     @JvmStatic

@@ -21,11 +21,9 @@ import wangdaye.com.geometricweather.common.ui.images.SunDrawable
 import wangdaye.com.geometricweather.theme.resource.utils.Constants
 import wangdaye.com.geometricweather.theme.resource.utils.ResourceUtils
 import wangdaye.com.geometricweather.theme.resource.utils.XmlHelper
-import java.util.Objects
-
 open class DefaultResourceProvider : ResourceProvider() {
 
-    private val mContext: Context = GeometricWeather.getInstance()
+    private val mContext: Context = GeometricWeather.instance
     private val mProviderName: String = mContext.getString(R.string.geometric_weather)
     private val mIconDrawable: Drawable? =
         mContext.applicationInfo.loadIcon(mContext.packageManager)
@@ -57,11 +55,11 @@ open class DefaultResourceProvider : ResourceProvider() {
         get() = mIconDrawable!!
 
     override fun getWeatherIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getWeatherIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getWeatherIconName(code, dayTime)))
     }
 
     override fun getWeatherIconUri(code: WeatherCode, dayTime: Boolean): Uri {
-        return Objects.requireNonNull(getDrawableUri(getWeatherIconName(code, dayTime)))
+        return requireNotNull(getDrawableUri(getWeatherIconName(code, dayTime)))
     }
 
     @Size(3)
@@ -132,36 +130,36 @@ open class DefaultResourceProvider : ResourceProvider() {
     }
 
     override fun getMinimalLightIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getMiniLightIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getMiniLightIconName(code, dayTime)))
     }
 
     override fun getMinimalLightIconUri(code: WeatherCode, dayTime: Boolean): Uri {
-        return Objects.requireNonNull(getDrawableUri(getMiniLightIconName(code, dayTime)))
+        return requireNotNull(getDrawableUri(getMiniLightIconName(code, dayTime)))
     }
 
     override fun getMinimalGreyIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getMiniGreyIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getMiniGreyIconName(code, dayTime)))
     }
 
     override fun getMinimalGreyIconUri(code: WeatherCode, dayTime: Boolean): Uri {
-        return Objects.requireNonNull(getDrawableUri(getMiniGreyIconName(code, dayTime)))
+        return requireNotNull(getDrawableUri(getMiniGreyIconName(code, dayTime)))
     }
 
     override fun getMinimalDarkIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getMiniDarkIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getMiniDarkIconName(code, dayTime)))
     }
 
     override fun getMinimalDarkIconUri(code: WeatherCode, dayTime: Boolean): Uri {
-        return Objects.requireNonNull(getDrawableUri(getMiniDarkIconName(code, dayTime)))
+        return requireNotNull(getDrawableUri(getMiniDarkIconName(code, dayTime)))
     }
 
     override fun getMinimalXmlIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getMiniXmlIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getMiniXmlIconName(code, dayTime)))
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun getMinimalIcon(code: WeatherCode, dayTime: Boolean): Icon {
-        return Objects.requireNonNull(
+        return requireNotNull(
             Icon.createWithResource(mContext, getMinimalXmlIconId(code, dayTime))
         )
     }
@@ -200,11 +198,11 @@ open class DefaultResourceProvider : ResourceProvider() {
     }
 
     override fun getShortcutsIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getShortcutsIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getShortcutsIconName(code, dayTime)))
     }
 
     override fun getShortcutsForegroundIcon(code: WeatherCode, dayTime: Boolean): Drawable {
-        return Objects.requireNonNull(getDrawable(getShortcutsForegroundIconName(code, dayTime)))
+        return requireNotNull(getDrawable(getShortcutsForegroundIconName(code, dayTime)))
     }
 
     private fun getShortcutsIconName(code: WeatherCode, daytime: Boolean): String {
@@ -225,7 +223,7 @@ open class DefaultResourceProvider : ResourceProvider() {
     companion object {
         @JvmStatic
         fun isDefaultIconProvider(packageName: String?): Boolean {
-            return packageName == GeometricWeather.getInstance().packageName
+            return packageName == GeometricWeather.instance.packageName
         }
 
         private fun getFilterResource(filter: Map<String, String>, key: String): String {
