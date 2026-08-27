@@ -141,6 +141,15 @@ android {
         unitTests {
             isIncludeAndroidResources = true
             isReturnDefaultValues = true
+            all {
+                // PowerMock on JDK 17+ needs these opens (same as the former Java tests).
+                it.jvmArgs(
+                    "--add-opens=java.base/java.lang=ALL-UNNAMED",
+                    "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED",
+                    "--add-opens=java.base/java.util=ALL-UNNAMED",
+                    "--add-opens=java.base/sun.reflect.annotation=ALL-UNNAMED"
+                )
+            }
         }
     }
 
