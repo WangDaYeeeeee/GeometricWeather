@@ -87,13 +87,15 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 迁移 weather result converters（Accu/Caiyun/Mf/Owm）、`DailyWeatherAdapter`、`IntentHelper`/`DisplayUtils`/`LanguageUtils` 及 sibling helpers、polling `PollingManager`/`WorkerHelper`、settings dialogs
 - [x] 迁移 background polling leftovers（Hilt workers、`UpdateService`/`ForegroundUpdateService` 族、permanent observer、QS `TileService`）
 - [x] 迁移 main View 层 adapters/holders/dialogs/layouts/utils/trend adapters（仍为 RecyclerView，未改 Compose）
-- [ ] 迁移剩余 Java 文件（编译器辅助 + 人工清理）
+- [ ] 迁移剩余 Java 文件（进行中；见下方 leftover 清单）
 - [ ] 消除重复样板代码，采用 Kotlin 惯用法
 - [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
 
-**Remaining first-party Java (115 files, excluding vendored `com.xw.repo.BubbleSeekBar*`):** `common/` insets/snackbar/widgets/adapters/decorations/images/transitions/behaviors; `remoteviews/` presenters/config/`NotificationHelper`/`WidgetHelper`; `theme/resource/**` and `theme/weatherView/**` (WeatherView stays a real Android View); `wallpaper/**`; `settings/adapters/IconProviderAdapter.java`; unit tests under `app/src/test`. Widgets/RemoteViews/wallpaper stay View-based; converting them to Kotlin is still in scope for Phase 7 language migration. Pub Baidu/AMap location services are Kotlin. Background polling and main Home RecyclerView adapters are Kotlin.
+**Phase 7 language migration this branch:** Batches A–B custom Views (except `HorizontalViewPager2`), theme `resource` helpers/`DefaultResourceProvider`/`WeatherView` interface/`IntervalComputer`, widget config activities (except `AbstractWidgetConfigActivity`), `LiveWallpaperConfigManager`, and `app/src/test` Java tests are Kotlin. WeatherView / widgets / RemoteViews / wallpaper stay **View-based** (no Compose rewrite).
 
-`:app:assembleFdroidDebug` and `:app:assembleGplayDebug` verified green after this slice (JDK 21, jvmTarget 17).
+**Remaining first-party Java (~33 files after SunImplementor/DelayRotateController, excluding vendored `com.xw.repo.BubbleSeekBar*`):** `HorizontalViewPager2.java`; `theme/resource/providers/{IconPack,Pixel,Chronus}`; `theme/weatherView/materialWeatherView/MaterialWeatherView.java` + remaining implementors (Cloud/Hail/Meteor/Rain/Snow/Wind); `remoteviews/` presenters, `NotificationHelper`, `WidgetHelper`, `AbstractWidgetConfigActivity`, trend helper views; `wallpaper/MaterialLiveWallpaperService.java`.
+
+`:app:assembleFdroidDebug` green (JDK 21, jvmTarget 17). `:app:testFdroidDebugUnitTest` green after PowerMock `--add-opens`. `:app:assembleGplayDebug` not yet re-run on this leftover slice.
 
 ### 阶段 8：模块化拆分
 - [ ] 拆分 `:core`（基础组件/主题/工具）
