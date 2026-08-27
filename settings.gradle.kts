@@ -26,3 +26,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "GeometricWeather"
 include(":app")
+include(":core")
+include(":domain")
+include(":data")

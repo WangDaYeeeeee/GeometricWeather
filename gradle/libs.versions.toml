@@ -30,6 +30,7 @@ swiperefreshlayout = "1.1.0"
 preference = "1.2.1"
 multidex = "2.0.1"
 activity-ktx = "1.9.1"
+viewpager2 = "1.1.0"
 
 # Work.
 work = "2.9.1"
@@ -183,6 +184,7 @@ adaptiveiconview = { module = "me.jfenn:AdaptiveIconView", version.ref = "adapti
 materialscrollbar = { module = "com.github.turing-tech:MaterialScrollBar", version.ref = "materialscrollbar" }
 materialshetfab = { module = "com.gordonwong:material-sheet-fab", version.ref = "materialshetfab" }
 activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
 # Utils.
 lunarcalendar = { module = "com.github.XhinLiang:LunarCalendar", version.ref = "lunarcalendar" }
@@ -194,6 +196,7 @@ bugly-nativecrashreport = { module = "com.tencent.bugly:nativecrashreport", vers
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

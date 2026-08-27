@@ -14,6 +14,7 @@ import wangdaye.com.geometricweather.common.basic.models.options.appearance.Lang
 import wangdaye.com.geometricweather.common.basic.models.options.provider.LocationProvider
 import wangdaye.com.geometricweather.common.basic.models.options.provider.WeatherSource
 import wangdaye.com.geometricweather.common.basic.models.options.unit.*
+import wangdaye.com.geometricweather.common.basic.models.weather.Temperature
 import wangdaye.com.geometricweather.common.bus.EventBus
 
 class SettingsChangedMessage
@@ -31,6 +32,9 @@ class SettingsManager private constructor(context: Context) {
                 synchronized(SettingsManager::class) {
                     if (instance == null) {
                         instance = SettingsManager(context)
+                        Temperature.exchangeDayNightTempEnabled = { ctx ->
+                            getInstance(ctx).isExchangeDayNightTempEnabled
+                        }
                     }
                 }
             }

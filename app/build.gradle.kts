@@ -128,11 +128,6 @@ android {
         )
     }
 
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-    }
-
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
     }
@@ -175,6 +170,10 @@ android.applicationVariants.configureEach {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
     add("pubImplementation", fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
     add("gplayImplementation", fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
 
@@ -217,10 +216,6 @@ dependencies {
         version { strictly(libs.versions.okhttp.get()) }
     }
     implementation(libs.okhttp.logging)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
