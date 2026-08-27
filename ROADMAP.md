@@ -17,7 +17,7 @@
 | 图片加载 | Glide | Coil |
 | UI | Jetpack Compose（in-app）+ Widget/RemoteViews XML | Jetpack Compose + Material 3（Widget 除外） |
 | 语言 | Java (345 文件) + Kotlin (97 文件) | 全 Kotlin |
-| 模块化 | 单模块 app | 多模块 (core/data/domain/presentation/feature) |
+| 模块化 | `:app` + `:core` + `:domain` + `:data`（feature 仍在 app） | 多模块 (core/data/domain/presentation/feature) |
 | 测试 | JUnit4 + PowerMock + Robolectric | JUnit5 + Compose UI Test |
 
 ## 阶段规划
@@ -98,11 +98,11 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 `:app:assembleFdroidDebug` / `:app:assembleGplayDebug` / `:app:testFdroidDebugUnitTest` recorded after this conversion (JDK 21, jvmTarget 17; PowerMock `--add-opens`).
 
 ### 阶段 8：模块化拆分
-- [ ] 拆分 `:core`（基础组件/主题/工具）
-- [ ] 拆分 `:data`（网络/数据库/API 服务）
-- [ ] 拆分 `:domain`（模型/用例）
-- [ ] 拆分 `:feature`（按功能模块，如 main/search/settings）
-- [ ] 配置构建缓存与依赖隔离
+- [x] 拆分 `:core`（基础组件/主题/工具）— Android library `namespace` `wangdaye.com.geometricweather.core`；保留原 Kotlin 包名。含 DisplayUtils/LanguageUtils 等通用工具、无天气模型的 `common/ui/widgets`（`TrendRecyclerViewAdapter` 与依赖 `ThemeManager` 的 `FitSystemBarAppBarLayout` 仍在 `:app`）、snackbar、insets helpers，以及原 `app/src/main/res`（避免拆 strings/arrays 的跨 locale 手术）。库代码改为 `import wangdaye.com.geometricweather.core.R`；`:app` 仍用合并后的 `wangdaye.com.geometricweather.R`。
+- [x] 拆分 `:data`（网络/数据库/API 服务）— **仅 Room**：`db/`、`DatabaseHelper`、`FileUtils` + `city_list.txt`。Retrofit weather/location JSON、`WeatherService*`、Hilt `ApiModule` **仍在 `:app`**（flavor `BuildConfig`、converters 与 settings/theme 耦合）。
+- [x] 拆分 `:domain`（模型/用例）— `common/basic/models`（天气/地点/options）。Android library（Context/`R`/Parcelable，不是纯 JVM）。用例层未抽；`Temperature` 通过 `exchangeDayNightTempEnabled` 钩子读取设置，避免依赖 `SettingsManager`。
+- [ ] 拆分 `:feature`（按功能模块，如 main/search/settings）— Compose 主界面/搜索/设置、AppWidget、live wallpaper、flavors 均留在 `:app`。
+- [x] 配置构建缓存与依赖隔离 — `org.gradle.caching=true` / `org.gradle.parallel=true`；依赖方向 `:app` → `:data` → `:domain` → `:core`。完整 configuration-on-demand / 独立 feature 图未做。
 
 ## 横切工作
 
