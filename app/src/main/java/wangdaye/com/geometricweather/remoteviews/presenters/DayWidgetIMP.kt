@@ -259,7 +259,7 @@ class DayWidgetIMP : AbstractRemoteViewsPresenter() {
             weather: Weather,
             viewStyle: String?,
             unit: TemperatureUnit
-        ): String {
+        ): String? {
             return when (viewStyle) {
                 "rectangle" -> WidgetHelper.buildWidgetDayStyleText(context, weather, unit)[1]
                 "tile" -> Temperature.getTrendTemperature(

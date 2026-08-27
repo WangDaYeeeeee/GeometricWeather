@@ -83,7 +83,7 @@ class AllergenViewHolder(
         subtitle.setTextColor(MainThemeColorProvider.getColor(location, R.attr.colorCaptionText))
 
         pager.adapter = DailyPollenPagerAdapter(location)
-        pager.currentItem = 0
+        pager.setCurrentItem(0)
 
         val pageCallback = DailyPollenPageChangeCallback(activity, location)
         callback = pageCallback

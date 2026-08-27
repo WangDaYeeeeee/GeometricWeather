@@ -9,7 +9,7 @@ import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy.SOURCE
 import java.util.Locale
 
-internal class ScrollEventAdapter(viewPager: HorizontalViewPager2) : RecyclerView.OnScrollListener() {
+class ScrollEventAdapter(viewPager: HorizontalViewPager2) : RecyclerView.OnScrollListener() {
 
     @Retention(SOURCE)
     @IntDef(

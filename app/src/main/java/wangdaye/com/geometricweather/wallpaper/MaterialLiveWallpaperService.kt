@@ -119,14 +119,14 @@ class MaterialLiveWallpaperService : WallpaperService() {
                     )
                     implementor.updateData(
                         mAdaptiveSize, intervalComputer.interval.toLong(),
-                        rotators[0].rotation.toFloat(), rotators[1].rotation.toFloat()
+                        rotators[0].getRotation().toFloat(), rotators[1].getRotation().toFloat()
                     )
                     implementor.draw(
                         mAdaptiveSize,
                         canvas,
                         0f,
-                        rotators[0].rotation.toFloat(),
-                        rotators[1].rotation.toFloat()
+                        rotators[0].getRotation().toFloat(),
+                        rotators[1].getRotation().toFloat()
                     )
                     canvas.restore()
                     mHolder.unlockCanvasAndPost(canvas)

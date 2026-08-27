@@ -121,10 +121,10 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
             }
             val items = arrayOf(
                 drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_1),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_2),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_3),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_4),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_5)
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_2),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_3),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_4),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_5)
             )
             val colors = ThemeManager.getInstance(context).weatherThemeDelegate.getThemeColors(
                 context, WeatherViewController.getWeatherKind(weather), location.isDaylight
@@ -138,7 +138,7 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                         provider, hourly.weatherCode, hourly.isDaylight, minimalIcon, lightTheme
                     )
                 )
-                items[index].trendItemView.setData(
+                items[index].getTrendItemView().setData(
                     buildTemperatureArrayForItem(temperatures, index),
                     null,
                     hourly.temperature.getShortTemperature(context, temperatureUnit),
@@ -147,7 +147,7 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                     lowestTemperature.toFloat(),
                     null, null, null, null
                 )
-                items[index].trendItemView.setLineColors(
+                items[index].getTrendItemView().setLineColors(
                     colors[1], colors[2],
                     if (lightTheme) {
                         ColorUtils.setAlphaComponent(Color.BLACK, (255 * 0.05).toInt())
@@ -155,8 +155,8 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                         ColorUtils.setAlphaComponent(Color.WHITE, (255 * 0.1).toInt())
                     }
                 )
-                items[index].trendItemView.setShadowColors(colors[1], colors[2], lightTheme)
-                items[index].trendItemView.setTextColors(
+                items[index].getTrendItemView().setShadowColors(colors[1], colors[2], lightTheme)
+                items[index].getTrendItemView().setTextColors(
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextDark)
                     else ContextCompat.getColor(context, R.color.colorTextLight),
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextDark2nd)
@@ -164,7 +164,7 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextGrey2nd)
                     else ContextCompat.getColor(context, R.color.colorTextGrey)
                 )
-                items[index].trendItemView.setHistogramAlpha(if (lightTheme) 0.2f else 0.5f)
+                items[index].getTrendItemView().setHistogramAlpha(if (lightTheme) 0.2f else 0.5f)
                 items[index].setBottomIconDrawable(null)
                 items[index].setColor(lightTheme)
             }
@@ -187,10 +187,10 @@ class HourlyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
             }
             val items = arrayOf(
                 drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_1),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_2),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_3),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_4),
-                drawableView.findViewById(R.id.widget_trend_hourly_item_5)
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_2),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_3),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_4),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_hourly_item_5)
             )
             for (item in items) {
                 item.setSize(width / 5f)

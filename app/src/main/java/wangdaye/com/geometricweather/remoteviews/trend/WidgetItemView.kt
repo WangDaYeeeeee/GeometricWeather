@@ -82,18 +82,18 @@ class WidgetItemView : ViewGroup {
 
         setColor(true)
 
-        mIconSize = DisplayUtils.dpToPx(context, ICON_SIZE_DIP).toInt()
+        mIconSize = DisplayUtils.dpToPx(context, ICON_SIZE_DIP.toFloat()).toInt()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var height = 0f
 
-        val textMargin = DisplayUtils.dpToPx(context, TEXT_MARGIN_DIP)
-        val iconMargin = DisplayUtils.dpToPx(context, ICON_MARGIN_DIP)
+        val textMargin = DisplayUtils.dpToPx(context, TEXT_MARGIN_DIP.toFloat())
+        val iconMargin = DisplayUtils.dpToPx(context, ICON_MARGIN_DIP.toFloat())
 
         if (mTitleText != null) {
             val fontMetrics = mTitleTextPaint.fontMetrics
-            height += DisplayUtils.dpToPx(context, MARGIN_VERTICAL_DIP)
+            height += DisplayUtils.dpToPx(context, MARGIN_VERTICAL_DIP.toFloat())
             mTitleTextBaseLine = height - fontMetrics.top
             height += fontMetrics.bottom - fontMetrics.top
             height += textMargin
@@ -117,9 +117,9 @@ class WidgetItemView : ViewGroup {
 
         mTrendViewTop = height
         val trendViewHeight = if (mBottomIconDrawable == null) {
-            DisplayUtils.dpToPx(context, TREND_VIEW_HEIGHT_DIP_1X).toInt()
+            DisplayUtils.dpToPx(context, TREND_VIEW_HEIGHT_DIP_1X.toFloat()).toInt()
         } else {
-            DisplayUtils.dpToPx(context, TREND_VIEW_HEIGHT_DIP_2X).toInt()
+            DisplayUtils.dpToPx(context, TREND_VIEW_HEIGHT_DIP_2X.toFloat()).toInt()
         }
         mTrend.measure(
             MeasureSpec.makeMeasureSpec(mWidth.toInt(), MeasureSpec.EXACTLY),
@@ -134,7 +134,7 @@ class WidgetItemView : ViewGroup {
             height += mIconSize
         }
 
-        height += DisplayUtils.dpToPx(context, MARGIN_VERTICAL_DIP).toInt()
+        height += DisplayUtils.dpToPx(context, MARGIN_VERTICAL_DIP.toFloat()).toInt()
 
         setMeasuredDimension(mWidth.toInt(), height.toInt())
     }

@@ -233,8 +233,8 @@ class MaterialPainterView(
         impl!!.updateData(
             canvasSize,
             intervalComputer!!.interval.toLong(),
-            rotators!![0].rotation.toFloat(),
-            rotators!![1].rotation.toFloat()
+            rotators!![0].getRotation().toFloat(),
+            rotators!![1].getRotation().toFloat()
         )
 
         if (impl != null && rotators != null) {
@@ -247,8 +247,8 @@ class MaterialPainterView(
                 canvasSize,
                 canvas,
                 scrollRate,
-                rotators!![0].rotation.toFloat(),
-                rotators!![1].rotation.toFloat()
+                rotators!![0].getRotation().toFloat(),
+                rotators!![1].getRotation().toFloat()
             )
             canvas.restore()
         }

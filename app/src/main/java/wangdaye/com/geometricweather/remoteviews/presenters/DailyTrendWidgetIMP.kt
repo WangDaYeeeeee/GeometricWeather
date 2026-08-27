@@ -134,10 +134,10 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
             }
             val items = arrayOf(
                 drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_1),
-                drawableView.findViewById(R.id.widget_trend_daily_item_2),
-                drawableView.findViewById(R.id.widget_trend_daily_item_3),
-                drawableView.findViewById(R.id.widget_trend_daily_item_4),
-                drawableView.findViewById(R.id.widget_trend_daily_item_5)
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_2),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_3),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_4),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_5)
             )
             val colors = ThemeManager.getInstance(context).weatherThemeDelegate.getThemeColors(
                 context,
@@ -163,7 +163,7 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                     daytimePrecipitationProbability ?: 0f,
                     nighttimePrecipitationProbability ?: 0f
                 )
-                items[index].trendItemView.setData(
+                items[index].getTrendItemView().setData(
                     buildTemperatureArrayForItem(daytimeTemperatures, index),
                     buildTemperatureArrayForItem(nighttimeTemperatures, index),
                     daily.day().temperature.getShortTemperature(context, temperatureUnit),
@@ -175,7 +175,7 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                     100f,
                     0f
                 )
-                items[index].trendItemView.setLineColors(
+                items[index].getTrendItemView().setLineColors(
                     colors[1], colors[2],
                     if (lightTheme) {
                         ColorUtils.setAlphaComponent(Color.BLACK, (255 * 0.05).toInt())
@@ -183,8 +183,8 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                         ColorUtils.setAlphaComponent(Color.WHITE, (255 * 0.1).toInt())
                     }
                 )
-                items[index].trendItemView.setShadowColors(colors[1], colors[2], lightTheme)
-                items[index].trendItemView.setTextColors(
+                items[index].getTrendItemView().setShadowColors(colors[1], colors[2], lightTheme)
+                items[index].getTrendItemView().setTextColors(
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextDark)
                     else ContextCompat.getColor(context, R.color.colorTextLight),
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextDark2nd)
@@ -192,7 +192,7 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
                     if (lightTheme) ContextCompat.getColor(context, R.color.colorTextGrey2nd)
                     else ContextCompat.getColor(context, R.color.colorTextGrey)
                 )
-                items[index].trendItemView.setHistogramAlpha(if (lightTheme) 0.2f else 0.5f)
+                items[index].getTrendItemView().setHistogramAlpha(if (lightTheme) 0.2f else 0.5f)
                 items[index].setBottomIconDrawable(
                     ResourceHelper.getWidgetNotificationIcon(
                         provider, daily.night().weatherCode, false, minimalIcon, lightTheme
@@ -219,10 +219,10 @@ class DailyTrendWidgetIMP : AbstractRemoteViewsPresenter() {
             }
             val items = arrayOf(
                 drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_1),
-                drawableView.findViewById(R.id.widget_trend_daily_item_2),
-                drawableView.findViewById(R.id.widget_trend_daily_item_3),
-                drawableView.findViewById(R.id.widget_trend_daily_item_4),
-                drawableView.findViewById(R.id.widget_trend_daily_item_5)
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_2),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_3),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_4),
+                drawableView.findViewById<WidgetItemView>(R.id.widget_trend_daily_item_5)
             )
             for (item in items) {
                 item.setSize(width / 5f)

@@ -1,9 +1,9 @@
 package wangdaye.com.geometricweather.common.ui.widgets.horizontal
 
 import androidx.annotation.Px
-import java.util.concurrent.ConcurrentModificationException
+import java.util.ConcurrentModificationException
 
-internal class CompositeOnPageChangeCallback(initialCapacity: Int) :
+class CompositeOnPageChangeCallback(initialCapacity: Int) :
     HorizontalViewPager2.OnPageChangeCallback() {
 
     private val mCallbacks: MutableList<HorizontalViewPager2.OnPageChangeCallback> =

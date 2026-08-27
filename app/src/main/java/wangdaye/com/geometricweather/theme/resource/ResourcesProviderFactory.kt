@@ -50,7 +50,8 @@ object ResourcesProviderFactory {
         providerList.add(PixelResourcesProvider(defaultProvider))
         providerList.addAll(IconPackResourcesProvider.getProviderList(context, defaultProvider))
 
-        val chronusIconPackList = ChronusResourceProvider.getProviderList(context, defaultProvider)
+        val chronusIconPackList =
+            ChronusResourceProvider.getProviderList(context, defaultProvider).toMutableList()
         var i = chronusIconPackList.size - 1
         while (i >= 0) {
             for (j in providerList.indices) {

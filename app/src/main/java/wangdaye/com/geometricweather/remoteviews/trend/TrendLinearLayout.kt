@@ -52,11 +52,11 @@ class TrendLinearLayout @JvmOverloads constructor(
 
         setColor(true)
 
-        TREND_MARGIN_TOP = DisplayUtils.dpToPx(getContext(), TREND_MARGIN_TOP.toInt())
-        TREND_MARGIN_BOTTOM = DisplayUtils.dpToPx(getContext(), TREND_MARGIN_BOTTOM.toInt())
-        TEXT_SIZE = DisplayUtils.dpToPx(getContext(), TEXT_SIZE.toInt())
-        CHART_LINE_SIZE = DisplayUtils.dpToPx(getContext(), CHART_LINE_SIZE.toInt())
-        MARGIN_TEXT = DisplayUtils.dpToPx(getContext(), MARGIN_TEXT.toInt())
+        TREND_MARGIN_TOP = DisplayUtils.dpToPx(getContext(), TREND_MARGIN_TOP)
+        TREND_MARGIN_BOTTOM = DisplayUtils.dpToPx(getContext(), TREND_MARGIN_BOTTOM)
+        TEXT_SIZE = DisplayUtils.dpToPx(getContext(), TEXT_SIZE)
+        CHART_LINE_SIZE = DisplayUtils.dpToPx(getContext(), CHART_LINE_SIZE)
+        MARGIN_TEXT = DisplayUtils.dpToPx(getContext(), MARGIN_TEXT)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -86,13 +86,13 @@ class TrendLinearLayout @JvmOverloads constructor(
         mPaint.textAlign = Paint.Align.LEFT
         mPaint.color = mTextColor
         canvas.drawText(
-            Temperature.getShortTemperature(getContext(), mHistoryTemps!![0], mTemperatureUnit),
+            Temperature.getShortTemperature(getContext(), mHistoryTemps!![0], mTemperatureUnit).orEmpty(),
             2 * MARGIN_TEXT,
             mHistoryTempYs!![0] - mPaint.fontMetrics.bottom - MARGIN_TEXT,
             mPaint
         )
         canvas.drawText(
-            Temperature.getShortTemperature(getContext(), mHistoryTemps!![1], mTemperatureUnit),
+            Temperature.getShortTemperature(getContext(), mHistoryTemps!![1], mTemperatureUnit).orEmpty(),
             2 * MARGIN_TEXT,
             mHistoryTempYs!![1] - mPaint.fontMetrics.top + MARGIN_TEXT,
             mPaint
@@ -136,20 +136,22 @@ class TrendLinearLayout @JvmOverloads constructor(
         mTemperatureUnit = unit
         if (daily) {
             TREND_ITEM_HEIGHT = DisplayUtils.dpToPx(
-                getContext(), WidgetItemView.TREND_VIEW_HEIGHT_DIP_2X
+                getContext(), WidgetItemView.TREND_VIEW_HEIGHT_DIP_2X.toFloat()
             )
             BOTTOM_MARGIN = DisplayUtils.dpToPx(
                 getContext(),
-                WidgetItemView.ICON_SIZE_DIP +
-                    WidgetItemView.ICON_MARGIN_DIP +
-                    WidgetItemView.MARGIN_VERTICAL_DIP
+                (
+                    WidgetItemView.ICON_SIZE_DIP +
+                        WidgetItemView.ICON_MARGIN_DIP +
+                        WidgetItemView.MARGIN_VERTICAL_DIP
+                    ).toFloat()
             )
         } else {
             TREND_ITEM_HEIGHT = DisplayUtils.dpToPx(
-                getContext(), WidgetItemView.TREND_VIEW_HEIGHT_DIP_1X
+                getContext(), WidgetItemView.TREND_VIEW_HEIGHT_DIP_1X.toFloat()
             )
             BOTTOM_MARGIN = DisplayUtils.dpToPx(
-                getContext(), WidgetItemView.MARGIN_VERTICAL_DIP
+                getContext(), WidgetItemView.MARGIN_VERTICAL_DIP.toFloat()
             )
         }
         invalidate()

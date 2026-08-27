@@ -446,7 +446,7 @@ abstract class AbstractWidgetConfigActivity : GeoActivity(), WeatherHelper.OnReq
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheet.post {
             mBottomSheetBehavior.peekHeight =
-                mSubtitleInputLayout.measuredHeight + mBottomSheetScrollView.bottomWindowInset
+                mSubtitleInputLayout.measuredHeight + mBottomSheetScrollView.getBottomWindowInset()
             setBottomSheetState(isCustomSubtitle())
         }
     }
@@ -472,8 +472,6 @@ abstract class AbstractWidgetConfigActivity : GeoActivity(), WeatherHelper.OnReq
     }
 
     abstract fun getRemoteViews(): RemoteViews
-
-    fun getLocationNow(): Location = locationNow
 
     abstract fun getConfigStoreName(): String
 

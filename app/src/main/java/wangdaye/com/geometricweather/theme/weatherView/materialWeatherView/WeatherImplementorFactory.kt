@@ -15,47 +15,50 @@ object WeatherImplementorFactory {
         @WeatherKindRule weatherKind: Int,
         daytime: Boolean,
         @Size(2) sizes: IntArray?
-    ): WeatherAnimationImplementor? = when (weatherKind) {
+    ): WeatherAnimationImplementor? {
+        val canvasSizes = sizes ?: return null
+        return when (weatherKind) {
         WeatherView.WEATHER_KIND_CLEAR -> if (daytime) {
-            SunImplementor(sizes)
+            SunImplementor(canvasSizes)
         } else {
-            MeteorShowerImplementor(sizes)
+            MeteorShowerImplementor(canvasSizes)
         }
 
         WeatherView.WEATHER_KIND_CLOUDY ->
-            CloudImplementor(sizes, CloudImplementor.TYPE_CLOUDY, daytime)
+            CloudImplementor(canvasSizes, CloudImplementor.TYPE_CLOUDY, daytime)
 
         WeatherView.WEATHER_KIND_CLOUD ->
-            CloudImplementor(sizes, CloudImplementor.TYPE_CLOUD, daytime)
+            CloudImplementor(canvasSizes, CloudImplementor.TYPE_CLOUD, daytime)
 
         WeatherView.WEATHER_KIND_FOG ->
-            CloudImplementor(sizes, CloudImplementor.TYPE_FOG, daytime)
+            CloudImplementor(canvasSizes, CloudImplementor.TYPE_FOG, daytime)
 
         WeatherView.WEATHER_KIND_HAIL ->
-            HailImplementor(sizes, daytime)
+            HailImplementor(canvasSizes, daytime)
 
         WeatherView.WEATHER_KIND_HAZE ->
-            CloudImplementor(sizes, CloudImplementor.TYPE_HAZE, daytime)
+            CloudImplementor(canvasSizes, CloudImplementor.TYPE_HAZE, daytime)
 
         WeatherView.WEATHER_KIND_RAINY ->
-            RainImplementor(sizes, RainImplementor.TYPE_RAIN, daytime)
+            RainImplementor(canvasSizes, RainImplementor.TYPE_RAIN, daytime)
 
         WeatherView.WEATHER_KIND_SNOW ->
-            SnowImplementor(sizes, daytime)
+            SnowImplementor(canvasSizes, daytime)
 
         WeatherView.WEATHER_KIND_THUNDERSTORM ->
-            RainImplementor(sizes, RainImplementor.TYPE_THUNDERSTORM, daytime)
+            RainImplementor(canvasSizes, RainImplementor.TYPE_THUNDERSTORM, daytime)
 
         WeatherView.WEATHER_KIND_THUNDER ->
-            CloudImplementor(sizes, CloudImplementor.TYPE_THUNDER, daytime)
+            CloudImplementor(canvasSizes, CloudImplementor.TYPE_THUNDER, daytime)
 
         WeatherView.WEATHER_KIND_WIND ->
-            WindImplementor(sizes, daytime)
+            WindImplementor(canvasSizes, daytime)
 
         WeatherView.WEATHER_KIND_SLEET ->
-            RainImplementor(sizes, RainImplementor.TYPE_SLEET, daytime)
+            RainImplementor(canvasSizes, RainImplementor.TYPE_SLEET, daytime)
 
         else -> null
+        }
     }
 
     @JvmStatic
