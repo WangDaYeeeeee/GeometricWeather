@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.recyclerview.widget.RecyclerView
 
-class HorizontalRecyclerView @JvmOverloads constructor(
+open class HorizontalRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0

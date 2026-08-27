@@ -4,13 +4,12 @@ import androidx.recyclerview.widget.RecyclerView
 import wangdaye.com.geometricweather.common.basic.models.Location
 
 abstract class TrendRecyclerViewAdapter<VH : RecyclerView.ViewHolder>(
-    private var mLocation: Location
+    location: Location
 ) : RecyclerView.Adapter<VH>() {
 
-    fun getLocation(): Location = mLocation
-
-    fun setLocation(location: Location) {
-        mLocation = location
-        notifyDataSetChanged()
-    }
+    var location: Location = location
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 }

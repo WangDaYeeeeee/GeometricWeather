@@ -12,7 +12,7 @@ import wangdaye.com.geometricweather.common.basic.insets.FitBothSideBarHelper
 import wangdaye.com.geometricweather.common.basic.insets.FitBothSideBarView
 import wangdaye.com.geometricweather.common.basic.insets.FitBothSideBarView.FitSide
 
-class FitSystemBarRecyclerView @JvmOverloads constructor(
+open class FitSystemBarRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -37,7 +37,7 @@ class FitSystemBarRecyclerView @JvmOverloads constructor(
         return mHelper.onApplyWindowInsets(insets)
     }
 
-    override fun fitSystemWindows(insets: Rect): Boolean {
+    public override fun fitSystemWindows(insets: Rect): Boolean {
         return mHelper.fitSystemWindows(insets)
     }
 

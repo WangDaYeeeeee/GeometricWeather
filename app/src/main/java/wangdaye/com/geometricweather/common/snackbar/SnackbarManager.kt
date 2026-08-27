@@ -77,6 +77,7 @@ internal class SnackbarManager private constructor() {
             } else if (isNextSnackbar(callback)) {
                 cancelSnackbarLocked(mNextRecord!!, event)
             }
+            Unit
         }
     }
 

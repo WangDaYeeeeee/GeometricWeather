@@ -50,9 +50,8 @@ class TagAdapter(
 
         fun onBindView(tag: Tag, checked: Boolean) {
             mTagView.setText(tag.getName())
-
-            mTagView.setCheckedBackgroundColor(mCheckedBackgroundColor)
-            mTagView.setUncheckedBackgroundColor(mUncheckedBackgroundColor)
+            mTagView.checkedBackgroundColor = mCheckedBackgroundColor
+            mTagView.uncheckedBackgroundColor = mUncheckedBackgroundColor
 
             setChecked(checked)
         }

@@ -37,7 +37,7 @@ class FitSystemBarNestedScrollView @JvmOverloads constructor(
         return mHelper.onApplyWindowInsets(insets)
     }
 
-    override fun fitSystemWindows(insets: Rect): Boolean {
+    public override fun fitSystemWindows(insets: Rect): Boolean {
         return mHelper.fitSystemWindows(insets)
     }
 

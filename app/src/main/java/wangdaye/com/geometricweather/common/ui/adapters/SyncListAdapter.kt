@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Collections
 
-abstract class SyncListAdapter<T, VH : RecyclerView.ViewHolder>(
+abstract class SyncListAdapter<T : Any, VH : RecyclerView.ViewHolder>(
     private var mModelList: List<T>,
     private val mCallback: DiffUtil.ItemCallback<T>
 ) : RecyclerView.Adapter<VH>() {

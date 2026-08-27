@@ -136,7 +136,7 @@ class Snackbar private constructor(
     private val mContext: Context = parent.context
     private val mParent: ViewGroup = parent
     private val mView: SnackbarLayout = LayoutInflater.from(mContext).inflate(
-        if (cardStyle) R.layout.container_snackbar_layout_card
+        if (mCardStyle) R.layout.container_snackbar_layout_card
         else R.layout.container_snackbar_layout,
         mParent,
         false

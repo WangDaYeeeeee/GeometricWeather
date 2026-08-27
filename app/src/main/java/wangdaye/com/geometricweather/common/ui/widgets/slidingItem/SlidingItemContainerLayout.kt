@@ -23,45 +23,45 @@ class SlidingItemContainerLayout @JvmOverloads constructor(
     private val mIcon: AppCompatImageView
     private var mChild: View? = null
     private var mSwipeX = 0f
-    private var mUpdateFlag: Boolean
+    private var mUpdateFlag = true
 
     @DrawableRes
-    var iconResStart: Int
+    var iconResStart: Int = 0
         set(value) {
             field = value
             mUpdateFlag = true
         }
 
     @DrawableRes
-    var iconResEnd: Int
+    var iconResEnd: Int = 0
         set(value) {
             field = value
             mUpdateFlag = true
         }
 
     @ColorInt
-    var tintColorStart: Int
+    var tintColorStart: Int = Color.WHITE
         set(value) {
             field = value
             mUpdateFlag = true
         }
 
     @ColorInt
-    var tintColorEnd: Int
+    var tintColorEnd: Int = Color.WHITE
         set(value) {
             field = value
             mUpdateFlag = true
         }
 
     @ColorInt
-    var backgroundColorStart: Int
+    var backgroundColorStart: Int = Color.DKGRAY
         set(value) {
             field = value
             mUpdateFlag = true
         }
 
     @ColorInt
-    var backgroundColorEnd: Int
+    var backgroundColorEnd: Int = Color.DKGRAY
         set(value) {
             field = value
             mUpdateFlag = true

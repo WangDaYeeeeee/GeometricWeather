@@ -249,9 +249,11 @@ class SwipeSwitchLayout @JvmOverloads constructor(
         }
     }
 
-    fun getTotalCount(): Int = mTotalCount
+    val totalCount: Int
+        get() = mTotalCount
 
-    fun getPosition(): Int = mPosition
+    val position: Int
+        get() = mPosition
 
     fun setOnSwitchListener(l: OnSwitchListener?) {
         mSwitchListener = l
