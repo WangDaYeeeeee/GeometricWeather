@@ -13,6 +13,7 @@ import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.main.adapters.main.FirstCardHeaderController
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 
 abstract class AbstractMainCardViewHolder(

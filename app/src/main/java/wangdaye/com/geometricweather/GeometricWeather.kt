@@ -8,7 +8,10 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.multidex.MultiDexApplication
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import wangdaye.com.geometricweather.common.basic.ApplicationContextHolder
 import wangdaye.com.geometricweather.common.basic.GeoActivity
+import wangdaye.com.geometricweather.common.basic.GeoActivityHost
+import wangdaye.com.geometricweather.common.basic.GeoApp
 import wangdaye.com.geometricweather.common.utils.LanguageUtils
 import wangdaye.com.geometricweather.common.utils.helpers.BuglyHelper
 import wangdaye.com.geometricweather.settings.SettingsManager
@@ -20,7 +23,8 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class GeometricWeather : MultiDexApplication(),
-    Configuration.Provider {
+    Configuration.Provider,
+    GeoActivityHost {
 
     companion object {
 
@@ -175,7 +179,7 @@ class GeometricWeather : MultiDexApplication(),
     private val activitySet: MutableSet<GeoActivity> by lazy {
         HashSet()
     }
-    var topActivity: GeoActivity? = null
+    override var topActivity: GeoActivity? = null
         private set
 
     val debugMode: Boolean by lazy {
@@ -189,6 +193,14 @@ class GeometricWeather : MultiDexApplication(),
         super.onCreate()
 
         instance = this
+        ApplicationContextHolder.install(this)
+        GeoApp.activityHost = this
+        GeoApp.languageLocale = { ctx ->
+            SettingsManager.getInstance(ctx).language.locale
+        }
+        wangdaye.com.geometricweather.settings.SettingsAppBridge.callbacks =
+            wangdaye.com.geometricweather.settings.AppSettingsAppCallbacks
+
         LanguageUtils.setLanguage(
             this,
             SettingsManager.getInstance(this).language.locale
@@ -201,21 +213,27 @@ class GeometricWeather : MultiDexApplication(),
         }
     }
 
-    fun addActivity(a: GeoActivity) {
-        activitySet.add(a)
+    override fun addActivity(activity: GeoActivity) {
+        activitySet.add(activity)
     }
 
-    fun removeActivity(a: GeoActivity) {
-        activitySet.remove(a)
+    override fun removeActivity(activity: GeoActivity) {
+        activitySet.remove(activity)
     }
 
-    fun setTopActivity(a: GeoActivity) {
-        topActivity = a
+    override fun setTopActivity(activity: GeoActivity) {
+        topActivity = activity
     }
 
-    fun checkToCleanTopActivity(a: GeoActivity) {
-        if (topActivity === a) {
+    override fun checkToCleanTopActivity(activity: GeoActivity) {
+        if (topActivity === activity) {
             topActivity = null
+        }
+    }
+
+    override fun recreateAllActivities() {
+        for (a in activitySet) {
+            a.recreate()
         }
     }
 
@@ -225,12 +243,6 @@ class GeometricWeather : MultiDexApplication(),
         )
         ThemeManager.getInstance(this).uiMode.observeForever {
             AppCompatDelegate.setDefaultNightMode(it)
-        }
-    }
-
-    fun recreateAllActivities() {
-        for (a in activitySet) {
-            a.recreate()
         }
     }
 

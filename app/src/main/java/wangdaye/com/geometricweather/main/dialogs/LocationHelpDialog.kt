@@ -9,6 +9,26 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
+import wangdaye.com.geometricweather.common.utils.helpers.startAboutActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startAlertActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startAllergenActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startAwakeForegroundUpdateService
+import wangdaye.com.geometricweather.common.utils.helpers.startCardDisplayManageActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startDailyTrendDisplayManageActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startDailyWeatherActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startHourlyTrendDisplayManageActivityForResult
+import wangdaye.com.geometricweather.common.utils.helpers.startLiveWallpaperActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startMainActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startMainActivityForManagement
+import wangdaye.com.geometricweather.common.utils.helpers.startPreviewIconActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startSearchActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startSelectProviderActivity
+import wangdaye.com.geometricweather.common.utils.helpers.startSettingsActivity
+import wangdaye.com.geometricweather.common.utils.helpers.buildAwakeUpdateActivityIntent
+import wangdaye.com.geometricweather.common.utils.helpers.buildMainActivityIntent
+import wangdaye.com.geometricweather.common.utils.helpers.buildMainActivityShowAlertsIntent
+import wangdaye.com.geometricweather.common.utils.helpers.buildMainActivityShowDailyForecastIntent
+import wangdaye.com.geometricweather.common.utils.helpers.getAwakeForegroundUpdateServiceIntent
 import wangdaye.com.geometricweather.main.MainActivity
 
 object LocationHelpDialog {

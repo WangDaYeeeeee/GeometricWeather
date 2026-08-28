@@ -6,9 +6,13 @@
 /.idea
 .DS_Store
 /build
+/app/build
 /core/build
 /domain/build
 /data/build
+/presentation/build
+/feature/search/build
+/feature/settings/build
 /captures
 /local.properties
 /local-repo

@@ -20,6 +20,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.ArcProgress
 import wangdaye.com.geometricweather.main.adapters.AqiAdapter
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController
 

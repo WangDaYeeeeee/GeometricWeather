@@ -98,11 +98,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".search.SearchActivity"
-            android:label="@string/action_search"
-            android:theme="@style/GeometricWeatherTheme.Search"
-            android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".daily.DailyWeatherActivity"
             android:label="@string/daily_overview"
@@ -117,47 +112,6 @@
             android:name=".common.ui.activities.AllergenActivity"
             android:label="@string/allergen"
             android:theme="@style/GeometricWeatherTheme" />
-
-        <activity
-            android:name=".settings.activities.SettingsActivity"
-            android:label="@string/action_settings"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
-
-        <activity
-            android:name=".settings.activities.CardDisplayManageActivity"
-            android:label="@string/settings_title_card_display"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
-
-        <activity
-            android:name=".settings.activities.DailyTrendDisplayManageActivity"
-            android:label="@string/settings_title_daily_trend_display"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
-
-        <activity
-            android:name=".settings.activities.HourlyTrendDisplayManageActivity"
-            android:label="@string/settings_title_hourly_trend_display"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
-
-        <activity
-            android:name=".settings.activities.SelectProviderActivity"
-            android:label="@string/settings_title_service_provider"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
-
-        <activity
-            android:name=".settings.activities.PreviewIconActivity"
-            android:label="@string/action_preview"
-            android:theme="@style/GeometricWeatherTheme" />
-
-        <activity
-            android:name=".settings.activities.AboutActivity"
-            android:label="@string/action_about"
-            android:theme="@style/GeometricWeatherTheme"
-            android:screenOrientation="user" />
 
         <activity
             android:name=".common.ui.activities.AwakeUpdateActivity"

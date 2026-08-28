@@ -28,6 +28,7 @@ import wangdaye.com.geometricweather.remoteviews.trend.TrendLinearLayout
 import wangdaye.com.geometricweather.remoteviews.trend.WidgetItemView
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.ResourceHelper
 import wangdaye.com.geometricweather.theme.resource.ResourcesProviderFactory
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController

@@ -15,6 +15,7 @@ import wangdaye.com.geometricweather.common.basic.models.options.unit.Temperatur
 import wangdaye.com.geometricweather.common.ui.widgets.NumberAnimTextView
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherView
 import kotlin.math.abs

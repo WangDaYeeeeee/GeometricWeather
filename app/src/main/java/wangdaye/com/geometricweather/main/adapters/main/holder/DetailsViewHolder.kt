@@ -10,6 +10,7 @@ import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.main.adapters.DetailsAdapter
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController
 

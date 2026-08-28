@@ -20,6 +20,7 @@ import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider.Companion
 import wangdaye.com.geometricweather.main.widgets.TrendRecyclerViewScrollBar
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController
 

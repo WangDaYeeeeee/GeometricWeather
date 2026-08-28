@@ -22,6 +22,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.astro.MoonPhaseView
 import wangdaye.com.geometricweather.common.ui.widgets.astro.SunMoonView
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.ResourceHelper
 import wangdaye.com.geometricweather.theme.resource.providers.ResourceProvider
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController

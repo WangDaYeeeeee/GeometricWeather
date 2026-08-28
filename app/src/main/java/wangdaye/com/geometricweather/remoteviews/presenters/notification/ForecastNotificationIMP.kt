@@ -20,6 +20,7 @@ import wangdaye.com.geometricweather.remoteviews.presenters.AbstractRemoteViewsP
 import wangdaye.com.geometricweather.remoteviews.presenters.AbstractRemoteViewsPresenter.Companion.getWeatherPendingIntent
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.resource.ResourceHelper
 import wangdaye.com.geometricweather.theme.resource.ResourcesProviderFactory
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController

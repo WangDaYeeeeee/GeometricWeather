@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="wangdaye.com.geometricweather.search.SearchActivity"
+            android:label="@string/action_search"
+            android:theme="@style/GeometricWeatherTheme.Search"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+</manifest>

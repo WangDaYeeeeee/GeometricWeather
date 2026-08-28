@@ -13,6 +13,7 @@ import wangdaye.com.geometricweather.common.ui.widgets.trend.TrendRecyclerView
 import wangdaye.com.geometricweather.common.ui.widgets.trend.chart.PolylineAndHistogramView
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.theme.ThemeManager
+import wangdaye.com.geometricweather.theme.weatherThemeDelegate
 import wangdaye.com.geometricweather.theme.weatherView.WeatherViewController
 
 class DailyUVAdapter(
