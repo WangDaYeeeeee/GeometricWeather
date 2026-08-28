@@ -1,33 +1,14 @@
 package basic.option.appearance
 
 import android.content.Context
-import android.text.TextUtils
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay
 
 class DailyTrendDisplayTest {
-
-    @BeforeEach
-    fun mockTextUtils() {
-        mockkStatic(TextUtils::class)
-        every { TextUtils.isEmpty(any()) } answers {
-            val value = invocation.args[0] as CharSequence?
-            value.isNullOrEmpty()
-        }
-    }
-
-    @AfterEach
-    fun unmockTextUtils() {
-        unmockkStatic(TextUtils::class)
-    }
 
     @Test
     fun toDailyTrendDisplayList() {

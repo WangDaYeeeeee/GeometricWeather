@@ -1,7 +1,6 @@
 package wangdaye.com.geometricweather.common.basic.models.options.appearance
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.annotation.StringRes
 import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.common.basic.models.options._basic.BaseEnum
@@ -21,47 +20,29 @@ enum class HourlyTrendDisplay(
         @JvmStatic
         fun toHourlyTrendDisplayList(
             value: String
-        ) = if (TextUtils.isEmpty(value)) {
-            ArrayList()
+        ) = if (value.isEmpty()) {
+            emptyList()
         } else try {
-            val cards = value.split("&").toTypedArray()
-            val list: MutableList<HourlyTrendDisplay> = ArrayList()
-            for (card in cards) {
+            value.split("&").mapNotNull { card ->
                 when (card) {
-                    "temperature" -> list.add(TAG_TEMPERATURE)
-                    "wind" -> list.add(TAG_WIND)
-                    "uv_index" -> list.add(TAG_UV_INDEX)
-                    "precipitation" -> list.add(TAG_PRECIPITATION)
+                    "temperature" -> TAG_TEMPERATURE
+                    "wind" -> TAG_WIND
+                    "uv_index" -> TAG_UV_INDEX
+                    "precipitation" -> TAG_PRECIPITATION
+                    else -> null
                 }
             }
-            list
         } catch (e: Exception) {
-            ArrayList()
+            emptyList()
         }
 
         @JvmStatic
-        fun toValue(list: List<HourlyTrendDisplay>): String {
-            val builder = StringBuilder()
-            for (v in list) {
-                builder.append("&").append(v.id)
-            }
-            if (builder.isNotEmpty() && builder[0] == '&') {
-                builder.deleteCharAt(0)
-            }
-            return builder.toString()
-        }
+        fun toValue(list: List<HourlyTrendDisplay>): String =
+            list.joinToString("&") { it.id }
 
         @JvmStatic
-        fun getSummary(context: Context, list: List<HourlyTrendDisplay>): String {
-            val builder = StringBuilder()
-            for (item in list) {
-                builder.append(",").append(item.getName(context))
-            }
-            if (builder.isNotEmpty() && builder[0] == ',') {
-                builder.deleteCharAt(0)
-            }
-            return builder.toString().replace(",", ", ")
-        }
+        fun getSummary(context: Context, list: List<HourlyTrendDisplay>): String =
+            list.joinToString(", ") { it.getName(context) }
     }
 
     override val valueArrayId = 0

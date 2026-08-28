@@ -1,7 +1,6 @@
 package wangdaye.com.geometricweather.common.basic.models.options.appearance
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.annotation.StringRes
 import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.common.basic.models.options._basic.BaseEnum
@@ -23,50 +22,31 @@ enum class CardDisplay(
         @JvmStatic
         fun toCardDisplayList(
             value: String
-        ) = if (TextUtils.isEmpty(value)) {
-            ArrayList()
+        ) = if (value.isEmpty()) {
+            emptyList()
         } else try {
-            val cards = value.split("&").toTypedArray()
-            val list = ArrayList<CardDisplay>()
-            for (card in cards) {
+            value.split("&").mapNotNull { card ->
                 when (card) {
-                    "daily_overview" -> list.add(CARD_DAILY_OVERVIEW)
-                    "hourly_overview" -> list.add(CARD_HOURLY_OVERVIEW)
-                    "air_quality" -> list.add(CARD_AIR_QUALITY)
-                    "allergen" -> list.add(CARD_ALLERGEN)
-                    "life_details" -> list.add(CARD_LIFE_DETAILS)
-                    "sunrise_sunset" -> list.add(CARD_SUNRISE_SUNSET)
+                    "daily_overview" -> CARD_DAILY_OVERVIEW
+                    "hourly_overview" -> CARD_HOURLY_OVERVIEW
+                    "air_quality" -> CARD_AIR_QUALITY
+                    "allergen" -> CARD_ALLERGEN
+                    "life_details" -> CARD_LIFE_DETAILS
+                    "sunrise_sunset" -> CARD_SUNRISE_SUNSET
+                    else -> null
                 }
             }
-
-            list
         } catch (e: Exception) {
             emptyList()
         }
 
         @JvmStatic
-        fun toValue(list: List<CardDisplay>): String {
-            val builder = StringBuilder()
-            for (v in list) {
-                builder.append("&").append(v.id)
-            }
-            if (builder.isNotEmpty() && builder[0] == '&') {
-                builder.deleteCharAt(0)
-            }
-            return builder.toString()
-        }
+        fun toValue(list: List<CardDisplay>): String =
+            list.joinToString("&") { it.id }
 
         @JvmStatic
-        fun getSummary(context: Context, list: List<CardDisplay>): String {
-            val builder = StringBuilder()
-            for (item in list) {
-                builder.append(",").append(item.getName(context))
-            }
-            if (builder.isNotEmpty() && builder[0] == ',') {
-                builder.deleteCharAt(0)
-            }
-            return builder.toString().replace(",", ", ")
-        }
+        fun getSummary(context: Context, list: List<CardDisplay>): String =
+            list.joinToString(", ") { it.getName(context) }
     }
 
     override val valueArrayId = 0
