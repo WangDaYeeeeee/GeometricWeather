@@ -18,7 +18,7 @@
 | UI | Jetpack Compose（in-app）+ Widget/RemoteViews XML | Jetpack Compose + Material 3（Widget 除外） |
 | 语言 | 第一方 Java 0（仅 vendored `com.xw.repo.BubbleSeekBar*`）+ Kotlin | 全 Kotlin |
 | 模块化 | `:app` + `:core` + `:domain` + `:data` + `:presentation` + `:feature:search` + `:feature:settings`（main 仍在 app） | 多模块 (core/data/domain/presentation/feature) |
-| 测试 | JUnit4 + PowerMock + Robolectric | JUnit5 + Compose UI Test |
+| 测试 | JUnit5 + mockk + Robolectric 4.14（JUnit5 `RobolectricExtension`）+ 一层 Compose UI unit test | JUnit5 + Compose UI Test |
 
 ## 阶段规划
 
@@ -95,7 +95,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 **Leftover Java:** only `app/src/main/java/com/xw/repo/Bubble*.java`.
 
-`:app:assembleFdroidDebug` / `:app:assembleGplayDebug` / `:app:testFdroidDebugUnitTest` recorded after this conversion (JDK 21, jvmTarget 17; PowerMock `--add-opens`).
+`:app:assembleFdroidDebug` / `:app:assembleGplayDebug` / `:app:testFdroidDebugUnitTest` recorded after this conversion (JDK 21, jvmTarget 17).
 
 ### 阶段 8：模块化拆分
 - [x] 拆分 `:core`（基础组件/主题/工具）— Android library `namespace` `wangdaye.com.geometricweather.core`；保留原 Kotlin 包名。含 DisplayUtils/LanguageUtils 等通用工具、无天气模型的 `common/ui/widgets`（`TrendRecyclerViewAdapter` 与依赖 `ThemeManager` 的 `FitSystemBarAppBarLayout` 仍在 `:app`）、snackbar、insets helpers，以及原 `app/src/main/res`（避免拆 strings/arrays 的跨 locale 手术）。库代码改为 `import wangdaye.com.geometricweather.core.R`；`:app` 仍用合并后的 `wangdaye.com.geometricweather.R`。
@@ -107,6 +107,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 ## 横切工作
 
 - **测试保障**：每一阶段完成时保证现有测试通过，且补充必要的单元/集成测试
+- **JUnit5 迁移（本轮）**：已从 JUnit4 + PowerMock 迁到 JUnit5 Jupiter；PowerMock **已全部移除**（无 leftover）。原 PowerMock 静态 `TextUtils` mock 改为 Robolectric（`CardDisplayTest` / `DailyTrendDisplayTest`）；`Resources`/`Context` 用 mockk。不再需要 JDK `--add-opens`（那是给 PowerMock 的）。`junit-vintage` 未引入。Compose UI：`compose-ui-test-junit4` 用于 **unit-level** `GeometricWeatherTheme` 冒烟（Robolectric SDK 28，无 Hilt/Activity/网络）。未加全应用 UI 测试（需要 Hilt + MainActivity，易碎）。`src/androidTest` 仍无用例。`:core` 无 `src/test` 源。
 - **提交粒度**：每个阶段拆分为若干原子提交，便于回滚与 review
 - **构建验证**：每个阶段结束执行一次完整 `./gradlew assembleFdroidDebug assembleGplayDebug` 验证
 
