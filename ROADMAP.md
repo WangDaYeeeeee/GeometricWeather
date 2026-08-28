@@ -26,7 +26,7 @@
 - [x] Groovy → Kotlin DSL (`build.gradle` → `build.gradle.kts`)
 - [x] 启用 Version Catalog (`gradle/libs.versions.toml`)
 - [x] `kapt` → `KSP` (Hilt；Room 随阶段 2 引入；Glide 已在阶段 5 移除)
-- [x] 升级 Gradle Wrapper / AGP / Kotlin / Compose Compiler 至最新稳定版（Gradle **9.5.1** / AGP **9.3.2** / Kotlin **2.3.21** / KSP **2.3.11**；Compose Compiler Gradle 插件 `org.jetbrains.kotlin.plugin.compose` 随 Kotlin 版本；Hilt **2.60.1**（AGP 9 + Kotlin 2.3.21 metadata）；内置 Kotlin（模块不再 apply `org.jetbrains.kotlin.android`）；APK 重命名改 `androidComponents` Variant API。compileSdk/targetSdk 仍为 35。Compose BOM 仍为 2024.06.00 以避免 UI 视觉变化。Jetifier 仍开启（BubbleSeekBar））
+- [x] 升级 Gradle Wrapper / AGP / Kotlin / Compose Compiler 至最新稳定版（Gradle **9.5.1** / AGP **9.3.2** / Kotlin **2.3.21** / KSP **2.3.11**；Compose Compiler Gradle 插件 `org.jetbrains.kotlin.plugin.compose` 随 Kotlin 版本；Hilt **2.60.1**（AGP 9 + Kotlin 2.3.21 metadata）；内置 Kotlin（模块不再 apply `org.jetbrains.kotlin.android`）；APK 重命名改 `androidComponents` Variant API；flavor `src/src_*` 同时注册到 `java` 与 `kotlin` source set。compileSdk/targetSdk 仍为 35。Compose BOM 仍为 2024.06.00 以避免 UI 视觉变化。Jetifier 仍开启（BubbleSeekBar））
 - [x] 启用 kotlinx.serialization 插件
 - [x] 验证三种 flavor (pub / gplay / fdroid) 均可构建
 

@@ -91,28 +91,30 @@ android {
 
     sourceSets {
         getByName("pub") {
-            java.setSrcDirs(
-                listOf("src/src_bugly", "src/src_baidu", "src/src_amap", "src/src_gplay")
-            )
+            val dirs = listOf("src/src_bugly", "src/src_baidu", "src/src_amap", "src/src_gplay")
+            java.setSrcDirs(dirs)
+            kotlin.setSrcDirs(dirs)
             manifest.srcFile("manifest_pub/AndroidManifest.xml")
             jniLibs.srcDir("libs")
         }
         getByName("gplay") {
-            java.setSrcDirs(
-                listOf("src/src_nobugly", "src/src_nobaidu", "src/src_noamap", "src/src_nogplay")
-            )
+            val dirs = listOf("src/src_nobugly", "src/src_nobaidu", "src/src_noamap", "src/src_nogplay")
+            java.setSrcDirs(dirs)
+            kotlin.setSrcDirs(dirs)
             manifest.srcFile("manifest_gplay/AndroidManifest.xml")
         }
         getByName("fdroid") {
-            java.setSrcDirs(
-                listOf("src/src_nobugly", "src/src_nobaidu", "src/src_noamap", "src/src_nogplay")
-            )
+            val dirs = listOf("src/src_nobugly", "src/src_nobaidu", "src/src_noamap", "src/src_nogplay")
+            java.setSrcDirs(dirs)
+            kotlin.setSrcDirs(dirs)
         }
         getByName("test") {
             java.srcDir("test")
+            kotlin.srcDir("test")
         }
         getByName("androidTest") {
             java.srcDir("androidTest")
+            kotlin.srcDir("androidTest")
         }
     }
 
