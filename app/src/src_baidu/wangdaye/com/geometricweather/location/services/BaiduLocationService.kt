@@ -60,7 +60,7 @@ class BaiduLocationService(context: Context) : LocationService() {
         option.setIgnoreKillProcess(false)
         option.SetIgnoreCacheException(true)
         option.setEnableSimulateGps(false)
-        option.setWifiCacheTimeOut((5 * 60 * 1000).toLong())
+        option.setWifiCacheTimeOut(5 * 60 * 1000)
         val client = LocationClient(context.applicationContext)
         baiduClient = client
         client.locOption = option
