@@ -35,7 +35,6 @@ import wangdaye.com.geometricweather.weather.json.mf.MfRainResult
 import wangdaye.com.geometricweather.weather.json.mf.MfWarningsResult
 import wangdaye.com.geometricweather.weather.services.WeatherService
 import java.text.SimpleDateFormat
-import java.util.Collections
 import java.util.Date
 import java.util.TimeZone
 
@@ -435,12 +434,13 @@ object MfResultConverter {
                 iceProbability = probabilityForecast.freezing!! * 1f
             }
         }
-        val allProbabilities = ArrayList<Float>()
-        allProbabilities.add(rainProbability ?: 0f)
-        allProbabilities.add(snowProbability ?: 0f)
-        allProbabilities.add(iceProbability ?: 0f)
+        val allProbabilities = listOf(
+            rainProbability ?: 0f,
+            snowProbability ?: 0f,
+            iceProbability ?: 0f
+        )
         return PrecipitationProbability(
-            Collections.max(allProbabilities),
+            allProbabilities.maxOrNull() ?: 0f,
             null,
             rainProbability,
             snowProbability,
@@ -492,7 +492,7 @@ object MfResultConverter {
 
     private fun getMinutelyList(sunrise: Long, sunset: Long, rainResult: MfRainResult?): List<Minutely> {
         if (rainResult == null) {
-            return ArrayList()
+            return emptyList()
         }
         val minutelyList = ArrayList<Minutely>(rainResult.rainForecasts!!.size)
         val minuteZero = rainResult.rainForecasts!![0].date / 60

@@ -1,7 +1,6 @@
 package wangdaye.com.geometricweather.weather.services
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather
@@ -39,10 +38,10 @@ abstract class WeatherService {
     abstract fun cancel()
 
     protected fun formatLocationString(str: String?): String {
-            if (TextUtils.isEmpty(str)) {
+            if (str.isNullOrEmpty()) {
                 return ""
             }
-            val value = str!!
+            val value = str
 
             if (value.endsWith("地区")) {
                 return value.substring(0, value.length - 2)

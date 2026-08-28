@@ -299,7 +299,7 @@ object OwmResultConverter {
         minuteResult: List<OwmOneCallResult.Minutely>?
     ): List<Minutely> {
         if (minuteResult == null) {
-            return ArrayList()
+            return emptyList()
         }
         return ArrayList(minuteResult.size)
     }
@@ -374,7 +374,7 @@ object OwmResultConverter {
             Alert.descByTime(alertList)
             return alertList
         } else {
-            return ArrayList()
+            return emptyList()
         }
     }
 

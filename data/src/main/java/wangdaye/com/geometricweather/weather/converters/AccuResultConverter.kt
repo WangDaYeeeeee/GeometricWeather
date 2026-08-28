@@ -398,7 +398,7 @@ object AccuResultConverter {
         minuteResult: AccuMinuteResult?
     ): List<Minutely> {
         if (minuteResult == null) {
-            return ArrayList()
+            return emptyList()
         }
         val minutelyList = ArrayList<Minutely>(minuteResult.Intervals!!.size)
         for (interval in minuteResult.Intervals!!) {

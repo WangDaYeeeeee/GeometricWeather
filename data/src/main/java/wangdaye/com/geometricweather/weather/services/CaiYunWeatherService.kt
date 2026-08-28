@@ -82,7 +82,7 @@ class CaiYunWeatherService @Inject constructor(
 
     override fun requestLocation(context: Context, query: String): List<Location> {
         if (!LanguageUtils.isChinese(query)) {
-            return ArrayList()
+            return emptyList()
         }
 
         DatabaseHelper.getInstance(context).ensureChineseCityList(context)
