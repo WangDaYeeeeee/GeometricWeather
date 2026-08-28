@@ -1,20 +1,33 @@
 package basic.option.appearance
 
 import android.content.Context
-import io.mockk.any
+import android.text.TextUtils
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.robolectric.annotation.Config
-import org.robolectric.junit.jupiter.RobolectricExtension
 import wangdaye.com.geometricweather.common.basic.models.options.appearance.DailyTrendDisplay
 
-@ExtendWith(RobolectricExtension::class)
-@Config(sdk = [28])
 class DailyTrendDisplayTest {
+
+    @BeforeEach
+    fun mockTextUtils() {
+        mockkStatic(TextUtils::class)
+        every { TextUtils.isEmpty(any()) } answers {
+            val value = invocation.args[0] as CharSequence?
+            value.isNullOrEmpty()
+        }
+    }
+
+    @AfterEach
+    fun unmockTextUtils() {
+        unmockkStatic(TextUtils::class)
+    }
 
     @Test
     fun toDailyTrendDisplayList() {
@@ -48,7 +61,7 @@ class DailyTrendDisplayTest {
     @Test
     fun getSummary() {
         val context = mockk<Context>()
-        every { context.getString(any<Int>()) } returns "Name"
+        every { context.getString(any()) } returns "Name"
         val list = listOf(
             DailyTrendDisplay.TAG_TEMPERATURE,
             DailyTrendDisplay.TAG_AIR_QUALITY,
