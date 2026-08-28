@@ -1,7 +1,7 @@
 package wangdaye.com.geometricweather.settings
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.settings.compose.SettingsScreenRouter
 

@@ -1,10 +1,7 @@
 package basic
 
-import android.text.TextUtils
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.text.DecimalFormat
-import java.util.ArrayList
-import java.util.Arrays
 import java.util.regex.Pattern
 
 class MatchTest {
@@ -12,8 +9,8 @@ class MatchTest {
     @Test
     fun pattern() {
         val text = "Frigid with snow, acuu an additional 1-3 cm; limited outdoor activity. 2-4 cm, 4-5cm"
-        val NumberPattern = "\\d+-\\d+(\\s+)?cm"
-        val pattern = Pattern.compile(NumberPattern)
+        val numberPattern = "\\d+-\\d+(\\s+)?cm"
+        val pattern = Pattern.compile(numberPattern)
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
             val start = matcher.start()
@@ -25,16 +22,16 @@ class MatchTest {
     @Test
     fun split() {
         val text = "dadasd dsad   dad"
-        println(Arrays.toString(text.split("-").toTypedArray()))
+        println(text.split("-").toTypedArray().contentToString())
     }
 
     @Test
     fun convertUnit() {
         var str: String? = "Frigid with snow, acuu an additional 1-3 cm; limited outdoor activity. 2-4 cm, 4-5cm"
-        if (TextUtils.isEmpty(str)) {
+        if (str.isNullOrEmpty()) {
             return
         }
-        str = convertUnit(str!!, "cm") { value -> value * 10 }
+        str = convertUnit(str, "cm") { value -> value * 10 }
         println(str)
     }
 
