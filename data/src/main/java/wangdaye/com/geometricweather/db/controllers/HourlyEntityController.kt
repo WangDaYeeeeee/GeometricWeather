@@ -5,40 +5,38 @@ import wangdaye.com.geometricweather.db.GeometricWeatherDatabase
 import wangdaye.com.geometricweather.db.converters.WeatherSourceConverter
 import wangdaye.com.geometricweather.db.entities.HourlyEntity
 
-class HourlyEntityController : AbsEntityController() {
+object HourlyEntityController {
 
-    companion object {
-        @JvmStatic
-        fun insertHourlyList(database: GeometricWeatherDatabase, entityList: List<HourlyEntity>) {
-            if (entityList.isNotEmpty()) {
-                database.hourlyDao().insertHourlyList(entityList)
-            }
+    @JvmStatic
+    fun insertHourlyList(database: GeometricWeatherDatabase, entityList: List<HourlyEntity>) {
+        if (entityList.isNotEmpty()) {
+            database.hourlyDao().insertHourlyList(entityList)
         }
+    }
 
-        @JvmStatic
-        fun deleteHourlyEntityList(
-            database: GeometricWeatherDatabase,
-            cityId: String,
-            source: WeatherSource
-        ) {
-            database.hourlyDao().deleteHourlyEntityList(
+    @JvmStatic
+    fun deleteHourlyEntityList(
+        database: GeometricWeatherDatabase,
+        cityId: String,
+        source: WeatherSource
+    ) {
+        database.hourlyDao().deleteHourlyEntityList(
+            cityId,
+            WeatherSourceConverter().convertToDatabaseValue(source)
+        )
+    }
+
+    @JvmStatic
+    fun selectHourlyEntityList(
+        database: GeometricWeatherDatabase,
+        cityId: String,
+        source: WeatherSource
+    ): List<HourlyEntity> {
+        return getNonNullList(
+            database.hourlyDao().selectHourlyEntityList(
                 cityId,
                 WeatherSourceConverter().convertToDatabaseValue(source)
             )
-        }
-
-        @JvmStatic
-        fun selectHourlyEntityList(
-            database: GeometricWeatherDatabase,
-            cityId: String,
-            source: WeatherSource
-        ): List<HourlyEntity> {
-            return getNonNullList(
-                database.hourlyDao().selectHourlyEntityList(
-                    cityId,
-                    WeatherSourceConverter().convertToDatabaseValue(source)
-                )
-            )
-        }
+        )
     }
 }

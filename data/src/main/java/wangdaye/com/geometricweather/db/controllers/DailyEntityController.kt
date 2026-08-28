@@ -5,40 +5,38 @@ import wangdaye.com.geometricweather.db.GeometricWeatherDatabase
 import wangdaye.com.geometricweather.db.converters.WeatherSourceConverter
 import wangdaye.com.geometricweather.db.entities.DailyEntity
 
-class DailyEntityController : AbsEntityController() {
+object DailyEntityController {
 
-    companion object {
-        @JvmStatic
-        fun insertDailyList(database: GeometricWeatherDatabase, entityList: List<DailyEntity>) {
-            if (entityList.isNotEmpty()) {
-                database.dailyDao().insertDailyList(entityList)
-            }
+    @JvmStatic
+    fun insertDailyList(database: GeometricWeatherDatabase, entityList: List<DailyEntity>) {
+        if (entityList.isNotEmpty()) {
+            database.dailyDao().insertDailyList(entityList)
         }
+    }
 
-        @JvmStatic
-        fun deleteDailyEntityList(
-            database: GeometricWeatherDatabase,
-            cityId: String,
-            source: WeatherSource
-        ) {
-            database.dailyDao().deleteDailyEntityList(
+    @JvmStatic
+    fun deleteDailyEntityList(
+        database: GeometricWeatherDatabase,
+        cityId: String,
+        source: WeatherSource
+    ) {
+        database.dailyDao().deleteDailyEntityList(
+            cityId,
+            WeatherSourceConverter().convertToDatabaseValue(source)
+        )
+    }
+
+    @JvmStatic
+    fun selectDailyEntityList(
+        database: GeometricWeatherDatabase,
+        cityId: String,
+        source: WeatherSource
+    ): List<DailyEntity> {
+        return getNonNullList(
+            database.dailyDao().selectDailyEntityList(
                 cityId,
                 WeatherSourceConverter().convertToDatabaseValue(source)
             )
-        }
-
-        @JvmStatic
-        fun selectDailyEntityList(
-            database: GeometricWeatherDatabase,
-            cityId: String,
-            source: WeatherSource
-        ): List<DailyEntity> {
-            return getNonNullList(
-                database.dailyDao().selectDailyEntityList(
-                    cityId,
-                    WeatherSourceConverter().convertToDatabaseValue(source)
-                )
-            )
-        }
+        )
     }
 }
