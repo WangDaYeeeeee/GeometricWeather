@@ -26,7 +26,7 @@
 - [x] Groovy → Kotlin DSL (`build.gradle` → `build.gradle.kts`)
 - [x] 启用 Version Catalog (`gradle/libs.versions.toml`)
 - [x] `kapt` → `KSP` (Hilt；Room 随阶段 2 引入；Glide 已在阶段 5 移除)
-- [x] 升级 Gradle Wrapper / AGP / Kotlin / Compose Compiler 至最新稳定版（Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.21 / KSP 2.3.11；Compose Compiler Gradle 插件 `org.jetbrains.kotlin.plugin.compose` 随 Kotlin 版本；Compose BOM 仍为 2024.06.00 以避免 UI 视觉变化。未升 AGP 9.x：其默认 Gradle 9.x 与 Build Tools 36，且非本阶段必需）
+- [x] 升级 Gradle Wrapper / AGP / Kotlin / Compose Compiler 至最新稳定版（Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.21 / KSP 2.3.11；Compose Compiler Gradle 插件 `org.jetbrains.kotlin.plugin.compose` 随 Kotlin 版本；Hilt **2.58**（最后支持 AGP 8 且可读 Kotlin 2.3 metadata；2.59+ 要求 AGP 9）；Compose BOM 仍为 2024.06.00 以避免 UI 视觉变化。未升 AGP 9.x：Gradle 9.x、Build Tools 36、内置 Kotlin / new DSL 超出本阶段范围）
 - [x] 启用 kotlinx.serialization 插件
 - [x] 验证三种 flavor (pub / gplay / fdroid) 均可构建
 
