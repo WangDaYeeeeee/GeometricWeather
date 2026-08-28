@@ -60,15 +60,10 @@ lunarcalendar = "3.0.0"
 donate = "0.1.0"
 
 # Testing.
-junit = "4.13.2"
+junit-jupiter = "5.11.4"
+mockk = "1.13.13"
 androidx-test-core = "1.6.1"
-androidx-test-runner = "1.6.2"
-androidx-test-rules = "1.6.1"
-mockito = "3.3.3"
-powermock-api = "2.0.9"
-powermock-module = "2.0.9"
-powermock-classloading = "2.0.9"
-robolectric = "4.13"
+robolectric = "4.14.1"
 
 # Google Play Services.
 gms-location = "21.3.0"
@@ -85,15 +80,10 @@ bugly-native = "3.6.0.1"
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 # Testing.
-junit = { module = "junit:junit", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version = "1.11.4" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
-androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-powermock-api-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "powermock-api" }
-powermock-module-junit4 = { module = "org.powermock:powermock-module-junit4", version.ref = "powermock-module" }
-powermock-module-junit4-rule = { module = "org.powermock:powermock-module-junit4-rule", version.ref = "powermock-module" }
-powermock-classloading-xstream = { module = "org.powermock:powermock-classloading-xstream", version.ref = "powermock-classloading" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 # Material Design.
@@ -111,6 +101,7 @@ compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
@@ -228,14 +219,9 @@ retrofit = [
     "retrofit-converter-kotlinx-serialization",
 ]
 testing = [
-    "junit",
+    "junit-jupiter",
+    "junit-platform-launcher",
+    "mockk",
     "androidx-test-core",
-    "androidx-test-runner",
-    "androidx-test-rules",
-    "mockito-core",
-    "powermock-api-mockito2",
-    "powermock-module-junit4",
-    "powermock-module-junit4-rule",
-    "powermock-classloading-xstream",
     "robolectric",
 ]

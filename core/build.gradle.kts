@@ -26,6 +26,10 @@ android {
     lint {
         abortOnError = false
     }
+
+    testOptions {
+        unitTests.all { it.useJUnitPlatform() }
+    }
 }
 
 kotlin {

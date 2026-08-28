@@ -58,6 +58,10 @@ android {
     lint {
         abortOnError = false
     }
+
+    testOptions {
+        unitTests.all { it.useJUnitPlatform() }
+    }
 }
 
 kotlin {
@@ -88,5 +92,6 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }

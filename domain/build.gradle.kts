@@ -21,6 +21,14 @@ android {
     lint {
         abortOnError = false
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all { it.useJUnitPlatform() }
+        }
+    }
 }
 
 kotlin {
@@ -37,5 +45,9 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
