@@ -1,9 +1,9 @@
 [versions]
 # Build system.
-agp = "8.13.2"
+agp = "9.3.2"
 kotlin = "2.3.21"
 ksp = "2.3.11"
-hilt = "2.58"
+hilt = "2.60.1"
 compose-bom = "2024.06.00"
 
 # Lifecycle.

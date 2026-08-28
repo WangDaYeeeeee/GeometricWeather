@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
@@ -152,11 +151,14 @@ kotlin {
     }
 }
 
-android.applicationVariants.configureEach {
-    val variantVersionName = versionName
-    outputs.configureEach {
-        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
-            .outputFileName = "GeometricWeather $variantVersionName.apk"
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val outputImpl = output as com.android.build.api.variant.impl.VariantOutputImpl
+            outputImpl.outputFileName.set(
+                output.versionName.map { name -> "GeometricWeather $name.apk" }
+            )
+        }
     }
 }
 
