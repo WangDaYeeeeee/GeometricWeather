@@ -21,7 +21,7 @@ class SearchActivityViewModel @Inject constructor(
     private val app = application
 
     private val _listResource = MutableStateFlow(
-        LoadableLocationList(ArrayList(), LoadableLocationList.Status.SUCCESS)
+        LoadableLocationList(emptyList(), LoadableLocationList.Status.SUCCESS)
     )
     private val listResourceLiveData = _listResource.asLiveData()
     val listResourceFlow: StateFlow<LoadableLocationList> = _listResource.asStateFlow()
