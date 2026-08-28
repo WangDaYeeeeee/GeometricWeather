@@ -1,12 +1,12 @@
 package wangdaye.com.geometricweather.theme.resource.utils
 
-class Config {
-    @JvmField var hasWeatherIcons = true
-    @JvmField var hasWeatherAnimators = false
-    @JvmField var hasMinimalIcons = true
-    @JvmField var hasShortcutIcons = true
-    @JvmField var hasSunMoonDrawables = true
-
+data class Config(
+    @JvmField var hasWeatherIcons: Boolean = true,
+    @JvmField var hasWeatherAnimators: Boolean = false,
+    @JvmField var hasMinimalIcons: Boolean = true,
+    @JvmField var hasShortcutIcons: Boolean = true,
+    @JvmField var hasSunMoonDrawables: Boolean = true,
+) {
     override fun toString(): String {
         return "config : \n" +
             "hasWeatherIcons = $hasWeatherIcons\n" +

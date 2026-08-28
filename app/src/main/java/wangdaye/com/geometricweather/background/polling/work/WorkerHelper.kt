@@ -115,10 +115,8 @@ object WorkerHelper {
             Calendar.getInstance()[Calendar.HOUR_OF_DAY],
             Calendar.getInstance()[Calendar.MINUTE]
         )
-        val setTimes = intArrayOf(
-            Integer.parseInt(time.split(":".toRegex()).toTypedArray()[0]),
-            Integer.parseInt(time.split(":".toRegex()).toTypedArray()[1])
-        )
+        val parts = time.split(":")
+        val setTimes = intArrayOf(parts[0].toInt(), parts[1].toInt())
         var delay = (setTimes[0] - realTimes[0]) * 60 + (setTimes[1] - realTimes[1])
         if (delay <= 0 || nextDay) {
             delay += 24 * 60

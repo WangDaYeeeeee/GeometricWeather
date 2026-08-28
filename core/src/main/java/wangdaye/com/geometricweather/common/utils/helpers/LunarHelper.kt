@@ -12,8 +12,9 @@ object LunarHelper {
 
     @JvmStatic
     fun getLunarDate(date: Date?): String {
+        date ?: return ""
         val calendar = Calendar.getInstance()
-        calendar.time = date!!
+        calendar.time = date
         return getLunarDate(calendar)
     }
 

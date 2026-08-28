@@ -8,9 +8,6 @@ object NetworkUtils {
     @JvmStatic
     fun isAvailable(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        if (manager != null) {
-            return manager.activeNetworkInfo != null
-        }
-        return false
+        return manager?.activeNetworkInfo != null
     }
 }

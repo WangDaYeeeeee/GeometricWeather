@@ -11,48 +11,45 @@ import wangdaye.com.geometricweather.theme.compose.day.dynamicLightColors
 import wangdaye.com.geometricweather.theme.compose.night.DarkThemeColors
 import wangdaye.com.geometricweather.theme.compose.night.dynamicDarkColors
 
-class GeometricWeatherColors {
+object GeometricWeatherColors {
+    val LightPrimary1 = Color(0xffcfebf0)
+    val LightPrimary2 = Color(0xffb6e3e7)
+    val LightPrimary3 = Color(0xff96d6db)
+    val LightPrimary4 = Color(0xff7ac7d3)
+    val LightPrimary5 = Color(0xff75becb)
 
-    companion object {
-        val LightPrimary1 = Color(0xffcfebf0)
-        val LightPrimary2 = Color(0xffb6e3e7)
-        val LightPrimary3 = Color(0xff96d6db)
-        val LightPrimary4 = Color(0xff7ac7d3)
-        val LightPrimary5 = Color(0xff75becb)
+    val DarkPrimary1 = Color(0xff4b5073)
+    val DarkPrimary2 = Color(0xff343851)
+    val DarkPrimary3 = Color(0xff2c2f43)
+    val DarkPrimary4 = Color(0xff20222f)
+    val DarkPrimary5 = Color(0xff1a1b22)
 
-        val DarkPrimary1 = Color(0xff4b5073)
-        val DarkPrimary2 = Color(0xff343851)
-        val DarkPrimary3 = Color(0xff2c2f43)
-        val DarkPrimary4 = Color(0xff20222f)
-        val DarkPrimary5 = Color(0xff1a1b22)
+    val DarkText = Color(0xff000000)
+    val DarkText2nd = Color(0xff666666)
+    val GreyText = Color(0xff4d4d4d)
+    val GreyText2nd = Color(0xffb2b2b2)
+    val LightText = Color(0xffffffff)
+    val LightText2nd = Color(0xff999999)
 
-        val DarkText = Color(0xff000000)
-        val DarkText2nd = Color(0xff666666)
-        val GreyText = Color(0xff4d4d4d)
-        val GreyText2nd = Color(0xffb2b2b2)
-        val LightText = Color(0xffffffff)
-        val LightText2nd = Color(0xff999999)
+    val Level1 = Color(0xff72d572)
+    val Level2 = Color(0xffffca28)
+    val Level3 = Color(0xffffa726)
+    val Level4 = Color(0xffe52f35)
+    val Level5 = Color(0xff99004c)
+    val Level6 = Color(0xff7e0023)
 
-        val Level1 = Color(0xff72d572)
-        val Level2 = Color(0xffffca28)
-        val Level3 = Color(0xffffa726)
-        val Level4 = Color(0xffe52f35)
-        val Level5 = Color(0xff99004c)
-        val Level6 = Color(0xff7e0023)
+    val WeatherSourceACCU = Color(0xffef5823)
+    val WeatherSourceCN = Color(0xff033566)
+    val WeatherSourceCaiYun = Color(0xff5ebb8e)
 
-        val WeatherSourceACCU = Color(0xffef5823)
-        val WeatherSourceCN = Color(0xff033566)
-        val WeatherSourceCaiYun = Color(0xff5ebb8e)
+    val LightTitleText = DarkText
+    val DarkTitleText = LightText
 
-        val LightTitleText = DarkText
-        val DarkTitleText = LightText
+    val LightContentText = DarkText2nd
+    val DarkContentText = LightText2nd
 
-        val LightContentText = DarkText2nd
-        val DarkContentText = LightText2nd
-
-        val LightSubtitleText = GreyText2nd
-        val DarkSubtitleText = GreyText
-    }
+    val LightSubtitleText = GreyText2nd
+    val DarkSubtitleText = GreyText
 }
 
 private val DayColors = GeometricWeatherDayNightColors(

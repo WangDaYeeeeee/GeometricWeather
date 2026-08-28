@@ -23,16 +23,11 @@ class ThemeManager private constructor(
 
         @JvmStatic
         fun getInstance(context: Context): ThemeManager {
-            if (instance == null) {
-                synchronized(ThemeManager::class) {
-                    if (instance == null) {
-                        instance = ThemeManager(
-                            darkMode = SettingsManager.getInstance(context).darkMode,
-                        )
-                    }
-                }
+            return instance ?: synchronized(ThemeManager::class) {
+                instance ?: ThemeManager(
+                    darkMode = SettingsManager.getInstance(context).darkMode,
+                ).also { instance = it }
             }
-            return instance!!
         }
 
         private fun generateGlobalUIMode(

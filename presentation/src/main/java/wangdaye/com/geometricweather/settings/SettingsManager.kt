@@ -26,17 +26,14 @@ class SettingsManager private constructor(context: Context) {
 
         @JvmStatic
         fun getInstance(context: Context): SettingsManager {
-            if (instance == null) {
-                synchronized(SettingsManager::class) {
-                    if (instance == null) {
-                        instance = SettingsManager(context)
-                        Temperature.exchangeDayNightTempEnabled = { ctx ->
-                            getInstance(ctx).isExchangeDayNightTempEnabled
-                        }
+            return instance ?: synchronized(SettingsManager::class) {
+                instance ?: SettingsManager(context).also { created ->
+                    instance = created
+                    Temperature.exchangeDayNightTempEnabled = { ctx ->
+                        getInstance(ctx).isExchangeDayNightTempEnabled
                     }
                 }
             }
-            return instance!!
         }
 
         private const val DEFAULT_CARD_DISPLAY = ("daily_overview"

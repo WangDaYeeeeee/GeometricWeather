@@ -10,7 +10,7 @@ object XmlHelper {
     @JvmStatic
     @Throws(XmlPullParserException::class, IOException::class)
     fun getFilterMap(parser: XmlResourceParser): Map<String, String> {
-        val map = HashMap<String, String>()
+        val map = mutableMapOf<String, String>()
         var type = parser.eventType
         while (type != XmlPullParser.END_DOCUMENT) {
             if (type == XmlPullParser.START_TAG && Constants.FILTER_TAG_ITEM == parser.name) {
