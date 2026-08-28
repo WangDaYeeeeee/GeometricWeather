@@ -88,7 +88,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 - [x] 迁移 background polling leftovers（Hilt workers、`UpdateService`/`ForegroundUpdateService` 族、permanent observer、QS `TileService`）
 - [x] 迁移 main View 层 adapters/holders/dialogs/layouts/utils/trend adapters（仍为 RecyclerView，未改 Compose）
 - [x] 迁移剩余 Java 文件（进行中；见下方 leftover 清单）
-- [ ] 消除重复样板代码，采用 Kotlin 惯用法
+- [x] 消除重复样板代码，采用 Kotlin 惯用法 — first slice, more possible（controllers→`object`、`data class` 样板、stdlib 集合/`joinToString`、删除空 `LocationTest`；未做全仓 reformat / ktlint）
 - [ ] 统一代码风格（ktlint）— 本轮不引入 ktlint Gradle 插件（避免风格战争）；手写惯用 Kotlin
 
 **Phase 7 language migration this branch:** Remaining first-party Java is **0**. Custom Views, WeatherView implementors, RemoteViews presenters/notifications, widget config, and live wallpaper are Kotlin and stay **View-based** (no Compose rewrite). Vendored `com.xw.repo.BubbleSeekBar*` is intentionally still Java.
