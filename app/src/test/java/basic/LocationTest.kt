@@ -1,3 +1,0 @@
-package basic
-
-class LocationTest
