@@ -107,7 +107,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 ## 横切工作
 
 - **测试保障**：每一阶段完成时保证现有测试通过，且补充必要的单元/集成测试
-- **JUnit5 迁移（本轮）**：已从 JUnit4 + PowerMock 迁到 JUnit5 Jupiter；PowerMock **已全部移除**（无 leftover）。原 PowerMock 静态 `TextUtils` mock 改为 Robolectric（`CardDisplayTest` / `DailyTrendDisplayTest`）；`Resources`/`Context` 用 mockk。不再需要 JDK `--add-opens`（那是给 PowerMock 的）。`junit-vintage` 未引入。Compose UI：`compose-ui-test-junit4` 用于 **unit-level** `GeometricWeatherTheme` 冒烟（Robolectric SDK 28，无 Hilt/Activity/网络）。未加全应用 UI 测试（需要 Hilt + MainActivity，易碎）。`src/androidTest` 仍无用例。`:core` 无 `src/test` 源。
+- **JUnit5 迁移（本轮）**：已从 JUnit4 + PowerMock 迁到 JUnit5 Jupiter；PowerMock **已全部移除**（无 leftover）。原 PowerMock 静态 `TextUtils` mock 改为 Robolectric（`CardDisplayTest` / `DailyTrendDisplayTest`）；`Resources`/`Context` 用 mockk。不再需要 JDK `--add-opens`（那是给 PowerMock 的）。`junit-vintage` 未引入。Compose UI：`compose-ui-test-junit4` 用于 **unit-level** `GeometricWeatherTheme` 冒烟（在 `:app` 的 Robolectric SDK 28 上跑，无 Hilt/Activity/网络）。未加全应用 UI 测试（需要 Hilt + MainActivity，易碎）。`src/androidTest` 仍无用例。`:core` 无 `src/test` 源。`:domain` 单元测试不 `includeAndroidResources`（core 布局依赖 `circularprogressview` attrs，会在 library 资源链接时失败）。
 - **提交粒度**：每个阶段拆分为若干原子提交，便于回滚与 review
 - **构建验证**：每个阶段结束执行一次完整 `./gradlew assembleFdroidDebug assembleGplayDebug` 验证
 

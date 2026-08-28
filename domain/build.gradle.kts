@@ -23,11 +23,7 @@ android {
     }
 
     testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            isReturnDefaultValues = true
-            all { it.useJUnitPlatform() }
-        }
+        unitTests.all { it.useJUnitPlatform() }
     }
 }
 
@@ -46,8 +42,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit.jupiter)
-    testImplementation(libs.mockk)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.androidx.test.core)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
