@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.utils.CancellableCoroutineScope
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import wangdaye.com.geometricweather.weather.apis.AtmoAuraIqaApi
 import wangdaye.com.geometricweather.weather.apis.MfWeatherApi
 import wangdaye.com.geometricweather.weather.converters.MfResultConverter
@@ -29,8 +29,8 @@ class MfWeatherService @Inject constructor(
         location: Location,
         callback: RequestWeatherCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
-        val token = SettingsManager.getInstance(context).providerMfWsftKey
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
+        val token = WeatherProviderSettings.getInstance(context).providerMfWsftKey
 
         requestScope.scope.launch {
             try {
@@ -77,7 +77,7 @@ class MfWeatherService @Inject constructor(
                             if (isAtmoAuraProvince(location.province)) {
                                 resumeOrNull {
                                     atmoAuraApi.getQAFull(
-                                        SettingsManager.getInstance(context).providerIqaAtmoAuraKey,
+                                        WeatherProviderSettings.getInstance(context).providerIqaAtmoAuraKey,
                                         location.latitude.toString(),
                                         location.longitude.toString()
                                     )
@@ -118,7 +118,7 @@ class MfWeatherService @Inject constructor(
                     query,
                     48.86,
                     2.34,
-                    SettingsManager.getInstance(context).providerMfWsftKey
+                    WeatherProviderSettings.getInstance(context).providerMfWsftKey
                 )
             }
         } catch (_: Exception) {
@@ -141,7 +141,7 @@ class MfWeatherService @Inject constructor(
         location: Location,
         callback: RequestLocationCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
         requestScope.scope.launch {
             try {
                 val mfForecastV2Result = withContext(Dispatchers.IO) {
@@ -149,7 +149,7 @@ class MfWeatherService @Inject constructor(
                         location.latitude.toDouble(),
                         location.longitude.toDouble(),
                         languageCode,
-                        SettingsManager.getInstance(context).providerMfWsftKey
+                        WeatherProviderSettings.getInstance(context).providerMfWsftKey
                     )
                 }
                 val locationList = ArrayList<Location>()
@@ -182,7 +182,7 @@ class MfWeatherService @Inject constructor(
                         query,
                         48.86,
                         2.34,
-                        SettingsManager.getInstance(context).providerMfWsftKey
+                        WeatherProviderSettings.getInstance(context).providerMfWsftKey
                     )
                 }
                 if (mfLocationResults.isNotEmpty()) {

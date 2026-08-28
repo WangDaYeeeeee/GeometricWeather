@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.utils.CancellableCoroutineScope
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import wangdaye.com.geometricweather.weather.apis.AccuWeatherApi
 import wangdaye.com.geometricweather.weather.converters.AccuResultConverter
 import javax.inject.Inject
@@ -26,8 +26,8 @@ class AccuWeatherService @Inject constructor(
         location: Location,
         callback: RequestWeatherCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
-        val settings = SettingsManager.getInstance(context)
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
+        val settings = WeatherProviderSettings.getInstance(context)
 
         requestScope.scope.launch {
             try {
@@ -111,12 +111,12 @@ class AccuWeatherService @Inject constructor(
     }
 
     override fun requestLocation(context: Context, query: String): List<Location> {
-        val languageCode = SettingsManager.getInstance(context).language.code
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
         val resultList = try {
             runBlocking {
                 api.getWeatherLocation(
                     "Always",
-                    SettingsManager.getInstance(context).providerAccuWeatherKey,
+                    WeatherProviderSettings.getInstance(context).providerAccuWeatherKey,
                     query,
                     languageCode
                 )
@@ -140,13 +140,13 @@ class AccuWeatherService @Inject constructor(
         location: Location,
         callback: RequestLocationCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
         requestScope.scope.launch {
             try {
                 val accuLocationResult = withContext(Dispatchers.IO) {
                     api.getWeatherLocationByGeoPosition(
                         "Always",
-                        SettingsManager.getInstance(context).providerAccuWeatherKey,
+                        WeatherProviderSettings.getInstance(context).providerAccuWeatherKey,
                         location.latitude.toString() + "," + location.longitude,
                         languageCode
                     )
@@ -172,14 +172,14 @@ class AccuWeatherService @Inject constructor(
         query: String,
         callback: RequestLocationCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
         val zipCode = if (query.matches("[a-zA-Z0-9]".toRegex())) query else null
         requestScope.scope.launch {
             try {
                 val accuLocationResults = withContext(Dispatchers.IO) {
                     api.getWeatherLocation(
                         "Always",
-                        SettingsManager.getInstance(context).providerAccuWeatherKey,
+                        WeatherProviderSettings.getInstance(context).providerAccuWeatherKey,
                         query,
                         languageCode
                     )

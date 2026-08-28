@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
-import wangdaye.com.geometricweather.BuildConfig
+import wangdaye.com.geometricweather.data.BuildConfig
 import wangdaye.com.geometricweather.weather.apis.AccuWeatherApi
 import wangdaye.com.geometricweather.weather.apis.AtmoAuraIqaApi
 import wangdaye.com.geometricweather.weather.apis.CaiYunApi

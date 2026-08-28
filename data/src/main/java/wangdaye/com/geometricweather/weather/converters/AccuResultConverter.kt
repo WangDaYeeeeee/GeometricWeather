@@ -27,7 +27,7 @@ import wangdaye.com.geometricweather.common.basic.models.weather.Weather
 import wangdaye.com.geometricweather.common.basic.models.weather.WeatherCode
 import wangdaye.com.geometricweather.common.basic.models.weather.Wind
 import wangdaye.com.geometricweather.common.basic.models.weather.WindDegree
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import wangdaye.com.geometricweather.weather.json.accu.AccuAlertResult
 import wangdaye.com.geometricweather.weather.json.accu.AccuAqiResult
 import wangdaye.com.geometricweather.weather.json.accu.AccuCurrentResult
@@ -477,7 +477,7 @@ object AccuResultConverter {
         if (TextUtils.isEmpty(str)) {
             return str
         }
-        val precipitationUnit = SettingsManager.getInstance(context).precipitationUnit
+        val precipitationUnit = WeatherProviderSettings.getInstance(context).precipitationUnit
         var result = convertUnit(context, str!!, PrecipitationUnit.CM, precipitationUnit)
         result = convertUnit(context, result, PrecipitationUnit.MM, precipitationUnit)
         return result

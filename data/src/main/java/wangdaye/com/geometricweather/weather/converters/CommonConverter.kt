@@ -2,7 +2,7 @@ package wangdaye.com.geometricweather.weather.converters
 
 import android.content.Context
 import android.text.TextUtils
-import wangdaye.com.geometricweather.R
+import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.common.basic.models.weather.AirQuality
 import wangdaye.com.geometricweather.common.basic.models.weather.Wind
 import java.util.Calendar

@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.utils.CancellableCoroutineScope
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import wangdaye.com.geometricweather.weather.apis.OwmApi
 import wangdaye.com.geometricweather.weather.converters.OwmResultConverter
 import javax.inject.Inject
@@ -26,8 +26,8 @@ class OwmWeatherService @Inject constructor(
         location: Location,
         callback: RequestWeatherCallback
     ) {
-        val languageCode = SettingsManager.getInstance(context).language.code
-        val key = SettingsManager.getInstance(context).providerOwmKey
+        val languageCode = WeatherProviderSettings.getInstance(context).languageCode
+        val key = WeatherProviderSettings.getInstance(context).providerOwmKey
 
         requestScope.scope.launch {
             try {
@@ -86,7 +86,7 @@ class OwmWeatherService @Inject constructor(
         val resultList = try {
             runBlocking {
                 api.getWeatherLocation(
-                    SettingsManager.getInstance(context).providerOwmKey,
+                    WeatherProviderSettings.getInstance(context).providerOwmKey,
                     query
                 )
             }
@@ -113,7 +113,7 @@ class OwmWeatherService @Inject constructor(
             try {
                 val owmLocationResultList = withContext(Dispatchers.IO) {
                     api.getWeatherLocationByGeoPosition(
-                        SettingsManager.getInstance(context).providerOwmKey,
+                        WeatherProviderSettings.getInstance(context).providerOwmKey,
                         location.latitude.toDouble(),
                         location.longitude.toDouble(),
                     )
@@ -152,7 +152,7 @@ class OwmWeatherService @Inject constructor(
             try {
                 val owmLocationResults = withContext(Dispatchers.IO) {
                     api.getWeatherLocation(
-                        SettingsManager.getInstance(context).providerOwmKey,
+                        WeatherProviderSettings.getInstance(context).providerOwmKey,
                         query
                     )
                 }
