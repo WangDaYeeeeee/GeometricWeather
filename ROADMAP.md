@@ -99,9 +99,9 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 
 ### 阶段 8：模块化拆分
 - [x] 拆分 `:core`（基础组件/主题/工具）— Android library `namespace` `wangdaye.com.geometricweather.core`；保留原 Kotlin 包名。含 DisplayUtils/LanguageUtils 等通用工具、无天气模型的 `common/ui/widgets`（`TrendRecyclerViewAdapter` 与依赖 `ThemeManager` 的 `FitSystemBarAppBarLayout` 仍在 `:app`）、snackbar、insets helpers，以及原 `app/src/main/res`（避免拆 strings/arrays 的跨 locale 手术）。库代码改为 `import wangdaye.com.geometricweather.core.R`；`:app` 仍用合并后的 `wangdaye.com.geometricweather.R`。
-- [x] 拆分 `:data`（网络/数据库/API 服务）— **仅 Room**：`db/`、`DatabaseHelper`、`FileUtils` + `city_list.txt`。Retrofit weather/location JSON、`WeatherService*`、Hilt `ApiModule` **仍在 `:app`**（flavor `BuildConfig`、converters 与 settings/theme 耦合）。
+- [x] 拆分 `:data`（网络/数据库/API 服务）— Room（`db/`、`DatabaseHelper`、`FileUtils` + `city_list.txt`）**以及** Retrofit weather JSON/`apis`、`WeatherService*`/`converters`/`WeatherServiceSet`/`WeatherHelper`、Hilt `weather.di.ApiModule` + `location.di.ApiModule`、Baidu IP `BaiduIPLocationApi`/`BaiduIPLocationResult`。`:data` 自带 `buildConfigField`（与 `:app` 同一套 gradle 属性）；运行时 key/语言/降水单位走 `WeatherProviderSettings`（读 Settings 同一套 SharedPreferences，不依赖 `:app`）。OkHttp/`RetrofitModule`/Gzip interceptor 仍在 `:app`（Bugly/`GeometricWeather.debugMode`）。Flavor 定位（Baidu/AMap/GMS stubs）、`LocationService`/`LocationHelper`/`BaiduIPLocationService` 仍在 `:app`。
 - [x] 拆分 `:domain`（模型/用例）— `common/basic/models`（天气/地点/options）。Android library（Context/`R`/Parcelable，不是纯 JVM）。用例层未抽；`Temperature` 通过 `exchangeDayNightTempEnabled` 钩子读取设置，避免依赖 `SettingsManager`。
-- [ ] 拆分 `:feature`（按功能模块，如 main/search/settings）— Compose 主界面/搜索/设置、AppWidget、live wallpaper、flavors 均留在 `:app`。
+- [ ] 拆分 `:feature`（按功能模块，如 main/search/settings）— **未拆**：`:feature:search` 依赖 `ThemeManager` / `GeometricWeatherTheme` / `GeoActivity` / `InAppRoute`；`:feature:settings` 再叠 Donate、icon provider、设置对话框。`:feature:main` 与 Home `AndroidView` + WeatherView + widgets 强耦合。Compose 主界面/搜索/设置、AppWidget、live wallpaper、flavors 均留在 `:app`。
 - [x] 配置构建缓存与依赖隔离 — `org.gradle.caching=true` / `org.gradle.parallel=true`；依赖方向 `:app` → `:data` → `:domain` → `:core`。完整 configuration-on-demand / 独立 feature 图未做。
 
 ## 横切工作
