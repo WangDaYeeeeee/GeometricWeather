@@ -74,6 +74,7 @@ dependencies {
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.core.ktx)
+    implementation(libs.appcompat)
     implementation(libs.preference.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.core)
