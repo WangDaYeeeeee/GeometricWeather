@@ -171,6 +171,7 @@ dependencies {
     implementation(project(":presentation"))
     implementation(project(":feature:search"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:main"))
 
     add("pubImplementation", fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
     add("gplayImplementation", fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))

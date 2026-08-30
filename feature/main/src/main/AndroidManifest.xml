@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="wangdaye.com.geometricweather.main.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/GeometricWeatherTheme.Main"
+            android:screenOrientation="user"
+            android:configChanges="uiMode"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.wangdaye.geometricweather.Main" />
+                <action android:name="com.wangdaye.geomtricweather.ACTION_SHOW_ALERTS" />
+                <action android:name="com.wangdaye.geomtricweather.ACTION_SHOW_DAILY_FORECAST" />
+                <action android:name="com.wangdaye.geomtricweather.ACTION_MANAGEMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="wangdaye.com.geometricweather.daily.DailyWeatherActivity"
+            android:label="@string/daily_overview"
+            android:theme="@style/GeometricWeatherTheme" />
+        <activity
+            android:name="wangdaye.com.geometricweather.common.ui.activities.AlertActivity"
+            android:label="@string/action_alert"
+            android:theme="@style/GeometricWeatherTheme" />
+        <activity
+            android:name="wangdaye.com.geometricweather.common.ui.activities.AllergenActivity"
+            android:label="@string/allergen"
+            android:theme="@style/GeometricWeatherTheme" />
+    </application>
+</manifest>

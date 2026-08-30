@@ -15,6 +15,7 @@ import wangdaye.com.geometricweather.location.services.AndroidLocationService
 import wangdaye.com.geometricweather.location.services.BaiduLocationService
 import wangdaye.com.geometricweather.location.services.LocationService
 import wangdaye.com.geometricweather.location.services.ip.BaiduIPLocationService
+import wangdaye.com.geometricweather.main.LocationGateway
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.weather.WeatherServiceSet
 import wangdaye.com.geometricweather.weather.services.WeatherService
@@ -25,7 +26,7 @@ class LocationHelper @Inject constructor(
     @ApplicationContext context: Context,
     baiduIPService: BaiduIPLocationService,
     private val weatherServiceSet: WeatherServiceSet
-) {
+) : LocationGateway {
 
     private val locationServices: Array<LocationService> = arrayOf(
         AndroidLocationService(),
@@ -34,10 +35,7 @@ class LocationHelper @Inject constructor(
         AMapLocationService(context)
     )
 
-    interface OnRequestLocationListener {
-        fun requestLocationSuccess(requestLocation: Location)
-        fun requestLocationFailed(requestLocation: Location)
-    }
+    interface OnRequestLocationListener : LocationGateway.OnRequestLocationListener
 
     private fun getLocationService(provider: LocationProvider): LocationService {
         return when (provider) {
@@ -48,20 +46,20 @@ class LocationHelper @Inject constructor(
         }
     }
 
-    fun requestLocation(
+    override fun requestLocation(
         context: Context,
         location: Location,
         background: Boolean,
-        l: OnRequestLocationListener
+        listener: LocationGateway.OnRequestLocationListener
     ) {
         val usableCheckListener = object : OnRequestLocationListener {
             override fun requestLocationSuccess(requestLocation: Location) {
-                l.requestLocationSuccess(requestLocation)
+                listener.requestLocationSuccess(requestLocation)
             }
 
             override fun requestLocationFailed(requestLocation: Location) {
                 if (requestLocation.isUsable) {
-                    l.requestLocationFailed(requestLocation)
+                    listener.requestLocationFailed(requestLocation)
                 } else {
                     val finalLocation = Location.copy(
                         Location.buildDefaultLocation(
@@ -71,7 +69,7 @@ class LocationHelper @Inject constructor(
                         false
                     )
                     DatabaseHelper.getInstance(context).writeLocation(finalLocation)
-                    l.requestLocationFailed(finalLocation)
+                    listener.requestLocationFailed(finalLocation)
                 }
             }
         }
@@ -156,7 +154,7 @@ class LocationHelper @Inject constructor(
         )
     }
 
-    fun cancel() {
+    override fun cancel() {
         for (s in locationServices) {
             s.cancel()
         }
@@ -165,7 +163,7 @@ class LocationHelper @Inject constructor(
         }
     }
 
-    fun getPermissions(context: Context): Array<String> {
+    override fun getPermissions(context: Context): Array<String> {
         val provider = SettingsManager.getInstance(context).locationProvider
         val service = getLocationService(provider)
         val permissions = service.permissions
