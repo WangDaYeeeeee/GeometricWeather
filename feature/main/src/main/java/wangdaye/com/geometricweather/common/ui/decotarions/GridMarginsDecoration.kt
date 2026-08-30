@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
-import wangdaye.com.geometricweather.R
+import wangdaye.com.geometricweather.core.R
 
 class GridMarginsDecoration : RecyclerView.ItemDecoration {
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
-import wangdaye.com.geometricweather.R
+import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.common.ui.widgets.TagView
 
 class TagAdapter(
