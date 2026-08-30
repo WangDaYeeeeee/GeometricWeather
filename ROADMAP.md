@@ -17,7 +17,7 @@
 | 图片加载 | Glide | Coil |
 | UI | Jetpack Compose（in-app）+ Widget/RemoteViews XML | Jetpack Compose + Material 3（Widget 除外） |
 | 语言 | 第一方 Java 0（仅 vendored `com.xw.repo.BubbleSeekBar*`）+ Kotlin | 全 Kotlin |
-| 模块化 | `:app` + `:core` + `:domain` + `:data` + `:presentation` + `:feature:search` + `:feature:settings`（main 仍在 app） | 多模块 (core/data/domain/presentation/feature) |
+| 模块化 | `:app` + `:core` + `:domain` + `:data` + `:presentation` + `:feature:main` + `:feature:search` + `:feature:settings` | 多模块 (core/data/domain/presentation/feature) |
 | 测试 | JUnit5 Jupiter + mockk（Robolectric 仍在 catalog，当前无 JUnit5 用例） | JUnit5 + Compose UI Test |
 
 ## 阶段规划
@@ -98,11 +98,11 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 `:app:assembleFdroidDebug` / `:app:assembleGplayDebug` / `:app:testFdroidDebugUnitTest` recorded after this conversion (JDK 21, jvmTarget 17).
 
 ### 阶段 8：模块化拆分
-- [x] 拆分 `:core`（基础组件/主题/工具）— Android library `namespace` `wangdaye.com.geometricweather.core`；保留原 Kotlin 包名。含 DisplayUtils/LanguageUtils 等通用工具、无天气模型的 `common/ui/widgets`（`TrendRecyclerViewAdapter` 与依赖 `ThemeManager` 的 `FitSystemBarAppBarLayout` 仍在 `:app`）、snackbar、insets helpers，以及原 `app/src/main/res`（避免拆 strings/arrays 的跨 locale 手术）。库代码改为 `import wangdaye.com.geometricweather.core.R`；`:app` 仍用合并后的 `wangdaye.com.geometricweather.R`。
+- [x] 拆分 `:core`（基础组件/主题/工具）— Android library `namespace` `wangdaye.com.geometricweather.core`；保留原 Kotlin 包名。含 DisplayUtils/LanguageUtils 等通用工具、无天气模型的 `common/ui/widgets`（`TrendRecyclerViewAdapter` 在 `:feature:main`；依赖 `ThemeManager` 的 `FitSystemBarAppBarLayout` 在 `:presentation`）、snackbar、insets helpers，以及原 `app/src/main/res`（避免拆 strings/arrays 的跨 locale 手术）。库代码改为 `import wangdaye.com.geometricweather.core.R`；`:app` 仍用合并后的 `wangdaye.com.geometricweather.R`。
 - [x] 拆分 `:data`（网络/数据库/API 服务）— Room（`db/`、`DatabaseHelper`、`FileUtils` + `city_list.txt`）**以及** Retrofit weather JSON/`apis`、`WeatherService*`/`converters`/`WeatherServiceSet`/`WeatherHelper`、Hilt `weather.di.ApiModule` + `location.di.ApiModule`、Baidu IP `BaiduIPLocationApi`/`BaiduIPLocationResult`。`:data` 自带 `buildConfigField`（与 `:app` 同一套 gradle 属性）；运行时 key/语言/降水单位走 `WeatherProviderSettings`（读 Settings 同一套 SharedPreferences，不依赖 `:app`）。OkHttp/`RetrofitModule`/Gzip interceptor 仍在 `:app`（Bugly/`GeometricWeather.debugMode`）。Flavor 定位（Baidu/AMap/GMS stubs）、`LocationService`/`LocationHelper`/`BaiduIPLocationService` 仍在 `:app`。
 - [x] 拆分 `:domain`（模型/用例）— `common/basic/models`（天气/地点/options）。Android library（Context/`R`/Parcelable，不是纯 JVM）。用例层未抽；`Temperature` 通过 `exchangeDayNightTempEnabled` 钩子读取设置，避免依赖 `SettingsManager`。
-- [x] 拆分 `:feature`（按功能模块，如 main/search/settings）— `:feature:search`（SearchActivity + compose + SearchActivityRepository）与 `:feature:settings`（settings/about/preview-icon Activities + compose 屏）。共享壳层抽到 **`:presentation`**（`GeoActivity` / `ThemeManager` / `GeometricWeatherTheme` / `InAppRoute` / `SettingsManager` / icon `ResourceProvider`），`:core` 仍不依赖 `:domain`。Widget/polling 经 `SettingsAppCallbacks` 留在 `:app`。**`:feature:main` 未拆**：MainActivity + Home `AndroidView` + WeatherView + location list 与 AppWidget/RemoteViews/wallpaper 同进程强耦合；本轮不把 main 或 widgets 迁出 `:app`。
-- [x] 配置构建缓存与依赖隔离 — `org.gradle.caching=true` / `org.gradle.parallel=true`；依赖方向 `:app` → `:feature:*` → `:presentation` → `:data` → `:domain` → `:core`。完整 configuration-on-demand / 独立 feature 图未做。
+- [x] 拆分 `:feature`（按功能模块，如 main/search/settings）— `:feature:search`（SearchActivity + compose + SearchActivityRepository）、`:feature:settings`（settings/about/preview-icon Activities + compose 屏）、**`:feature:main`**（MainActivity + Home `AndroidView` + WeatherView + daily/alert/allergen；`MainActivityViewModel` 经 `MainWeatherRepository` / `MainBackgroundBridge` 与 app 解耦）。共享壳层抽到 **`:presentation`**（`GeoActivity` / `ThemeManager` / `weatherThemeDelegate` / weatherView / `GeometricWeatherTheme` / `InAppRoute` / `SettingsManager` / icon `ResourceProvider`），`:core` 仍不依赖 `:domain`。Widget/polling 经 `SettingsAppCallbacks` 与 `MainBackgroundViews` 留在 `:app`。**`LocationHelper` + flavor `src/src_*` location services 仍在 `:app`**（Baidu/AMap/AndroidLocationService）；`MainActivityRepository` 仍在 `:app` 并 `@Binds` 到 `MainWeatherRepository`。AppWidget/RemoteViews/live wallpaper 仍在 `:app`。
+- [x] 配置构建缓存与依赖隔离 — `org.gradle.caching=true` / `org.gradle.parallel=true`；依赖方向 `:app` → `:feature:*` → `:presentation` → `:data` → `:domain` → `:core`（`:feature:main` 还 `implementation` `:feature:search` 与 `:feature:settings`）。完整 configuration-on-demand / 独立 feature 图未做。
 
 ## 横切工作
 
