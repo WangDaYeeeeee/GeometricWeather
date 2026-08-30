@@ -13,6 +13,7 @@
 /presentation/build
 /feature/search/build
 /feature/settings/build
+/feature/main/build
 /captures
 /local.properties
 /local-repo
