@@ -13,22 +13,14 @@ import javax.inject.Inject
 class MainActivityRepository @Inject constructor(
     private val locationHelper: LocationHelper,
     private val weatherHelper: WeatherHelper
-) {
+) : MainWeatherRepository {
     private val singleThreadExecutor = Executors.newSingleThreadExecutor()
 
-    interface WeatherRequestCallback {
-        fun onCompleted(
-            location: Location,
-            locationFailed: Boolean?,
-            weatherRequestFailed: Boolean
-        )
-    }
-
-    fun destroy() {
+    override fun destroy() {
         cancelWeatherRequest()
     }
 
-    fun initLocations(context: Context, formattedId: String): List<Location> {
+    override fun initLocations(context: Context, formattedId: String): List<Location> {
         val list = DatabaseHelper.getInstance(context).readLocationList()
 
         var index = 0
@@ -46,7 +38,7 @@ class MainActivityRepository @Inject constructor(
         return list
     }
 
-    fun getWeatherCacheForLocations(
+    override fun getWeatherCacheForLocations(
         context: Context,
         oldList: List<Location>,
         ignoredFormattedId: String,
@@ -69,24 +61,24 @@ class MainActivityRepository @Inject constructor(
         }, callback, singleThreadExecutor)
     }
 
-    fun writeLocationList(context: Context, locationList: List<Location>) {
+    override fun writeLocationList(context: Context, locationList: List<Location>) {
         AsyncHelper.runOnExecutor({ 
             DatabaseHelper.getInstance(context).writeLocationList(locationList)
         }, singleThreadExecutor)
     }
 
-    fun deleteLocation(context: Context, location: Location) {
+    override fun deleteLocation(context: Context, location: Location) {
         AsyncHelper.runOnExecutor({
             DatabaseHelper.getInstance(context).deleteLocation(location)
             DatabaseHelper.getInstance(context).deleteWeather(location)
         }, singleThreadExecutor)
     }
 
-    fun getWeather(
+    override fun getWeather(
         context: Context,
         location: Location,
         locate: Boolean,
-        callback: WeatherRequestCallback,
+        callback: MainWeatherRepository.WeatherRequestCallback,
     ) {
         if (locate) {
             ensureValidLocationInformation(context, location, callback)
@@ -98,7 +90,7 @@ class MainActivityRepository @Inject constructor(
     private fun ensureValidLocationInformation(
         context: Context,
         location: Location,
-        callback: WeatherRequestCallback,
+        callback: MainWeatherRepository.WeatherRequestCallback,
     ) = locationHelper.requestLocation(
         context,
         location,
@@ -135,7 +127,7 @@ class MainActivityRepository @Inject constructor(
         context: Context,
         location: Location,
         locationFailed: Boolean?,
-        callback: WeatherRequestCallback,
+        callback: MainWeatherRepository.WeatherRequestCallback,
     ) = weatherHelper.requestWeather(
         context,
         location,
@@ -164,11 +156,11 @@ class MainActivityRepository @Inject constructor(
         }
     )
 
-    fun getLocatePermissionList(context: Context) = locationHelper
+    override fun getLocatePermissionList(context: Context) = locationHelper
         .getPermissions(context)
         .toList()
 
-    fun cancelWeatherRequest() {
+    override fun cancelWeatherRequest() {
         locationHelper.cancel()
         weatherHelper.cancel()
     }

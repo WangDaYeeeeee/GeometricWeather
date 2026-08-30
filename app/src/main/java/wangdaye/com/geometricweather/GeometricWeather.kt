@@ -200,6 +200,8 @@ class GeometricWeather : MultiDexApplication(),
         }
         wangdaye.com.geometricweather.settings.SettingsAppBridge.callbacks =
             wangdaye.com.geometricweather.settings.AppSettingsAppCallbacks
+        wangdaye.com.geometricweather.main.MainBackgroundBridge.callbacks =
+            wangdaye.com.geometricweather.main.AppMainBackgroundViews
 
         LanguageUtils.setLanguage(
             this,
