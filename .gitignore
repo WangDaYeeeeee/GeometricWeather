@@ -15,4 +15,5 @@
 /feature/settings/build
 /captures
 /local.properties
-/local-repo/feature/main/build
+/local-repo
+/feature/main/build
