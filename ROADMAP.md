@@ -18,7 +18,7 @@
 | UI | Jetpack Compose（in-app）+ Widget/RemoteViews XML | Jetpack Compose + Material 3（Widget 除外） |
 | 语言 | 第一方 Java 0（仅 vendored `com.xw.repo.BubbleSeekBar*`）+ Kotlin | 全 Kotlin |
 | 模块化 | `:app` + `:core` + `:domain` + `:data` + `:presentation` + `:feature:main` + `:feature:search` + `:feature:settings` | 多模块 (core/data/domain/presentation/feature) |
-| 测试 | JUnit5 Jupiter + mockk（Robolectric 仍在 catalog，当前无 JUnit5 用例） | JUnit5 + Compose UI Test |
+| 测试 | JUnit5 Jupiter + mockk；JVM Compose UI Test（`:feature:settings` `runComposeUiTest` + Robolectric JUnit5 扩展）；`:app` `androidTest` 仍空 | JUnit5 + Compose UI Test |
 
 ## 阶段规划
 
@@ -107,7 +107,7 @@ In-app ImageViews (`ImageHelper`, icon-provider store/GitHub/Chronus icons, WeCh
 ## 横切工作
 
 - **测试保障**：每一阶段完成时保证现有测试通过，且补充必要的单元/集成测试
-- **JUnit5 迁移（本轮）**：已从 JUnit4 + PowerMock 迁到 JUnit5 Jupiter；PowerMock **已全部移除**（无 leftover）。`junit-vintage` 未引入。原 PowerMock 静态 `TextUtils` mock（`CardDisplayTest` / `DailyTrendDisplayTest`）改为 mockk `mockkStatic`；`Resources`/`Context` 用 mockk。不再需要 JDK `--add-opens`（那是给 PowerMock 的）。Robolectric 4.14.1 仍在 Version Catalog / `:app` test classpath，但 **4.14 没有官方 `RobolectricExtension`**（JUnit5 需第三方 `tech.apter` Gradle 插件或 vintage + `RobolectricTestRunner`）。当前用例不需要 Android framework：`GreenDaoToRoomMigrationTest` 只测列名映射。Compose UI Test：**未加** unit/instrumented Compose 用例——全屏需要 Hilt + Activity；JVM `runComposeUiTest` 依赖 Robolectric JUnit5。catalog 仍有 `compose-ui-test-junit4`（`:app` `androidTestImplementation`，`src/androidTest` 仍空）。`:core` 无 `src/test` 源。
+- **JUnit5 迁移（本轮）**：已从 JUnit4 + PowerMock 迁到 JUnit5 Jupiter；PowerMock **已全部移除**（无 leftover）。`junit-vintage` 未引入。原 PowerMock 静态 `TextUtils` mock（`CardDisplayTest` / `DailyTrendDisplayTest`）改为 mockk `mockkStatic`；`Resources`/`Context` 用 mockk。不再需要 JDK `--add-opens`（那是给 PowerMock 的）。Robolectric 4.14.1 仍在 Version Catalog / `:app` test classpath；**4.14 没有官方 Jupiter `RobolectricExtension`**。Compose UI Test（JVM）：`:feature:settings` 对纯 composable（`SectionHeader` / `PreferenceView`，假数据、无 Hilt/网络）用 `runComposeUiTest` + `onNodeWithText`/`assertIsDisplayed`。该模块 apply 了维护中的 `tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin` **0.9.0**（仅 settings；与 Robolectric 4.14 对齐）+ `@ExtendWith(RobolectricExtension::class)`，`includeAndroidResources`，任务 **`:feature:settings:testDebugUnitTest`**。全屏（Home/Search Activity）仍需 Hilt + instrumented Activity，未测。`:app` 仍 `androidTestImplementation(compose-ui-test-junit4)`，`src/androidTest` 仍空（本环境无 emulator）。`:core` 无 `src/test` 源。`GreenDaoToRoomMigrationTest` 仍只测列名映射，不走 Robolectric runner。
 - **提交粒度**：每个阶段拆分为若干原子提交，便于回滚与 review
 - **构建验证**：每个阶段结束执行一次完整 `./gradlew assembleFdroidDebug assembleGplayDebug` 验证
 
