@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import wangdaye.com.geometricweather.common.basic.models.Location
+import wangdaye.com.geometricweather.domain.usecase.LoadAllLocationsWithWeatherUseCase
 import wangdaye.com.geometricweather.location.LocationHelper
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
 import wangdaye.com.geometricweather.remoteviews.WidgetHelper
@@ -16,8 +17,9 @@ class NormalUpdateWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     locationHelper: LocationHelper,
-    weatherHelper: WeatherHelper
-) : AsyncUpdateWorker(context, workerParams, locationHelper, weatherHelper) {
+    weatherHelper: WeatherHelper,
+    loadAllLocationsWithWeather: LoadAllLocationsWithWeatherUseCase
+) : AsyncUpdateWorker(context, workerParams, locationHelper, weatherHelper, loadAllLocationsWithWeather) {
 
     override fun updateView(context: Context, location: Location) {
         WidgetHelper.updateWidgetIfNecessary(context, location)

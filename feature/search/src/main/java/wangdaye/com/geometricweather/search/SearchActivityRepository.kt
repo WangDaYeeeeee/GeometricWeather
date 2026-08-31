@@ -7,7 +7,7 @@ import wangdaye.com.geometricweather.common.basic.models.options.provider.Weathe
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.settings.ConfigStore
 import wangdaye.com.geometricweather.settings.SettingsManager
-import wangdaye.com.geometricweather.weather.WeatherHelper
+import wangdaye.com.geometricweather.domain.weather.LocationSearcher
 import javax.inject.Inject
 
 private const val PREFERENCE_SEARCH_CONFIG = "SEARCH_CONFIG"
@@ -17,7 +17,7 @@ private const val DEFAULT_DISABLED_SOURCES_VALUE = "ENABLE_DEFAULT_SOURCE_ONLY"
 
 class SearchActivityRepository @Inject constructor(
     @ApplicationContext context: Context,
-    private val weatherHelper: WeatherHelper
+    private val locationSearcher: LocationSearcher
 ) {
 
     private val config: ConfigStore = ConfigStore.getInstance(context, PREFERENCE_SEARCH_CONFIG)
@@ -31,11 +31,11 @@ class SearchActivityRepository @Inject constructor(
         enabledSources: List<WeatherSource>,
         callback: AsyncHelper.Callback<List<Location>>
     ) {
-        weatherHelper.requestLocation(
+        locationSearcher.requestLocation(
             context,
             query,
             enabledSources,
-            object : WeatherHelper.OnRequestLocationListener {
+            object : LocationSearcher.Listener {
                 override fun requestLocationSuccess(query: String, locationList: List<Location>) {
                     callback.call(locationList, true)
                 }
@@ -103,6 +103,6 @@ class SearchActivityRepository @Inject constructor(
     }
 
     fun cancel() {
-        weatherHelper.cancel()
+        locationSearcher.cancel()
     }
 }

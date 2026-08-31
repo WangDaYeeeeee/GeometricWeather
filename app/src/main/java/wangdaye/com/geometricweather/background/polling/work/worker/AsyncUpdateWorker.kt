@@ -11,6 +11,7 @@ import wangdaye.com.geometricweather.background.polling.PollingUpdateHelper
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather
 import wangdaye.com.geometricweather.common.utils.helpers.ShortcutsHelper
+import wangdaye.com.geometricweather.domain.usecase.LoadAllLocationsWithWeatherUseCase
 import wangdaye.com.geometricweather.location.LocationHelper
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
 import wangdaye.com.geometricweather.weather.WeatherHelper
@@ -20,10 +21,16 @@ abstract class AsyncUpdateWorker(
     context: Context,
     workerParams: WorkerParameters,
     locationHelper: LocationHelper,
-    weatherHelper: WeatherHelper
+    weatherHelper: WeatherHelper,
+    loadAllLocationsWithWeather: LoadAllLocationsWithWeatherUseCase
 ) : CoroutineWorker(context, workerParams), PollingUpdateHelper.OnPollingUpdateListener {
 
-    private val pollingUpdateHelper = PollingUpdateHelper(context, locationHelper, weatherHelper).also {
+    private val pollingUpdateHelper = PollingUpdateHelper(
+        context,
+        locationHelper,
+        weatherHelper,
+        loadAllLocationsWithWeather
+    ).also {
         it.setOnPollingUpdateListener(this)
     }
 

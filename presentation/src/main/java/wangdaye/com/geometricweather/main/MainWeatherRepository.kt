@@ -6,7 +6,8 @@ import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 
 /**
  * Weather/location list operations used by [MainActivityViewModel].
- * Implemented in `:feature:main` with [wangdaye.com.geometricweather.location.LocationHelper] from `:data`.
+ * Implemented in `:feature:main` with [wangdaye.com.geometricweather.domain.weather.WeatherRequester]
+ * and location helpers from `:data`.
  */
 interface MainWeatherRepository {
 

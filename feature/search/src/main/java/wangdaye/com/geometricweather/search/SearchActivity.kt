@@ -10,15 +10,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
-import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.domain.repository.LocationWeatherStore
 import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.search.compose.SearchScreen
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
 @AndroidEntryPoint
 class SearchActivity : GeoActivity() {
+
+    @Inject lateinit var locationWeatherStore: LocationWeatherStore
 
     private lateinit var viewModel: SearchActivityViewModel
 
@@ -30,7 +33,7 @@ class SearchActivity : GeoActivity() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this)[SearchActivityViewModel::class.java]
-        val existingFormattedIds = DatabaseHelper.getInstance(this)
+        val existingFormattedIds = locationWeatherStore
             .readLocationList()
             .map { it.formattedId }
             .toSet()

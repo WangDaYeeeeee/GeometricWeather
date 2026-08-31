@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import wangdaye.com.geometricweather.background.polling.services.permanent.PermanentServiceHelper
 import wangdaye.com.geometricweather.background.polling.work.WorkerHelper
-import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.common.utils.helpers.IntentHelper
 import wangdaye.com.geometricweather.common.utils.helpers.startAboutActivity
@@ -28,6 +27,8 @@ import wangdaye.com.geometricweather.common.utils.helpers.buildMainActivityShowA
 import wangdaye.com.geometricweather.common.utils.helpers.buildMainActivityShowDailyForecastIntent
 import wangdaye.com.geometricweather.common.utils.helpers.getAwakeForegroundUpdateServiceIntent
 import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.db.DatabaseLocationWeatherStore
+import wangdaye.com.geometricweather.domain.usecase.LoadAllLocationsWithWeatherUseCase
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
 import wangdaye.com.geometricweather.remoteviews.WidgetHelper
 import wangdaye.com.geometricweather.settings.SettingsManager
@@ -133,13 +134,9 @@ object PollingManager {
     private fun forceRefresh(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AsyncHelper.runOnIO {
-                val locationList = DatabaseHelper.getInstance(context).readLocationList()
-                for (i in locationList.indices) {
-                    locationList[i] = Location.copy(
-                        locationList[i],
-                        DatabaseHelper.getInstance(context).readWeather(locationList[i])
-                    )
-                }
+                val locationList = LoadAllLocationsWithWeatherUseCase(
+                    DatabaseLocationWeatherStore(DatabaseHelper.getInstance(context))
+                ).execute()
                 WidgetHelper.updateWidgetIfNecessary(context, locationList[0])
                 WidgetHelper.updateWidgetIfNecessary(context, locationList)
                 NotificationHelper.updateNotificationIfNecessary(context, locationList)

@@ -3,16 +3,22 @@ package wangdaye.com.geometricweather.main
 import android.content.Context
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
-import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.domain.repository.LocationWeatherStore
+import wangdaye.com.geometricweather.domain.usecase.DeleteLocationUseCase
+import wangdaye.com.geometricweather.domain.usecase.HydrateWeatherCacheUseCase
+import wangdaye.com.geometricweather.domain.usecase.LoadLocationsWithWeatherUseCase
+import wangdaye.com.geometricweather.domain.weather.WeatherRequester
 import wangdaye.com.geometricweather.location.LocationHelper
-import wangdaye.com.geometricweather.weather.WeatherHelper
-import wangdaye.com.geometricweather.weather.WeatherHelper.OnRequestWeatherListener
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class MainActivityRepository @Inject constructor(
     private val locationHelper: LocationHelper,
-    private val weatherHelper: WeatherHelper
+    private val weatherRequester: WeatherRequester,
+    private val locationWeatherStore: LocationWeatherStore,
+    private val loadLocationsWithWeather: LoadLocationsWithWeatherUseCase,
+    private val hydrateWeatherCache: HydrateWeatherCacheUseCase,
+    private val deleteLocationUseCase: DeleteLocationUseCase
 ) : MainWeatherRepository {
     private val singleThreadExecutor = Executors.newSingleThreadExecutor()
 
@@ -21,21 +27,7 @@ class MainActivityRepository @Inject constructor(
     }
 
     override fun initLocations(context: Context, formattedId: String): List<Location> {
-        val list = DatabaseHelper.getInstance(context).readLocationList()
-
-        var index = 0
-        for (i in list.indices) {
-            if (list[i].formattedId == formattedId) {
-                index = i
-                break
-            }
-        }
-
-        list[index] = Location.copy(
-            src = list[index],
-            weather = DatabaseHelper.getInstance(context).readWeather(list[index])
-        )
-        return list
+        return loadLocationsWithWeather.execute(formattedId)
     }
 
     override fun getWeatherCacheForLocations(
@@ -46,31 +38,21 @@ class MainActivityRepository @Inject constructor(
     ) {
         AsyncHelper.runOnExecutor({ emitter ->
             emitter.send(
-                oldList.map {
-                    if (it.formattedId == ignoredFormattedId) {
-                        it
-                    } else {
-                        Location.copy(
-                            src = it,
-                            weather = DatabaseHelper.getInstance(context).readWeather(it)
-                        )
-                    }
-                },
+                hydrateWeatherCache.execute(oldList, ignoredFormattedId),
                 true
             )
         }, callback, singleThreadExecutor)
     }
 
     override fun writeLocationList(context: Context, locationList: List<Location>) {
-        AsyncHelper.runOnExecutor({ 
-            DatabaseHelper.getInstance(context).writeLocationList(locationList)
+        AsyncHelper.runOnExecutor({
+            locationWeatherStore.writeLocationList(locationList)
         }, singleThreadExecutor)
     }
 
     override fun deleteLocation(context: Context, location: Location) {
         AsyncHelper.runOnExecutor({
-            DatabaseHelper.getInstance(context).deleteLocation(location)
-            DatabaseHelper.getInstance(context).deleteWeather(location)
+            deleteLocationUseCase.execute(location)
         }, singleThreadExecutor)
     }
 
@@ -128,10 +110,10 @@ class MainActivityRepository @Inject constructor(
         location: Location,
         locationFailed: Boolean?,
         callback: MainWeatherRepository.WeatherRequestCallback,
-    ) = weatherHelper.requestWeather(
+    ) = weatherRequester.requestWeather(
         context,
         location,
-        object : OnRequestWeatherListener {
+        object : WeatherRequester.Listener {
             override fun requestWeatherSuccess(requestLocation: Location) {
                 if (requestLocation.formattedId != location.formattedId) {
                     return
@@ -162,6 +144,6 @@ class MainActivityRepository @Inject constructor(
 
     override fun cancelWeatherRequest() {
         locationHelper.cancel()
-        weatherHelper.cancel()
+        weatherRequester.cancel()
     }
 }

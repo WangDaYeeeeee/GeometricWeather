@@ -10,6 +10,7 @@ import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.common.utils.helpers.ShortcutsHelper
+import wangdaye.com.geometricweather.domain.usecase.LoadAllLocationsWithWeatherUseCase
 import wangdaye.com.geometricweather.location.LocationHelper
 import wangdaye.com.geometricweather.remoteviews.NotificationHelper
 import wangdaye.com.geometricweather.weather.WeatherHelper
@@ -20,6 +21,7 @@ abstract class UpdateService : Service(), PollingUpdateHelper.OnPollingUpdateLis
     private var pollingHelper: PollingUpdateHelper? = null
     @Inject lateinit var locationHelper: LocationHelper
     @Inject lateinit var weatherHelper: WeatherHelper
+    @Inject lateinit var loadAllLocationsWithWeather: LoadAllLocationsWithWeatherUseCase
     private var delayController: AsyncHelper.Controller? = null
     private var failed = false
 
@@ -28,7 +30,12 @@ abstract class UpdateService : Service(), PollingUpdateHelper.OnPollingUpdateLis
 
         failed = false
 
-        pollingHelper = PollingUpdateHelper(this, locationHelper, weatherHelper).also {
+        pollingHelper = PollingUpdateHelper(
+            this,
+            locationHelper,
+            weatherHelper,
+            loadAllLocationsWithWeather
+        ).also {
             it.setOnPollingUpdateListener(this)
             it.pollingUpdate()
         }
