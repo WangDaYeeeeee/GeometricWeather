@@ -9,7 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.options.provider.LocationProvider
 import wangdaye.com.geometricweather.common.utils.NetworkUtils
-import wangdaye.com.geometricweather.db.DatabaseHelper
+import wangdaye.com.geometricweather.domain.repository.LocationWeatherStore
 import wangdaye.com.geometricweather.location.services.LocationService
 import wangdaye.com.geometricweather.location.services.ip.BaiduIPLocationService
 import wangdaye.com.geometricweather.weather.WeatherProviderSettings
@@ -22,7 +22,8 @@ class LocationHelper @Inject constructor(
     @ApplicationContext context: Context,
     baiduIPService: BaiduIPLocationService,
     private val weatherServiceSet: WeatherServiceSet,
-    flavorLocationFactory: FlavorLocationFactory
+    flavorLocationFactory: FlavorLocationFactory,
+    private val locationWeatherStore: LocationWeatherStore
 ) {
 
     private val locationServices: Array<LocationService> = arrayOf(
@@ -68,7 +69,7 @@ class LocationHelper @Inject constructor(
                         true,
                         false
                     )
-                    DatabaseHelper.getInstance(context).writeLocation(finalLocation)
+                    locationWeatherStore.writeLocation(finalLocation)
                     l.requestLocationFailed(finalLocation)
                 }
             }
@@ -140,7 +141,7 @@ class LocationHelper @Inject constructor(
                     if (locationList.isNotEmpty()) {
                         val src = locationList[0]
                         val result = Location.copy(src, true, src.isResidentPosition)
-                        DatabaseHelper.getInstance(context).writeLocation(result)
+                        locationWeatherStore.writeLocation(result)
                         l.requestLocationSuccess(result)
                     } else {
                         requestLocationFailed(query)
