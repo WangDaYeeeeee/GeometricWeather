@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.okhttp) {
         version { strictly(libs.versions.okhttp.get()) }
     }
+    implementation(libs.okhttp.logging)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

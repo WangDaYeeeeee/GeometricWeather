@@ -10,8 +10,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import wangdaye.com.geometricweather.GeometricWeather
 import wangdaye.com.geometricweather.common.json.AppJson
+import wangdaye.com.geometricweather.common.network.NetworkDebugConfig
 import wangdaye.com.geometricweather.common.retrofit.TLSCompactHelper
 import wangdaye.com.geometricweather.common.retrofit.interceptors.GzipInterceptor
 import javax.inject.Singleton
@@ -44,9 +44,11 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideHttpLoggingInterceptor(
+        debugConfig: NetworkDebugConfig
+    ): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(
-            if (GeometricWeather.instance.debugMode) {
+            if (debugConfig.httpLoggingEnabled) {
                 HttpLoggingInterceptor.Level.BODY
             } else {
                 HttpLoggingInterceptor.Level.NONE

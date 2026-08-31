@@ -7,11 +7,14 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import okio.Buffer
 import okio.GzipSource
+import wangdaye.com.geometricweather.common.network.NetworkExceptionReporter
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
-class GzipInterceptor @Inject constructor() : ReportExceptionInterceptor() {
+class GzipInterceptor @Inject constructor(
+    reporter: NetworkExceptionReporter
+) : ReportExceptionInterceptor(reporter) {
 
     override fun intercept(chain: okhttp3.Interceptor.Chain): Response {
         val request = chain.request()

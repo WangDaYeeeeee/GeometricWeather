@@ -4,13 +4,15 @@ import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
-import wangdaye.com.geometricweather.common.utils.helpers.BuglyHelper
+import wangdaye.com.geometricweather.common.network.NetworkExceptionReporter
 
-abstract class ReportExceptionInterceptor : Interceptor {
+abstract class ReportExceptionInterceptor(
+    private val reporter: NetworkExceptionReporter
+) : Interceptor {
 
     fun handleException(e: Exception) {
         e.printStackTrace()
-        BuglyHelper.report(e)
+        reporter.report(e)
     }
 
     fun nullResponse(request: Request): Response {
