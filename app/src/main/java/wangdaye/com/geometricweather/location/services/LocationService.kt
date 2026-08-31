@@ -2,18 +2,13 @@ package wangdaye.com.geometricweather.location.services
 
 import android.Manifest
 import android.app.Notification
-import wangdaye.com.geometricweather.GeometricWeather.Companion.getNotificationChannelName
-import androidx.core.app.ActivityCompat
-import android.content.pm.PackageManager
-import androidx.annotation.RequiresApi
 import android.app.NotificationChannel
-import wangdaye.com.geometricweather.GeometricWeather
-import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.core.app.NotificationCompat
-import wangdaye.com.geometricweather.R
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import wangdaye.com.geometricweather.location.LocationNotificationChannels
 
 abstract class LocationService {
 
@@ -60,30 +55,10 @@ abstract class LocationService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun getLocationNotificationChannel(context: Context): NotificationChannel {
-        val channel = NotificationChannel(
-            GeometricWeather.NOTIFICATION_CHANNEL_ID_LOCATION,
-            getNotificationChannelName(
-                context,
-                GeometricWeather.NOTIFICATION_CHANNEL_ID_LOCATION
-            ),
-            NotificationManager.IMPORTANCE_MIN
-        )
-        channel.setShowBadge(false)
-        channel.lightColor = ContextCompat.getColor(context, R.color.colorPrimary)
-        return channel
+        return LocationNotificationChannels.getChannel(context)
     }
 
     fun getLocationNotification(context: Context): Notification {
-        return NotificationCompat
-            .Builder(context, GeometricWeather.NOTIFICATION_CHANNEL_ID_LOCATION)
-            .setSmallIcon(R.drawable.ic_location)
-            .setContentTitle(context.getString(R.string.feedback_request_location))
-            .setContentText(context.getString(R.string.feedback_request_location_in_background))
-            .setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
-            .setPriority(NotificationCompat.PRIORITY_MIN)
-            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-            .setAutoCancel(true)
-            .setProgress(0, 0, true)
-            .build()
+        return LocationNotificationChannels.getNotification(context)
     }
 }

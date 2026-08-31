@@ -14,6 +14,7 @@ import wangdaye.com.geometricweather.common.basic.GeoActivityHost
 import wangdaye.com.geometricweather.common.basic.GeoApp
 import wangdaye.com.geometricweather.common.utils.LanguageUtils
 import wangdaye.com.geometricweather.common.utils.helpers.BuglyHelper
+import wangdaye.com.geometricweather.location.LocationNotificationChannels
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.theme.ThemeManager
 import java.io.BufferedReader
@@ -36,13 +37,13 @@ class GeometricWeather : MultiDexApplication(),
         const val NOTIFICATION_CHANNEL_ID_NORMALLY = "normally"
         const val NOTIFICATION_CHANNEL_ID_ALERT = "alert"
         const val NOTIFICATION_CHANNEL_ID_FORECAST = "forecast"
-        const val NOTIFICATION_CHANNEL_ID_LOCATION = "location"
+        const val NOTIFICATION_CHANNEL_ID_LOCATION = LocationNotificationChannels.CHANNEL_ID
         const val NOTIFICATION_CHANNEL_ID_BACKGROUND = "background"
 
         const val NOTIFICATION_ID_NORMALLY = 1
         const val NOTIFICATION_ID_TODAY_FORECAST = 2
         const val NOTIFICATION_ID_TOMORROW_FORECAST = 3
-        const val NOTIFICATION_ID_LOCATION = 4
+        const val NOTIFICATION_ID_LOCATION = LocationNotificationChannels.NOTIFICATION_ID
         const val NOTIFICATION_ID_RUNNING_IN_BACKGROUND = 5
         const val NOTIFICATION_ID_UPDATING_NORMALLY = 6
         const val NOTIFICATION_ID_UPDATING_TODAY_FORECAST = 7
@@ -161,11 +162,7 @@ class GeometricWeather : MultiDexApplication(),
                                 + " "
                                 + context.getString(R.string.forecast)
                 )
-                NOTIFICATION_CHANNEL_ID_LOCATION -> (
-                        context.getString(R.string.geometric_weather)
-                                + " "
-                                + context.getString(R.string.feedback_request_location)
-                )
+                NOTIFICATION_CHANNEL_ID_LOCATION -> LocationNotificationChannels.getChannelName(context)
                 NOTIFICATION_CHANNEL_ID_BACKGROUND -> (
                         context.getString(R.string.geometric_weather)
                                 + " "
