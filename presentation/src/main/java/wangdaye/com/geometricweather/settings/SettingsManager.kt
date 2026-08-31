@@ -13,7 +13,7 @@ import wangdaye.com.geometricweather.common.basic.models.options.provider.Locati
 import wangdaye.com.geometricweather.common.basic.models.options.provider.WeatherSource
 import wangdaye.com.geometricweather.common.basic.models.options.unit.*
 import wangdaye.com.geometricweather.common.basic.models.weather.Temperature
-import wangdaye.com.geometricweather.common.bus.EventBus
+import wangdaye.com.geometricweather.common.bus.AppEvents
 
 class SettingsChangedMessage
 
@@ -473,9 +473,6 @@ class SettingsManager private constructor(context: Context) {
     ) = customValue.ifEmpty { defaultValue }
 
     private fun notifySettingsChanged() {
-        EventBus
-            .instance
-            .with(SettingsChangedMessage::class.java)
-            .postValue(SettingsChangedMessage())
+        AppEvents.notifySettingsChanged()
     }
 }

@@ -22,11 +22,10 @@ import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.snackbar.SnackbarContainer
 import wangdaye.com.geometricweather.common.ui.widgets.SwipeSwitchLayout
-import wangdaye.com.geometricweather.common.bus.EventBus
+import wangdaye.com.geometricweather.common.bus.AppEvents
 import wangdaye.com.geometricweather.feature.main.databinding.FragmentHomeBinding
 import wangdaye.com.geometricweather.main.MainActivityViewModel
 import wangdaye.com.geometricweather.main.adapters.main.MainAdapter
-import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
 import wangdaye.com.geometricweather.main.layouts.MainLayoutManager
 import wangdaye.com.geometricweather.main.utils.MainModuleUtils
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
@@ -469,9 +468,7 @@ class HomeHost(
                 topOverlap = binding.appBar.translationY != 0f
             }
             if (mTopChanged == true) {
-                EventBus.instance
-                    .with(ModifyMainSystemBarMessage::class.java)
-                    .postValue(ModifyMainSystemBarMessage())
+                AppEvents.requestModifyMainSystemBar()
             }
         }
     }

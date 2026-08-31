@@ -8,6 +8,10 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.multidex.MultiDexApplication
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import wangdaye.com.geometricweather.common.basic.ApplicationContextHolder
 import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.GeoActivityHost
@@ -26,6 +30,8 @@ import javax.inject.Inject
 class GeometricWeather : MultiDexApplication(),
     Configuration.Provider,
     GeoActivityHost {
+
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     companion object {
 
@@ -237,11 +243,12 @@ class GeometricWeather : MultiDexApplication(),
     }
 
     private fun setDayNightMode() {
-        AppCompatDelegate.setDefaultNightMode(
-            ThemeManager.getInstance(this).uiMode.value!!
-        )
-        ThemeManager.getInstance(this).uiMode.observeForever {
-            AppCompatDelegate.setDefaultNightMode(it)
+        val themeManager = ThemeManager.getInstance(this)
+        AppCompatDelegate.setDefaultNightMode(themeManager.uiMode.value)
+        applicationScope.launch {
+            themeManager.uiMode.collect { mode ->
+                AppCompatDelegate.setDefaultNightMode(mode)
+            }
         }
     }
 

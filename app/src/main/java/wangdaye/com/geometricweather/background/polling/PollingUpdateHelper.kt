@@ -5,7 +5,7 @@ import android.widget.Toast
 import wangdaye.com.geometricweather.R
 import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.weather.Weather
-import wangdaye.com.geometricweather.common.bus.EventBus
+import wangdaye.com.geometricweather.common.bus.AppEvents
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
 import wangdaye.com.geometricweather.domain.usecase.LoadAllLocationsWithWeatherUseCase
 import wangdaye.com.geometricweather.domain.weather.WeatherRequester
@@ -138,9 +138,7 @@ class PollingUpdateHelper(
                 && (oldWeather == null || newWeather.base.timeStamp != oldWeather.base.timeStamp)) {
                 locationList[index] = requestLocation
 
-                EventBus.instance
-                    .with(Location::class.java)
-                    .postValue(requestLocation)
+                AppEvents.notifyLocationUpdatedFromBackground(requestLocation)
 
                 listener?.onUpdateCompleted(requestLocation, oldWeather, true, index, total)
 

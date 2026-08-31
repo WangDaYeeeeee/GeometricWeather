@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.common.basic.GeoActivity
-import wangdaye.com.geometricweather.common.bus.EventBus
+import wangdaye.com.geometricweather.common.bus.AppEvents
 import wangdaye.com.geometricweather.common.ui.widgets.Material3Scaffold
 import wangdaye.com.geometricweather.common.ui.widgets.generateCollapsedScrollBehavior
 import wangdaye.com.geometricweather.common.ui.widgets.insets.FitStatusBarTopAppBar
@@ -37,7 +38,6 @@ import wangdaye.com.geometricweather.common.utils.helpers.startHourlyTrendDispla
 import wangdaye.com.geometricweather.common.utils.helpers.startPreviewIconActivity
 import wangdaye.com.geometricweather.common.utils.helpers.startSelectProviderActivity
 import wangdaye.com.geometricweather.common.utils.helpers.startSettingsActivity
-import wangdaye.com.geometricweather.settings.SettingsChangedMessage
 import wangdaye.com.geometricweather.settings.SettingsManager
 import wangdaye.com.geometricweather.settings.compose.*
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
@@ -71,24 +71,25 @@ class SettingsActivity : GeoActivity() {
 
         setContent {
             GeometricWeatherTheme(lightTheme = !isSystemInDarkTheme()) {
+                LaunchedEffect(Unit) {
+                    AppEvents.settingsChanged.collect {
+                        val cardDisplayList = SettingsManager.getInstance(this@SettingsActivity).cardDisplayList
+                        if (cardDisplayState.value != cardDisplayList) {
+                            cardDisplayState.value = cardDisplayList
+                        }
+
+                        val dailyTrendDisplayList = SettingsManager.getInstance(this@SettingsActivity).dailyTrendDisplayList
+                        if (dailyTrendDisplayState.value != dailyTrendDisplayList) {
+                            dailyTrendDisplayState.value = dailyTrendDisplayList
+                        }
+
+                        val hourlyTrendDisplayList = SettingsManager.getInstance(this@SettingsActivity).hourlyTrendDisplayList
+                        if (hourlyTrendDisplayState.value != hourlyTrendDisplayList) {
+                            hourlyTrendDisplayState.value = hourlyTrendDisplayList
+                        }
+                    }
+                }
                 ContentView()
-            }
-        }
-
-        EventBus.instance.with(SettingsChangedMessage::class.java).observe(this) {
-            val cardDisplayList = SettingsManager.getInstance(this).cardDisplayList
-            if (cardDisplayState.value != cardDisplayList) {
-                cardDisplayState.value = cardDisplayList
-            }
-
-            val dailyTrendDisplayList = SettingsManager.getInstance(this).dailyTrendDisplayList
-            if (dailyTrendDisplayState.value != dailyTrendDisplayList) {
-                dailyTrendDisplayState.value = dailyTrendDisplayList
-            }
-
-            val hourlyTrendDisplayList = SettingsManager.getInstance(this).hourlyTrendDisplayList
-            if (hourlyTrendDisplayState.value != hourlyTrendDisplayList) {
-                hourlyTrendDisplayState.value = hourlyTrendDisplayList
             }
         }
     }

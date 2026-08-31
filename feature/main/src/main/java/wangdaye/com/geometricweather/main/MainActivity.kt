@@ -16,9 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.compose.NavHost
@@ -26,7 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import wangdaye.com.geometricweather.common.basic.GeoActivity
 import wangdaye.com.geometricweather.common.basic.models.Location
-import wangdaye.com.geometricweather.common.bus.EventBus
+import wangdaye.com.geometricweather.common.bus.AppEvents
 import wangdaye.com.geometricweather.common.snackbar.SnackbarContainer
 import wangdaye.com.geometricweather.common.utils.DisplayUtils
 import wangdaye.com.geometricweather.common.utils.helpers.AsyncHelper
@@ -42,10 +45,8 @@ import wangdaye.com.geometricweather.main.compose.MainScreen
 import wangdaye.com.geometricweather.main.compose.WIDE_LAYOUT_MIN_DP
 import wangdaye.com.geometricweather.navigation.InAppRoute
 import wangdaye.com.geometricweather.main.dialogs.LocationHelpDialog
-import wangdaye.com.geometricweather.main.fragments.ModifyMainSystemBarMessage
 import wangdaye.com.geometricweather.main.utils.MainThemeColorProvider
 import wangdaye.com.geometricweather.search.SearchActivity
-import wangdaye.com.geometricweather.settings.SettingsChangedMessage
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
 @AndroidEntryPoint
@@ -66,7 +67,7 @@ class MainActivity : GeoActivity() {
         const val KEY_DAILY_INDEX = "DAILY_INDEX"
     }
 
-    private val backgroundUpdateObserver: Observer<Location> = Observer { location ->
+    private fun onLocationUpdatedFromBackground(location: Location) {
         viewModel.updateLocationFromBackground(location)
 
         if (isActivityStarted
@@ -200,26 +201,39 @@ class MainActivity : GeoActivity() {
 
         consumeIntentAction(intent)
 
-        EventBus.instance
-            .with(Location::class.java)
-            .observeForever(backgroundUpdateObserver)
-        EventBus.instance.with(SettingsChangedMessage::class.java).observe(this) {
-            viewModel.init()
+        lifecycleScope.launch {
+            AppEvents.locationUpdatedFromBackground.collect { location ->
+                onLocationUpdatedFromBackground(location)
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    AppEvents.settingsChanged.collect {
+                        viewModel.init()
 
-            homeHost?.updateViews()
+                        homeHost?.updateViews()
 
-            viewModel.validLocationList.value?.locationList?.let {
-                AsyncHelper.runOnIO {
-                    MainBackgroundBridge.callbacks.updateWidgetsAndNotifications(this, it)
+                        viewModel.validLocationList.value?.locationList?.let {
+                            AsyncHelper.runOnIO {
+                                MainBackgroundBridge.callbacks.updateWidgetsAndNotifications(
+                                    this@MainActivity,
+                                    it
+                                )
+                            }
+                        }
+                        refreshBackgroundViews(
+                            resetBackground = true,
+                            locationList = viewModel.validLocationList.value?.locationList,
+                        )
+                    }
+                }
+                launch {
+                    AppEvents.modifyMainSystemBar.collect {
+                        updateSystemBarStyle()
+                    }
                 }
             }
-            refreshBackgroundViews(
-                resetBackground = true,
-                locationList = viewModel.validLocationList.value?.locationList,
-            )
-        }
-        EventBus.instance.with(ModifyMainSystemBarMessage::class.java).observe(this) {
-            updateSystemBarStyle()
         }
     }
 
@@ -240,13 +254,6 @@ class MainActivity : GeoActivity() {
     override fun onStart() {
         super.onStart()
         viewModel.checkToUpdate()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.instance
-            .with(Location::class.java)
-            .removeObserver(backgroundUpdateObserver)
     }
 
     override val snackbarContainer: SnackbarContainer?

@@ -7,7 +7,9 @@ import android.graphics.Color
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
-import wangdaye.com.geometricweather.common.basic.livedata.EqualtableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import wangdaye.com.geometricweather.common.basic.models.options.DarkMode
 import wangdaye.com.geometricweather.core.R
 import wangdaye.com.geometricweather.settings.SettingsManager
@@ -39,19 +41,15 @@ class ThemeManager private constructor(
         }
     }
 
-    val uiMode: EqualtableLiveData<Int> = EqualtableLiveData(
+    private val _uiMode = MutableStateFlow(
         generateGlobalUIMode(darkMode = darkMode)
     )
+    val uiMode: StateFlow<Int> = _uiMode.asStateFlow()
     private val typedValue = TypedValue()
 
     fun update(darkMode: DarkMode) {
         this.darkMode = darkMode
-
-        uiMode.setValue(
-            generateGlobalUIMode(
-                darkMode = this.darkMode
-            )
-        )
+        _uiMode.value = generateGlobalUIMode(darkMode = this.darkMode)
     }
 
     fun getThemeColor(context: Context, @AttrRes id: Int): Int {

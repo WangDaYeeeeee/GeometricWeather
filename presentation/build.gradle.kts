@@ -50,6 +50,7 @@ dependencies {
     api(libs.bundles.compose)
 
     implementation(libs.bundles.lifecycle)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
