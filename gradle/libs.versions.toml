@@ -85,6 +85,7 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 # Material Design.
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -185,6 +186,8 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+# JUnit5 + Robolectric for JVM Compose UI tests (Robolectric has no official Jupiter runner).
+robolectric-junit5 = { id = "tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin", version = "0.9.0" }
 
 [bundles]
 compose = [
