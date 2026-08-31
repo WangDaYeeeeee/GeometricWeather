@@ -1,44 +1,47 @@
 package wangdaye.com.geometricweather.settings.preference.composables
 
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertTrue
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
-import tech.apter.junit.jupiter.robolectric.RobolectricExtension
 import wangdaye.com.geometricweather.theme.compose.GeometricWeatherTheme
 
 /**
- * JVM Compose UI tests for settings preference rows.
- * Robolectric 4.14 has no official JUnit5 runner; [RobolectricExtension] is the documented
- * Jupiter path so existing [org.junit.jupiter.api.Test] tests keep using JUnit Platform.
+ * JVM Compose UI tests for settings preference rows (no Hilt/network).
+ *
+ * [createComposeRule] is a JUnit4 [Rule], so this class uses [AndroidJUnit4] + Robolectric
+ * on the JVM. Other tests in this module stay on JUnit5 Jupiter; vintage is testRuntimeOnly
+ * here so this one class is discovered without PowerMock or app-wide JUnit4.
  */
-@ExtendWith(RobolectricExtension::class)
+@RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [28])
 class SettingsPreferenceComposeTest {
 
-    @OptIn(ExperimentalTestApi::class)
+    @get:Rule
+    val composeRule = createComposeRule()
+
     @Test
-    fun sectionHeaderDisplaysTitle() = runComposeUiTest {
-        setContent {
+    fun sectionHeaderDisplaysTitle() {
+        composeRule.setContent {
             GeometricWeatherTheme(lightTheme = true) {
                 SectionHeader(title = "Appearance")
             }
         }
-        onNodeWithText("Appearance").assertIsDisplayed()
+        composeRule.onNodeWithText("Appearance").assertIsDisplayed()
     }
 
-    @OptIn(ExperimentalTestApi::class)
     @Test
-    fun preferenceViewDisplaysTitleAndSummaryAndHandlesClick() = runComposeUiTest {
+    fun preferenceViewDisplaysTitleAndSummaryAndHandlesClick() {
         var clicked = false
-        setContent {
+        composeRule.setContent {
             GeometricWeatherTheme(lightTheme = true) {
                 PreferenceView(
                     title = "Dark mode",
@@ -47,9 +50,9 @@ class SettingsPreferenceComposeTest {
                 )
             }
         }
-        onNodeWithText("Dark mode").assertIsDisplayed()
-        onNodeWithText("Follow system").assertIsDisplayed()
-        onNodeWithText("Dark mode").performClick()
+        composeRule.onNodeWithText("Dark mode").assertIsDisplayed()
+        composeRule.onNodeWithText("Follow system").assertIsDisplayed()
+        composeRule.onNodeWithText("Dark mode").performClick()
         assertTrue(clicked)
     }
 }

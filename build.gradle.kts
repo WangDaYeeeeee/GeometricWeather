@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt.android) apply false
-    alias(libs.plugins.robolectric.junit5) apply false
 }
 
 tasks.register<Delete>("clean") {
