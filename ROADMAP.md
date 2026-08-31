@@ -47,7 +47,7 @@
 - [x] WorkManager Worker 协程化
 - [x] 清理 `common/rxjava` 及 RxLifecycle 相关代码
 
-EventBus / `BusLiveData` / `EqualtableLiveData` remain for UI event wiring that is not part of the weather/location request stack.
+In-app UI events (settings changed, home system-bar request, polling location posted to MainActivity) now go through `:presentation` `AppEvents` (`MutableSharedFlow`, replay=0). `ThemeManager.uiMode` is a `StateFlow`. `EventBus` / `BusLiveData` / `EqualtableLiveData` / `MyObserverWrapper` are removed. Weather/location request APIs and widgets were not converted. `MainActivity` still observes some ViewModel `StateFlow`s via `asLiveData()` (not EventBus).
 
 ### 阶段 4：序列化迁移 Gson → kotlinx.serialization
 - [x] 启用 kotlinx.serialization 插件
