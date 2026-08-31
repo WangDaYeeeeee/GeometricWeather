@@ -1,4 +1,4 @@
-package wangdaye.com.geometricweather.common.di
+package wangdaye.com.geometricweather.main.di
 
 import dagger.Binds
 import dagger.Module

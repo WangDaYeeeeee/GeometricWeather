@@ -10,12 +10,9 @@ import wangdaye.com.geometricweather.common.basic.models.Location
 import wangdaye.com.geometricweather.common.basic.models.options.provider.LocationProvider
 import wangdaye.com.geometricweather.common.utils.NetworkUtils
 import wangdaye.com.geometricweather.db.DatabaseHelper
-import wangdaye.com.geometricweather.location.services.AMapLocationService
-import wangdaye.com.geometricweather.location.services.AndroidLocationService
-import wangdaye.com.geometricweather.location.services.BaiduLocationService
 import wangdaye.com.geometricweather.location.services.LocationService
 import wangdaye.com.geometricweather.location.services.ip.BaiduIPLocationService
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import wangdaye.com.geometricweather.weather.WeatherServiceSet
 import wangdaye.com.geometricweather.weather.services.WeatherService
 import java.util.TimeZone
@@ -24,14 +21,15 @@ import javax.inject.Inject
 class LocationHelper @Inject constructor(
     @ApplicationContext context: Context,
     baiduIPService: BaiduIPLocationService,
-    private val weatherServiceSet: WeatherServiceSet
+    private val weatherServiceSet: WeatherServiceSet,
+    flavorLocationFactory: FlavorLocationFactory
 ) {
 
     private val locationServices: Array<LocationService> = arrayOf(
-        AndroidLocationService(),
-        BaiduLocationService(context),
+        flavorLocationFactory.createAndroid(),
+        flavorLocationFactory.createBaidu(context),
         baiduIPService,
-        AMapLocationService(context)
+        flavorLocationFactory.createAmap(context)
     )
 
     interface OnRequestLocationListener {
@@ -65,7 +63,7 @@ class LocationHelper @Inject constructor(
                 } else {
                     val finalLocation = Location.copy(
                         Location.buildDefaultLocation(
-                            SettingsManager.getInstance(context).weatherSource
+                            WeatherProviderSettings.getInstance(context).weatherSource
                         ),
                         true,
                         false
@@ -76,7 +74,7 @@ class LocationHelper @Inject constructor(
             }
         }
 
-        val provider = SettingsManager.getInstance(context).locationProvider
+        val provider = WeatherProviderSettings.getInstance(context).locationProvider
         val service = getLocationService(provider)
         if (service.permissions.isNotEmpty()) {
             if (!NetworkUtils.isAvailable(context) || (
@@ -132,7 +130,7 @@ class LocationHelper @Inject constructor(
         location: Location,
         l: OnRequestLocationListener
     ) {
-        val source = SettingsManager.getInstance(context).weatherSource
+        val source = WeatherProviderSettings.getInstance(context).weatherSource
         val service = weatherServiceSet.get(source)
         service.requestLocation(
             context,
@@ -166,7 +164,7 @@ class LocationHelper @Inject constructor(
     }
 
     fun getPermissions(context: Context): Array<String> {
-        val provider = SettingsManager.getInstance(context).locationProvider
+        val provider = WeatherProviderSettings.getInstance(context).locationProvider
         val service = getLocationService(provider)
         val permissions = service.permissions
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || permissions.isEmpty()) {

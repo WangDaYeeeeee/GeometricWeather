@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import wangdaye.com.geometricweather.common.utils.CancellableCoroutineScope
 import wangdaye.com.geometricweather.location.services.LocationService
-import wangdaye.com.geometricweather.settings.SettingsManager
+import wangdaye.com.geometricweather.weather.WeatherProviderSettings
 import javax.inject.Inject
 
 class BaiduIPLocationService @Inject constructor(
@@ -21,7 +21,7 @@ class BaiduIPLocationService @Inject constructor(
             try {
                 val result = withContext(Dispatchers.IO) {
                     val baidu = api.getLocation(
-                        SettingsManager.getInstance(context).providerBaiduIpLocationAk,
+                        WeatherProviderSettings.getInstance(context).providerBaiduIpLocationAk,
                         "gcj02"
                     )
                     val point = baidu.content!!.point!!
